@@ -19,7 +19,7 @@ const ProgressBar = ({ userId, appealId }) => {
    const progressPercentage = ((currentIndex + 1) / paths.length) * 100;
 
    return (
-      <div className="flex items-center justify-between p-4 w-5/6 self-center mx-auto">
+      <div className="flex items-center justify-between p-4 md:w-5/6 self-center mx-auto">
          {/* <Link
             className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
             href={paths[Math.max(currentIndex - 1, 0)]}

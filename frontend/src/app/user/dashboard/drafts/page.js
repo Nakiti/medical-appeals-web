@@ -8,11 +8,15 @@ import Table from "./components/table";
 import { AuthContext } from "@/app/context/authContext";
 import Searchbar from "../components/searchbar";
 import { getAppealSearch } from "@/app/services/fetchServices";
+import ConfirmModal from "../components/confirmModal";
+import { FaTrash } from "react-icons/fa";
 
 const Drafts = () => {
    const [drafts, setDrafts] = useState(null);
    const [isEditing, setIsEditing] = useState(false);
    const { currentUser } = useContext(AuthContext);
+   const [open, setOpen] = useState(false)
+   const [message, setMessage] = useState("")
 
    const fetchData = async () => {
       try {
@@ -39,6 +43,11 @@ const Drafts = () => {
       );
    };
 
+   const handleModalOpen = () => {
+      setMessage("Are you sure you want to delete these drafts?")
+      setOpen(true)
+   }
+
    const handleDelete = async () => {
       const deleted = drafts.filter(item => item.selected === true);
       await deleteDrafts(deleted);
@@ -46,8 +55,10 @@ const Drafts = () => {
       setIsEditing(false);
    };
 
+
    return (
-      <div className="p-8 w-full min-h-screen bg-gray-100">
+      <div className="md:p-8 w-full min-h-screen bg-gray-100">
+         {open && <ConfirmModal isOpen={open} onConfirm={handleDelete} onClose={() => setOpen(false)} message={message}/>}
          <div className="p-8 w-full min-h-screen bg-white shadow-sm rounded-lg">
             <div className="flex flex-row justify-between items-center mb-6">
                <h2 className="text-2xl font-bold text-gray-800">My Drafts</h2>
@@ -55,9 +66,9 @@ const Drafts = () => {
                   {isEditing && (
                      <button
                         className="text-sm bg-red-600 px-6 py-2 rounded-lg text-white hover:bg-red-700 transition"
-                        onClick={handleDelete}
+                        onClick={handleModalOpen}
                      >
-                        Delete
+                        <FaTrash />
                      </button>
                   )}
                   <button

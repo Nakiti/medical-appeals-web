@@ -10,6 +10,7 @@ export const FormContextProvider = ({children, appealId, userId}) => {
    const [inputs, handleInputsChange, setInputs] = useFormInput({})
    const [documents, setDocuments] = useState([])
    const {currentUser} = useContext(AuthContext)
+   const [images, setImages] = useState([])
 
    useEffect(() => {
       const fetchData = async() => {
@@ -41,7 +42,7 @@ export const FormContextProvider = ({children, appealId, userId}) => {
    }, [])
 
    return (
-      <FormContext.Provider value={{inputs, handleInputsChange, documents, setDocuments, appealId, currentUser}}>
+      <FormContext.Provider value={{inputs, handleInputsChange, documents, setDocuments, appealId, currentUser, images, setImages}}>
          {children}
       </FormContext.Provider>
    )

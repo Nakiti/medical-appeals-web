@@ -5,7 +5,7 @@ import Sidebar from "./components/sidebar";
 import { AuthContext } from "@/app/context/authContext";
 
 const DashboardLayout = ({ children }) => {
-   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
    const sidebarRef = useRef(null);
    const {currentUser} = useContext(AuthContext)
 
@@ -16,7 +16,7 @@ const DashboardLayout = ({ children }) => {
          <div className="flex">
             <Sidebar userId={currentUser} isOpen={isSidebarOpen} ref={sidebarRef} setIsSidebarOpen={setIsSidebarOpen} />
             {/* Main Content */}
-            <div className={`flex-1 bg-gray-50 overflow-x-hidden transition-all duration-300 ${isSidebarOpen ? 'sm:opacity-50 md:opacity-100' : 'sm:opacity-100'}`}>
+            <div className={`flex-1 bg-gray-50 overflow-x-hidden min-h-screen transition-all duration-300 ${isSidebarOpen ? 'sm:opacity-50 md:opacity-100' : 'sm:opacity-100'}`}>
                {children}
             </div>
          </div>

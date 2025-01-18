@@ -11,12 +11,12 @@ const Footer = ({appealId, userId}) => {
    const router = useRouter()
 
    const paths = [
-      `/user/appeal/edit/${appealId}/initial`,
-      `/user/appeal/edit/${appealId}/patient-details`,
-      `/user/appeal/edit/${appealId}/procedure-details`,
-      `/user/appeal/edit/${appealId}/additional-details`,
-      `/user/appeal/edit/${appealId}/supporting-documents`,
-      `/user/appeal/edit/${appealId}/summary`,
+      `/user/appeal/edit/${appealId}/form/initial`,
+      `/user/appeal/edit/${appealId}/form/patient-details`,
+      `/user/appeal/edit/${appealId}/form/procedure-details`,
+      `/user/appeal/edit/${appealId}/form/additional-details`,
+      `/user/appeal/edit/${appealId}/form/supporting-documents`,
+      `/user/appeal/edit/${appealId}/form/summary`,
    ];
 
    const currentIndex = paths.findIndex(path => path.includes(keyword));
@@ -62,7 +62,7 @@ const Footer = ({appealId, userId}) => {
                className="bg-blue-500 rounded-sm py-2 px-8 w-40 text-white text-center text-md"
                onClick={handleSubmit}
             >
-               Submit
+               Create
             </button>
             }
          </div>

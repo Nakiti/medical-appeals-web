@@ -46,11 +46,11 @@ const Searchbar = ({setData, submitted, userId, searchFunc}) => {
    }
 
    return (
-      <div className="relative w-3/4 mb-2">
+      <div className="w-full md:w-3/4 mb-2 flex items-center border border-gray-300 rounded-md shadow-sm">
          <input
             type="text"
             placeholder="Search for an Appeal"
-            className="px-5 py-3 pr-12 w-full text-sm text-gray-700 placeholder-gray-400 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 transition-colors"
+            className="px-5 py-3 w-full text-sm text-gray-700 placeholder-gray-400 bg-white focus:outline-none focus:border-blue-500 transition-colors"
             value={query}
             onChange={handleInputsChange}
             onKeyDown={(e) => {
@@ -60,7 +60,7 @@ const Searchbar = ({setData, submitted, userId, searchFunc}) => {
             }}
          />
          <IoIosSearch
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 cursor-pointer hover:text-blue-600 transition-colors"
+            className="w-5 h-5 text-gray-500 cursor-pointer hover:text-blue-600 transition-colors mr-4"
             onClick={handleSearch}
          />
       </div>
