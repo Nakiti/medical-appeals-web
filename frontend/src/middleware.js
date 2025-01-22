@@ -19,7 +19,7 @@ export const middleware = (req) => {
          const decodedToken = jwt.decode(token.value);
          const userType = decodedToken.userType
 
-         console.log("Decoded token: ", decodedToken);
+         console.log("Decoded token is: ", decodedToken);
 
          const pathname = req.nextUrl.pathname;
 
