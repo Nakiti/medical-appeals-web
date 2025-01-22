@@ -15,6 +15,7 @@ export const AuthContextProvider = ({children}) => {
          const response = await getCurrentUser()
          console.log(response.id)
          setCurrentUser(response.id)
+         console.log(currentUser)
       }
       
       fetchData()

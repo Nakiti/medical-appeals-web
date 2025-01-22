@@ -23,7 +23,7 @@ export const register = async(data) => {
 
 export const logout = async() => {
    try {
-
+      await axios.post(`${API_BASE_URL}/auth/logout`)
    } catch (err) {
       console.log(err)
    }

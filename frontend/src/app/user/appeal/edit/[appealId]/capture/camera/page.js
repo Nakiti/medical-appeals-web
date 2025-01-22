@@ -4,10 +4,10 @@ import { useState, useContext } from "react"
 import { FormContext } from "@/app/context/formContext"
 
 const CapturePage = () => {
-   const {images, setImages} = useContext(FormContext)
+   const {documents, setDocuments} = useContext(FormContext)
 
    return (
-      <Camera images={images} setImages={setImages}/>
+      <Camera images={documents} setImages={setDocuments}/>
    )
 }
 

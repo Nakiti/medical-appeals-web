@@ -1,11 +1,18 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
+
 const AppealItem = ({ appeal }) => {
+   const router = useRouter()
+
+   const handleClick = () => {
+      router.push(`/user/dashboard/appeals/${appeal.id}`)
+   }
 
    return (
-      <div className="bg-white rounded-md p-4 mb-4 shadow-md cursor-pointer">
+      <div className="bg-white rounded-md p-4 mb-4 shadow-md cursor-pointer" onClick={handleClick}>
          {/* Top Section */}
          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">#{appeal.claim_number}</h3>
+            <h3 className="text-lg font-semibold text-gray-800">{appeal.internal_name} - {appeal.claim_number}</h3>
             <div className="flex items-center">
                <span
                   className={`text-sm px-3 py-1 rounded-full ${

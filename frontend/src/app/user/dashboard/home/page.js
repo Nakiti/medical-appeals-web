@@ -8,7 +8,6 @@ import Link from "next/link";
 import Modal from "./components/modal";
 import { AuthContext } from "@/app/context/authContext";
 
-
 const Home = ({}) => {
    const [drafts, setDrafts] = useState(null);
    const [appeals, setAppeals] = useState(null);

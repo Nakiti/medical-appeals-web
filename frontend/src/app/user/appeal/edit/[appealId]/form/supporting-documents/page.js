@@ -1,11 +1,10 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { FormContext } from '@/app/context/formContext';
 
 const SupportingDocuments = ({ navigation }) => {
-   const [documents, setDocuments] = useState([
-      { uri: 'https://via.placeholder.com/150', name: 'Document1.pdf' },
-      { uri: 'https://via.placeholder.com/150', name: 'Image1.png' }
-   ]);
+   const {documents, setDocuments} = useContext(FormContext)
+
 
    const handleFileSelection = async () => {
       try {

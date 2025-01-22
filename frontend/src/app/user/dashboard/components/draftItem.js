@@ -7,7 +7,7 @@ const DraftItem = ({ draft, editing, handleSelect }) => {
    const router = useRouter()
 
    const handleClick = () => {
-      router.push(`/user/appeal/edit/${draft.id}/patient-details`)
+      router.push(`/user/appeal/edit/${draft.id}/form/patient-details`)
    }
 
    return (
@@ -17,7 +17,7 @@ const DraftItem = ({ draft, editing, handleSelect }) => {
       >
          {/* Top Section */}
          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">#{id}</h3>
+            <h3 className="text-lg font-semibold text-gray-800">{draft.internal_name}</h3>
             <div className="flex items-center">
                <span className="text-sm font-semibold text-yellow-600 bg-yellow-100 px-2 py-1 rounded">
                   Draft
@@ -34,7 +34,7 @@ const DraftItem = ({ draft, editing, handleSelect }) => {
          
          {/* Bottom Section */}
          <div className="flex justify-between items-center">
-            <span className="text-xs text-gray-500">Last Saved: {dateSaved}</span>
+            <span className="text-xs text-gray-500">Last Saved: {new Date(draft.updated_at).toLocaleDateString("en-US")}</span>
             {/* Uncomment this section to add action buttons */}
             {/* <div className="flex">
                <button className="flex items-center text-red-500">

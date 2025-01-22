@@ -15,3 +15,49 @@ export const createAppeal = async(userId, internalName) => {
       console.log(err)
    }
 }
+
+export const createNotification = async (data) => {
+   try {
+      await axios.post(`${API_BASE_URL}/notifications/create`, data)
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+export const createFile = async(data, file) => {
+   try {
+      const form = new FormData()
+      
+      form.append("file", file)
+      form.append("appealId", data.appealId)
+      form.append("fileName", data.fileName)
+      form.append("fileType", data.fileType)
+
+      await axios.post(`${API_BASE_URL}/files/create`, form, {
+         headers: {
+            'Content-Type': 'multipart/form-data',
+         },
+      }) 
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+export const createBatchFiles = async(appealId, files) => {
+   try  {
+      const formData = new FormData();
+      
+      files.forEach(file => {
+         formData.append('files', file);
+      });
+      formData.append('appealId', appealId);
+
+      await axios.post(`${API_BASE_URL}/files/createBatch`, formData, {
+         headers: {
+            'Content-Type': 'multipart/form-data',
+         },
+      })
+   } catch (err) {
+      console.log(err)
+   }
+}

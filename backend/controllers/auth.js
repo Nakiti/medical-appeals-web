@@ -21,7 +21,7 @@ export const login = (req, res) => {
          return res.status(400).json("Password is incorrect");
       }
 
-      const token = jwt.sign({id: data[0].id, organization_id: data[0].organization_id}, "jwtkey")
+      const token = jwt.sign({id: data[0].id, userType: data[0].role}, "jwtkey")
 
       const cookie = serialize("session", token, {
          httpOnly: true,
@@ -31,10 +31,16 @@ export const login = (req, res) => {
       });
 
       res.setHeader("Set-Cookie", cookie)
-      const {password, id, ...userData} = data[0]
-      res.status(200).json(id);
+      const {password, id, role, ...userData} = data[0]
+      res.status(200).json({id: id, role: role});
    });
 };
+
+export const logout = (req, res) => {
+   res.setHeader('Set-Cookie', 'session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; HttpOnly;');
+   res.status(200).json({ message: 'Logged out' });
+   console.log("ayo")
+}
 
 export const createUser = (req, res) => {
    const q = "SELECT * FROM users WHERE email = ?"
@@ -51,7 +57,7 @@ export const createUser = (req, res) => {
          req.body.firstName,
          req.body.lastName,
          req.body.email,
-         "patient",
+         "admin",
          hash,
          (new Date()).toISOString().slice(0, 19).replace('T', ' '),
       ]

@@ -69,6 +69,51 @@ export const getDrafts = async(userId) => {
    }
 }
 
+export const getAllAppeals = async() => {
+   try {
+      const response = await axios.get(`${API_BASE_URL}/appeal/getAllAppeals`)
+      return response.data
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+export const getAppealsSearchAdmin = async(query) => {
+   try {
+      const response = await axios.get(`${API_BASE_URL}/appeal/admin/search?q=${query}`)
+      return response.data
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+export const getNotificationByUserId = async(userId) => {
+   try {
+      const response = await axios.get(`${API_BASE_URL}/notifications/getByUser/${userId}`)
+      return response.data
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+export const getNotificationsByAppealId = async(appealId) => {
+   try {
+      const response = await axios.get(`${API_BASE_URL}/notifications/getByAppeal/${appealId}`)
+      return response.data
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+export const getFilesByAppeal = async(appealId) => {
+   try {
+      const response = await axios.get(`${API_BASE_URL}/files/get/${appealId}`)
+      return response.data
+   } catch (err) {
+      console.log(err)
+   }
+}
+
 
 
 

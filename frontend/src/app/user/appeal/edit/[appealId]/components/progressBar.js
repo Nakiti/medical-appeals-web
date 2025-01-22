@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const ProgressBar = ({ userId, appealId }) => {
    const pathname = usePathname();
-   const keyword = pathname.split("/")[5];
+   const keyword = pathname.split("/")[6];
 
    const paths = [
       `/user/appeal/edit/${appealId}/initial`,

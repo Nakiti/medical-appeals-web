@@ -10,7 +10,7 @@ const Modal = ({ visible, setVisible, userId }) => {
 
    const handleCreate = async () => {
       const appealId = await createAppeal(userId, appealName);
-      router.push(`/user/appeal/edit/${appealId}/initial`)
+      router.push(`/user/appeal/edit/${appealId}/form/initial`)
    };
 
    if (!visible) return null;

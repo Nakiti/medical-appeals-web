@@ -6,10 +6,10 @@ import appealRoutes from "./routes/appealRoutes.js"
 import authRoutes from "./routes/authRoutes.js"
 import { db } from "./db.js";
 import gptRoutes from "./routes/gptRoutes.js"
+import notificationRoutes from "./routes/notificationRoutes.js"
+import fileRoutes from "./routes/fileRoutes.js"
 
 const app = express()
-
-
 
 const corsOptions = {
    origin: true,
@@ -26,6 +26,8 @@ app.use("/api/user", userRoutes)
 app.use("/api/appeal", appealRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/gpt", gptRoutes)
+app.use("/api/notifications", notificationRoutes)
+app.use("/api/files", fileRoutes)
 
 
 app.get("/", (req, res) => {

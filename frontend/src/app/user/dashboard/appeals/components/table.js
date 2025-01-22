@@ -13,6 +13,7 @@ const Table = ({ data }) => {
          <table className="min-w-full bg-white">
             <thead className='border-b border-gray-600'>
                <tr>
+                  <th className="text-left py-3 px-4 font-medium text-gray-700">Id</th>
                   <th className="text-left py-3 px-4 font-medium text-gray-700">Internal Name</th>
                   <th className="text-left py-3 px-4 font-medium text-gray-700">Claim Number</th>
                   <th className="text-left py-3 px-4 font-medium text-gray-700">Status</th>
@@ -23,7 +24,10 @@ const Table = ({ data }) => {
                {data.map((item, index) => (
                   <tr key={index} className="border-b border-gray-200 text-sm hover:bg-gray-100 cursor-pointer" onClick={() => handleClick(item.id)}>
                      <td className="py-3 px-4">
-                        <a href="#" className="text-blue-600 hover:underline">{item.internal_name}</a>
+                        <p className="">{item.id}</p>
+                     </td>
+                     <td className="py-3 px-4">
+                        <p className="">{item.internal_name}</p>
                      </td>
                      <td className="py-3 px-4">{item.claim_number}</td>
                      <td className="py-3 px-4">

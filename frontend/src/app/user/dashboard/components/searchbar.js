@@ -3,27 +3,14 @@ import debounce from "lodash/debounce"
 import { IoIosSearch } from "react-icons/io";
 import { getAppealSearch } from "@/app/services/fetchServices";
 
-/*
-   Component: Searchbar
-   Description: Searchbar to find campaigns by title
-   Props:
-      setData: change the campaign data displayed
-      organizationId: id of the organization
-*/
 const Searchbar = ({setData, submitted, userId, searchFunc}) => {
    const [query, setQuery] = useState("")
 
-   /*
-      Description: handle change of the query input
-   */
    const handleInputsChange = async (e) => {
       setQuery(e.target.value)
       debouncedSearch(e.target.value)
    }
 
-   /*
-      Description: debounced search to search campaigns after every user key press (300ms delay)
-   */
    const debouncedSearch = debounce(async (query) => {
       try {
          const response = await getAppealSearch(query, submitted, userId);
@@ -33,9 +20,6 @@ const Searchbar = ({setData, submitted, userId, searchFunc}) => {
       }
    }, 300);
 
-   /*
-      Description: retrieves campaigns that matched query
-   */
    const handleSearch = async() => {
       try {
          const response = await getAppealSearch(query, submitted, userId)
@@ -46,7 +30,7 @@ const Searchbar = ({setData, submitted, userId, searchFunc}) => {
    }
 
    return (
-      <div className="w-full md:w-3/4 mb-2 flex items-center border border-gray-300 rounded-md shadow-sm">
+      <div className="w-full md:w-full mb-2 flex items-center border border-gray-300 rounded-md shadow-sm">
          <input
             type="text"
             placeholder="Search for an Appeal"

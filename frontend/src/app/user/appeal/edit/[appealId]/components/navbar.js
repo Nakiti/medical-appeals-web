@@ -1,43 +1,41 @@
 import ProgressBar from "./progressBar";
 import { useContext } from "react";
 import { FormContext } from "@/app/context/formContext";
-
-
-import Link from "next/link";
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { MdOutlineCampaign } from "react-icons/md";
-import { IoTicketOutline } from "react-icons/io5";
-import { FaPeopleArrows } from "react-icons/fa";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
+import { updateAppeal } from "@/app/services/updateServices";
+import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Navbar = () => {
-   const {userId, appealId} = useContext(FormContext)
+   const {userId, appealId, inputs, documents} = useContext(FormContext)
+   const router = useRouter()
+
+   const handleSave = async() => {
+      console.log("click")
+      try {
+         await updateAppeal(appealId, inputs, documents)
+         router.push("/user/dashboard/drafts")
+      } catch (err) {
+         console.log(err)
+      }
+   }
 
    return (
-      <div className="border-b border-gray-700 bg-gray-900 text-white p-4 flex flex-col space-y-3">
-         {/* Top Section */}
-         <div className="flex items-center justify-between w-11/12 mx-auto">
-            <div className="flex items-center">
-               {/* Icon */}
-               <IoDocumentTextOutline className="h-16 w-16 p-1 border-2 border-white rounded-sm mr-3" />
-               <div className="flex flex-col text-gray-100">
-                  <h1 className="text-2xl font-bold">Internal Campaign Name</h1>
-                  <p className="text-sm font-medium text-gray-400 mt-1">dste</p>
-               </div>
-            </div>
-            {/* Save Button */}
-            <div>
-               <button 
-                  className="bg-blue-600 hover:bg-blue-500 py-2 px-6 rounded-sm text-sm font-medium text-white transition-transform transform hover:scale-105"
-                  // onClick={handlePublish}
-               >
-                  Save
-               </button>
-            </div>
+      <div className='flex flex-row justify-between mb-4 border-b-2 pb-3'>
+         <div className='space-y-2 ml-4 md:ml-8 md:mb-4'>
+            <Link href={`/user/dashboard/home`} className='flex flex-row items-center space-x-2'>
+               <FaArrowLeft />
+               <p className='text-xs md:text-sm'>Back to Home</p>
+            </Link>
+            <h1 className='text-lg md:text-2xl'>Appeal Internal Name</h1>
          </div>
-
-         {/* Progress Bar */}
-         <ProgressBar userId={userId} appealId={appealId} />
+         <button
+            className="bg-blue-600 hover:bg-blue-500 h-1/2 mr-8 self-center py-2 px-6 rounded-sm text-sm font-medium text-white transition-transform transform hover:scale-105"
+            onClick={handleSave}
+         >
+            Save
+         </button>
       </div>
 
    );

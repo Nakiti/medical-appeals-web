@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FormContext } from '@/app/context/formContext';
 
 const PatientDetails = ({ navigation }) => {
@@ -12,7 +12,8 @@ const PatientDetails = ({ navigation }) => {
             <p className="text-md text-center text-gray-600 mb-8">
                Please fill out the details below to proceed with the form submission.
             </p>
-
+            <div>
+            </div>
             {/* Form Fields */}
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
                <div className="space-y-2 md:col-span-2">

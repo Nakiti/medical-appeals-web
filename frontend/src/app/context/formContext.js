@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { useState, useEffect, useContext } from "react";
 import useFormInput from "../hooks/useFormInput";
-import { getAppeal } from "../services/fetchServices";
+import { getAppeal, getFilesByAppeal } from "../services/fetchServices";
 import { AuthContext } from "./authContext";
 
 export const FormContext = createContext()
@@ -34,7 +34,10 @@ export const FormContextProvider = ({children, appealId, userId}) => {
                submitted: response.submitted || 0,
                status: response.status || "",
             })
-            setDocuments(response.supporting_documents || [])
+
+            const documentsResponse = await getFilesByAppeal(appealId)
+            console.log(documentsResponse)
+            setDocuments(documentsResponse || [])
          }
       }
 

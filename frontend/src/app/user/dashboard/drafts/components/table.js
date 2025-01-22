@@ -7,7 +7,7 @@ const Table = ({ data, userId, isEditing, handleSelect }) => {
    const router = useRouter()
 
    const handleClick = (id) => {
-      router.push(`/user/appeal/edit/${id}/patient-details`)
+      router.push(`/user/appeal/edit/${id}/form/patient-details`)
    }
 
    return (

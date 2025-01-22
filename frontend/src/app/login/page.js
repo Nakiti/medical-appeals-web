@@ -14,8 +14,13 @@ const Login = () => {
    const handleLogin = async(e) => {
       e.preventDefault()
       try {
-         const userId = await login(inputs)
-         router.push(`/user/dashboard/home`)
+         const user = await login(inputs)
+
+         if (user.role == "admin") {
+            router.push(`/admin/dashboard/home`)
+         } else if (user.role == "patient") {
+            router.push(`/user/dashboard/home`)
+         }
       } catch (err) {
          console.log(err)
       }

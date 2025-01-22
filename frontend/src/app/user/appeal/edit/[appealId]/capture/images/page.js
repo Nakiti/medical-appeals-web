@@ -4,10 +4,10 @@ import { useContext } from "react"
 import { FormContext } from "@/app/context/formContext"
 
 const ImagesPage = () => {
-   const {images, setImages} = useContext(FormContext)
+   const {documents, setDocuments} = useContext(FormContext)
 
    return (
-      <Images images={images} setImages={setImages}/>
+      <Images images={documents} setImages={setDocuments}/>
    )
 }
 
