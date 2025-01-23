@@ -15,7 +15,7 @@ const corsOptions = {
    origin: true,
    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
    allowedHeaders: ['Content-Type', 'Authorization'],
-   credentials: true, // Enable credentials (cookies, etc.)
+   credentials: true, 
 };
 
 app.use(express.json())
@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
    res.send("its running!")
 })
 
-const port = 4001
+const port = process.env.PORT || 4001
 
 app.listen(port, (req, res) => {
    console.log("runninnnnnnnnnnnn")
