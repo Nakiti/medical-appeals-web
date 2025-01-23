@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.net/api";
+const API_BASE_URL = "https://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.net/api";
 
 export const createAppeal = async(userId, internalName) => {
    try {
