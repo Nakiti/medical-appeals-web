@@ -6,10 +6,11 @@ import { FormContext } from "@/app/context/formContext";
 import { extractAppealDetails } from "@/app/services/gptServices";
 import { createBatchFiles, createFile } from "@/app/services/createServices";
 
+
 const Footer = ({appealId, userId, setLoading}) => {
    const pathname = usePathname();
    const keyword = pathname.split("/")[6];
-   const {inputs, documents, images} = useContext(FormContext)
+   const {inputs, setInputs, documents} = useContext(FormContext)
    const router = useRouter()
 
    const paths = [
@@ -48,8 +49,10 @@ const Footer = ({appealId, userId, setLoading}) => {
    const handleInitial = async() => {
       try {
          setLoading(true)
-         const response = await extractAppealDetails([...documents, ...images.map(item => item.src)])
-         console.log(response)
+         const response = await extractAppealDetails(documents)
+         const values = JSON.parse(response)
+         console.log(values)
+         setInputs(prev => ({...prev, ...values}))
          await createBatchFiles(appealId, documents)
       } catch (err) {
          console.log(err)

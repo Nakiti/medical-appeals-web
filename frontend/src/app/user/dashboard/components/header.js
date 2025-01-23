@@ -26,21 +26,21 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
    };
 
    return (
-      <header className="bg-midnight w-full shadow-lg text-white flex items-center justify-between p-4">
+      <header className="bg-white border-b w-full shadow-lg text-black flex items-center justify-between p-3">
          <div className="flex items-center">
             <button
                onClick={handleSidebarToggle}
-               className="text-2xl mr-4 focus:outline-none"
+               className="text-xl mr-4 focus:outline-none"
                aria-label="Toggle Sidebar"
             >
                <FiMenu />
             </button>
-            <h1 className="text-xl font-semibold">My App</h1>
+            <h1 className="text-md font-semibold">My App</h1>
          </div>
          <div className="relative flex items-center">
             <button
                onClick={toggleDropdown}
-               className="text-2xl focus:outline-none"
+               className="text-xl focus:outline-none"
                aria-label="User Menu"
             >
                <FiUser />

@@ -66,13 +66,14 @@ export const extractData = (req, res) => {
 
 
          // Send extracted text to OpenAI
-         console.log(extractedTexts)
+         // console.log(extractedTexts)
          const textString = extractedTexts.join()
+         console.log("the text:", textString)
 
          const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
-               { role: "user", content: `Give me a summary: ${textString}` }
+               { role: "user", content: `Get first name, last name and return in JSON string as firstName and lastName: ${textString}` }
             ],
          });
 

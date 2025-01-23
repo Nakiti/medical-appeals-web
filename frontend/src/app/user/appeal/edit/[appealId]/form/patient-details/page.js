@@ -4,6 +4,7 @@ import { FormContext } from '@/app/context/formContext';
 
 const PatientDetails = ({ navigation }) => {
    const {inputs, handleInputsChange} = useContext(FormContext)
+   console.log(inputs)
 
    return (
       <div className="flex flex-col min-h-screen">

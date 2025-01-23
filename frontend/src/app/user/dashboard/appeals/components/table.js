@@ -11,13 +11,13 @@ const Table = ({ data }) => {
    return (
       <div className="overflow-x-auto">
          <table className="min-w-full bg-white">
-            <thead className='border-b border-gray-600'>
+            <thead className='border-b border-gray-500'>
                <tr>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Id</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Internal Name</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Claim Number</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Status</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Date Filed</th>
+                  <th className="text-left py-2 px-4 font-semibold text-gray-700 text-sm">Id</th>
+                  <th className="text-left py-2 px-4 font-semibold text-gray-700 text-sm">Internal Name</th>
+                  <th className="text-left py-2 px-4 font-semibold text-gray-700 text-sm">Claim Number</th>
+                  <th className="text-left py-2 px-4 font-semibold text-gray-700 text-sm">Status</th>
+                  <th className="text-left py-2 px-4 font-semibold text-gray-700 text-sm">Date Filed</th>
                </tr>
             </thead>
             <tbody>
@@ -35,7 +35,7 @@ const Table = ({ data }) => {
                            item.status === 'Approved'
                               ? 'bg-green-100 text-green-700'
                               : item.status === 'Submitted'
-                              ? 'bg-blue-100 text-blue-700'
+                              ? 'bg-blue-100 text-blue-600'
                               : item.status === 'Under Review'
                               ? 'bg-yellow-100 text-yellow-700'
                               : 'bg-red-100 text-red-700'

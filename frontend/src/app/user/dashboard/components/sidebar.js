@@ -9,7 +9,7 @@ import { IoDocumentText } from "react-icons/io5";
 const Sidebar = ({isOpen, setIsSidebarOpen }) => {
    return (
       <div 
-         className={`w-64 min-h-screen bg-white border-r shadow-xl border-gray-200 transition-width duration-300 fixed md:relative z-50 py-4`}
+         className={`w-56 min-h-screen bg-white border-r shadow-xl border-gray-200 transition-width duration-300 fixed md:relative z-50`}
          style={{ display: isOpen ? 'block' : 'none' }}
       >
          <div className={`${isOpen ? 'flex flex-col' : 'hidden'}`}>

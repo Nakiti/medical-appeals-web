@@ -45,7 +45,7 @@ export const FormContextProvider = ({children, appealId, userId}) => {
    }, [])
 
    return (
-      <FormContext.Provider value={{inputs, handleInputsChange, documents, setDocuments, appealId, currentUser, images, setImages}}>
+      <FormContext.Provider value={{inputs, handleInputsChange, setInputs, documents, setDocuments, appealId, currentUser, images, setImages}}>
          {children}
       </FormContext.Provider>
    )
