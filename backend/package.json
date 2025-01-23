@@ -15,5 +15,8 @@
     "pdfjs-dist": "^4.10.38",
     "tesseract.js": "^6.0.0"
   },
+  "scripts": {
+   "start": "node index.js"
+  },
   "type": "module"
 }
