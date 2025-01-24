@@ -25,7 +25,7 @@ export const login = (req, res) => {
 
       const cookie = serialize("session", token, {
          httpOnly: true,
-         secure: false,
+         secure: true,
          maxAge: 60 * 60 * 24,
          path: "/"
       });
