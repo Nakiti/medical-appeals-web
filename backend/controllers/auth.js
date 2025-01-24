@@ -27,7 +27,8 @@ export const login = (req, res) => {
          httpOnly: true,
          secure: true,
          maxAge: 60 * 60 * 24,
-         path: "/"
+         path: "/",
+         sameSite: "none"
       });
 
       res.setHeader("Set-Cookie", cookie)
@@ -71,6 +72,7 @@ export const createUser = (req, res) => {
 
 export const getCurrentUser = (req, res) => {
    const token = req.cookies.session
+   console.log("cookies", req.cookies)
    console.log("token \n", req.cookies.session, "\n")
 
    if (!token) return res.status(401).json("Not authenticated");
