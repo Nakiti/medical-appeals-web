@@ -114,6 +114,16 @@ export const getFilesByAppeal = async(appealId) => {
    }
 }
 
+export const getAllSubmittedAppeals = async() => {
+   try {
+      const response = await axios.get(`${API_BASE_URL}/appeal/getAllSubmitted`)
+      console.log(response)
+      return response.data
+   } catch (err) {
+      console.log(err)
+   }
+}
+
 
 
 

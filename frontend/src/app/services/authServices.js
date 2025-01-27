@@ -10,6 +10,7 @@ export const login = async(data) => {
 
    } catch (err) {
       console.log(err)
+      return {error: true, message: err.response.data}
    }
 }
 

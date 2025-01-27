@@ -1,5 +1,5 @@
 import express from "express"
-import { createAppeal, deleteDrafts, getAllAppeals, getAppeal, getAppealsByUser, getAppealSearch, getAppealsSearchAdmin, getDrafts, getSubmittedAppeals, updateAppeal } from "../controllers/appeals.js"
+import { createAppeal, deleteDrafts, getAllAppeals, getAllSubmittedAppeals, getAppeal, getAppealsByUser, getAppealSearch, getAppealsSearchAdmin, getDrafts, getSubmittedAppeals, updateAppeal } from "../controllers/appeals.js"
 
 const router = express.Router()
 
@@ -13,5 +13,6 @@ router.delete("/deleteDrafts", deleteDrafts)
 router.get("/getAppealSearch/:submitted/:userid", getAppealSearch)
 router.get("/getAllAppeals", getAllAppeals)
 router.get("/admin/search", getAppealsSearchAdmin)
+router.get("/getAllSubmitted", getAllSubmittedAppeals)
 
 export default router

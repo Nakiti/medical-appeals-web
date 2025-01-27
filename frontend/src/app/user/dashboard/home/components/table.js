@@ -6,10 +6,22 @@ const Table = ({ columns, data, type }) => {
    const handleClick = (id) => {
       if (type == "draft") {
          router.push(`/user/appeal/edit/${id}/form/patient-details`)
-      } else {
+      } else if (type == "appeal") {
          router.push(`/user/dashboard/appeals/${id}`)
+      } else {
+         return
       }
    }
+
+   const formatDate = (dateString) => {
+      try {
+         const date = new Date(dateString);
+         if (isNaN(date)) throw new Error("Invalid Date");
+         return date.toLocaleDateString("en-US");
+      } catch {
+         return "-"; // Fallback for invalid dates
+      }
+   };
 
    return (
       <div className="overflow-x-auto">
@@ -39,7 +51,9 @@ const Table = ({ columns, data, type }) => {
                               key={colIndex}
                               className="px-6 py-2 text-sm text-gray-600"
                            >
-                              {item[column.value] || "-"}
+                              {column.value === "date_filed" || column.value === "created_at"
+                                 ? formatDate(item[column.value]) // Safe date formatting
+                                 : item[column.value] || "-"}
                            </td>
                         ))}
                      </tr>

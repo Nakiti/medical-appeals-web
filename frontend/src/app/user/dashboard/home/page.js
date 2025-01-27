@@ -4,15 +4,17 @@ import DraftItem from "../components/draftItem";
 import { FaArrowRight } from "react-icons/fa";
 import { useState, useEffect, useContext } from "react";
 import { FaPlus } from "react-icons/fa";
-import { getAppealsByUser, getDrafts, getSubmittedAppeals, getUser } from "@/app/services/fetchServices";
+import { getAppealsByUser, getDrafts, getNotificationByUserId, getSubmittedAppeals, getUser } from "@/app/services/fetchServices";
 import Link from "next/link";
 import Modal from "./components/modal";
 import { AuthContext } from "@/app/context/authContext";
 import Table from "./components/table";
+import Updates from "./components/updates";
 
 const Home = ({}) => {
    const [drafts, setDrafts] = useState(null);
    const [appeals, setAppeals] = useState(null);
+   const [updates, setUpdates] = useState(null)
    const [visible, setVisible] = useState(false);
    const [showUpdates, setShowUpdates] = useState(true);
    const [showDrafts, setShowDrafts] = useState(true);
@@ -46,6 +48,9 @@ const Home = ({}) => {
 
             const userResponse = await getUser(currentUser);
             setUser(userResponse);
+
+            const updatesResponse = await getNotificationByUserId(currentUser)
+            setUpdates(updatesResponse)
          } catch (err) {
             console.log(err);
          }
@@ -104,16 +109,7 @@ const Home = ({}) => {
                </div>
             </div>
 
-            <div className="flex flex-col space-y-4 w-full md:w-1/4">
-               <div className="bg-white rounded-md p-4 md:p-6 shadow-sm">
-                  <Link href={`/user/dashboard/updates`} className="flex items-center">
-                     <h2 className="text-lg font-semibold text-gray-800 mr-4">Updates</h2>
-                     <FaArrowRight />
-                  </Link>
-                  <p className="text-sm text-gray-700 py-3 border-b">System maintenance scheduled for Jan 30.</p>
-                  <p className="text-sm text-gray-700 py-3 border-b">New feature rollout next week.</p>
-               </div>
-            </div>
+            <Updates data={updates}/>
          </div>
       </div>
    );

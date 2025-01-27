@@ -163,3 +163,19 @@ export const getAllAppeals = (req, res) => {
       return res.status(200).json(data)
    })
 }
+
+export const getAllSubmittedAppeals = (req, res) => {
+   const query = `
+      SELECT appeals.*, users.first_name, users.last_name, users.email 
+      FROM appeals
+      INNER JOIN users on appeals.user_id = users.id
+      WHERE appeals.submitted = 1
+   `
+
+   console.log(query)
+
+   db.query(query, (err, data) => {
+      if (err) return res.json(err)
+      return res.status(200).json(data)
+   })
+}
