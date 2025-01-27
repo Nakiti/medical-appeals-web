@@ -5,7 +5,7 @@ const API_BASE_URL = "https://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.n
 export const extractAppealDetails = async (files) => {
    try {
       const formData = new FormData()
-
+      console.log("gpt files", files)
       files.forEach((item, index) => {
          formData.append(`file${index}`, item)
       })

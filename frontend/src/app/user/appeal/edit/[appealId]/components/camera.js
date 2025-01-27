@@ -7,11 +7,46 @@ import { FormContext } from "@/app/context/formContext";
 const Camera = ({images, setImages}) => {
    const webcamRef = useRef(null)
    const {appealId} = useContext(FormContext)
- 
+
+   const dataURLToFile = (dataUrl, fileName) => {
+      // Split the Data URL to get the MIME type and the base64 data
+      const [header, base64Data] = dataUrl.split(",");
+      const mimeType = header.match(/:(.*?);/)[1]; // Extract MIME type
+   
+      // Map MIME types to file extensions
+      const mimeToExtension = {
+         "image/jpeg": "jpg",
+         "image/png": "png",
+         "image/gif": "gif",
+         "image/webp": "webp",
+      };
+   
+      // Get the extension from the MIME type
+      const extension = mimeToExtension[mimeType] || "bin"; // Default to .bin for unknown types
+   
+      // Ensure the file name has the correct extension
+      if (!fileName.endsWith(`.${extension}`)) {
+         fileName = `${fileName}.${extension}`;
+      }
+   
+      // Decode base64 to binary data
+      const byteCharacters = atob(base64Data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+         byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+   
+      // Create a Blob and convert it to a File
+      const blob = new Blob([byteArray], { type: mimeType });
+      return new File([blob], fileName, { type: mimeType });
+   };
+   
    const handleCapture = () => {
       const imageSrc = webcamRef.current.getScreenshot();
+      const file = dataURLToFile(imageSrc, "image")
 
-      setImages(prev => [...prev, {id: Date.now(), src: imageSrc}])
+      setImages(prev => [...prev, {id: Date.now(), file: file, src: imageSrc}])
       console.log(images)
    };
  

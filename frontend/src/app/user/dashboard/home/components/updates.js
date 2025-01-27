@@ -3,7 +3,6 @@ import { FaArrowRight } from "react-icons/fa"
 
 const Updates = ({data}) => {
 
-
    return (
       <div className="flex flex-col space-y-4 w-full md:w-1/4">
          <div className="bg-white rounded-md p-4 md:p-6 shadow-sm">
@@ -13,14 +12,18 @@ const Updates = ({data}) => {
             </Link>
          
             {data && data.map(item => (
-               <div className="border-b border-gray-300 mb-4 pb-2">
-                  <div className="flex items-center justify-between">
-                     <p className="text-sm text-gray-700">{item.title}</p>
-                     <p className="text-sm font-medium text-gray-800">Appeal Internal Name</p>
+               <Link 
+                  href={`/user/dashboard/appeals/${item.appeal_id}/updates`}
+                  key={item.id}
+               >
+                  <div className="border-b border-gray-300 mb-4 pb-2 hover:bg-gray-100 cursor-pointer p-2">
+                     <div className="flex items-center justify-between">
+                        <p className="text-sm font-semibold text-gray-700">{item.title}</p>
+                        <p className="text-sm text-gray-800">{item.internal_name}</p>
+                     </div>
+                     <p className="text-xs text-gray-700 mt-2">{item.text}</p>
                   </div>
-                  <p className="text-xs text-gray-700 mt-2">{item.text}</p>
-               </div>
-
+               </Link>
             ))}
          </div>
       </div>

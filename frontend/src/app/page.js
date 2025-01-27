@@ -1,6 +1,8 @@
+"use client"
 import React from "react";
 import { FaUserCheck, FaCogs, FaCheckCircle, FaFileAlt, FaHandsHelping, FaChartLine } from "react-icons/fa";
 import { AiFillFacebook, AiFillTwitterCircle, AiFillLinkedin } from "react-icons/ai";
+import Link from "next/link";
 
 const LandingPage = () => {
   return (
@@ -25,9 +27,12 @@ const LandingPage = () => {
             <p className="text-lg mb-6">
               Expert guidance to help you achieve the support you deserve.
             </p>
-            <button className="bg-teal-500 hover:bg-teal-600 text-white py-3 px-6 rounded-lg">
+            <Link 
+               className="bg-teal-500 hover:bg-teal-600 text-white py-3 px-6 rounded-lg"
+               href={"/login"}
+            >
               Get Started Today
-            </button>
+            </Link>
           </div>
         </div>
       </div>

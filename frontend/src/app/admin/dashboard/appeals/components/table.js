@@ -51,20 +51,22 @@ const Table = ({ data }) => {
                         <p className="">{item.first_name} {item.last_name}</p>
                      </td>
                      <td className="py-3 px-4">
-                        <a href="#" className="text-blue-600 hover:underline">{item.internal_name}</a>
+                        <a href="#" className="">{item.internal_name}</a>
                      </td>
                      <td className="py-3 px-4">{item.claim_number}</td>
                      <td className="py-3 px-4">
-                        <span className={`px-2 py-1 text-sm rounded-sm ${
-                           item.status === 'Approved'
-                              ? 'bg-green-100 text-green-700'
-                              : item.status === 'Submitted'
-                              ? 'bg-blue-100 text-blue-700'
-                              : item.status === 'Under Review'
-                              ? 'bg-yellow-100 text-yellow-700'
-                              : 'bg-red-100 text-red-700'
-                        }`}>
-                           {item.status}
+                        <span
+                           className={`px-2 py-1 text-sm rounded-sm w-32 text-center ${
+                              item.status === 'Approved'
+                                 ? 'bg-green-100 text-green-700'
+                                 : item.status === 'Submitted'
+                                 ? 'bg-blue-100 text-blue-700'
+                                 : item.status === 'Under Review'
+                                 ? 'bg-yellow-100 text-yellow-700'
+                                 : 'bg-red-100 text-red-700'
+                           }`}
+                        >
+                           {item.status || 'Draft'}
                         </span>
                      </td>
                      <td className="py-3 px-4">{new Date(item.date_filed).toLocaleDateString("en-US")}</td>

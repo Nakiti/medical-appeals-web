@@ -12,7 +12,7 @@ const upload = multer({
 
 const accountName  = "appeals"
 const containerName = "appeals"
-const token = "sp=racwdli&st=2025-01-21T18:58:25Z&se=2025-01-24T02:58:25Z&sv=2022-11-02&sr=c&sig=szzUclNSqwRsyKZC9IPJrfXwZG9ta%2BVvoktn9J4QeN0%3D"
+const token = "sp=racwdli&st=2025-01-27T18:01:31Z&se=2025-01-28T02:01:31Z&spr=https&sv=2022-11-02&sr=c&sig=9RliN1x9%2BrJIzkEmcCqlaLXrtyGkK1EHbm5P%2BxBmzHc%3D"
 const accountKey = "+fHXAcxCf6awMQQnLdlDzPWTFusSCqet/DpjeTgfd24XtCVbSwxghUCMc0G2TRWvp4CrbJSzSG55+ASteAZbjw=="
 
 const blobServiceClient = new BlobServiceClient(
@@ -58,14 +58,17 @@ export const createBatchFiles = (req, res) => {
    upload.array('files')(req, res, async (err) => {
       if (err) {
          console.log(err);
-         return res.status(500).json({ error: "File upload failed" });
+         return console.log({ error: "File upload failed" });
       }
 
       try {
          const containerClient = blobServiceClient.getContainerClient(containerName);
          const filesData = [];
 
+         console.log("THESE THE FILES", req.files)
+
          for (const file of req.files) {
+            console.log(file)
             const blobName = `${req.body.appealId}/${file.originalname}`;
             const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
@@ -73,7 +76,7 @@ export const createBatchFiles = (req, res) => {
             console.log(`Blob uploaded successfully: ${blobName}`);
 
             const blobUrl = `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}`;
-
+            console.log("url", blobUrl)
             filesData.push([
                   req.body.appealId,
                   file.originalname,
@@ -120,7 +123,7 @@ export const getFilesByAppeal = (req, res) => {
             }, sharedKeyCredential).toString();
 
             const blobUrl = `${file.blob_url}?${blobSAS}`
-
+            console.log(blobUrl)
             return {
                ...file,
                blob_url: blobUrl

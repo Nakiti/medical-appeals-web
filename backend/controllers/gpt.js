@@ -31,10 +31,10 @@ export const extractData = (req, res) => {
    bb.on('finish', async () => {
       try {
          const extractedTexts = []
-         // console.log("files", files)
+         console.log("files", files)
 
          for (const {buffer, mimetype} of files) {
-            // console.log("files", buffer, mimetype)
+            console.log("files", buffer, mimetype)
 
             if (mimetype == "application/pdf") {
                const pdfUint8Array = new Uint8Array(buffer);
@@ -55,6 +55,7 @@ export const extractData = (req, res) => {
                console.log("pdf ran")
             } else if (mimetype.startsWith('image/')) {
                console.log("ran hjere")
+               console.log(mimetype)
                const base64Image = `data:${mimetype};base64,${buffer.toString('base64')}`;
                const { data: { text } } = await Tesseract.recognize(base64Image);
                extractedTexts.push(text.replace(/(\w)\n(\w)/g, '$1 $2').replace(/\n/g, ' ').trim());
@@ -73,7 +74,10 @@ export const extractData = (req, res) => {
          const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
-               { role: "user", content: `Get first name, last name and return in JSON string as firstName and lastName: ${textString}` }
+               { role: "user", 
+                  content: 
+                  `Get the first name, last name, claim number, dob, policy number, and insurer from the following text. Once extracted format the response as a JSON string with keys firstName, lastName, claimNumber, dob, policyNumber, insuranceProvider. If a value is not found, just put an empty string, do not make up values. the following is the text:  ${textString}` 
+               }
             ],
          });
 

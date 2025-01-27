@@ -58,10 +58,10 @@ const AppealScreen = ({ params }) => {
                </div>
                <div>
                   <h2 className="text-lg font-semibold text-gray-700">Your Appeal</h2>
-                  <div className="flex items-center p-4 bg-gray-100 rounded-md shadow-inner mt-4">
+                  {/* <div className="flex items-center p-4 bg-gray-100 rounded-md shadow-inner mt-4">
                      <div className="w-12 h-12 bg-gray-300 rounded-sm mr-6" />
                      <p className="text-gray-700">Additional details about the appeal...</p>
-                  </div>
+                  </div> */}
                </div>
             </div>
          )}

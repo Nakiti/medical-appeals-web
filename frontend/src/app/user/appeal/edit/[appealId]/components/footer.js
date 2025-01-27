@@ -49,11 +49,11 @@ const Footer = ({appealId, userId, setLoading}) => {
    const handleInitial = async() => {
       try {
          setLoading(true)
-         const response = await extractAppealDetails(documents)
+         const response = await extractAppealDetails(documents.map(item => item.file || item))
          const values = JSON.parse(response)
          console.log(values)
          setInputs(prev => ({...prev, ...values}))
-         await createBatchFiles(appealId, documents)
+         await createBatchFiles(appealId, documents.map(item => item.file))
       } catch (err) {
          console.log(err)
       } finally {
@@ -65,7 +65,7 @@ const Footer = ({appealId, userId, setLoading}) => {
    return (
       <div className="fixed bottom-0 max-w-5xl w-full flex justify-end bg-white py-4 border-t border-gray-300">
          <div className="flex flex-row space-x-4 mr-8">
-            {currentIndex > 0 && <Link 
+            {currentIndex > 1 && <Link 
                className="bg-gray-400 rounded-sm py-2 px-8 w-40 text-white text-center text-md"
                href={paths[Math.max(currentIndex - 1, 0)]}
             >

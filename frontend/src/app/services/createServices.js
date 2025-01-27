@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API_BASE_URL = "https://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.net/api";
 
-
 export const createAppeal = async(userId, internalName) => {
    try {
       const appealId = await axios.post(`${API_BASE_URL}/appeal/create`, 
@@ -34,6 +33,7 @@ export const createFile = async(data, file) => {
       form.append("fileName", data.fileName)
       form.append("fileType", data.fileType)
 
+
       await axios.post(`${API_BASE_URL}/files/create`, form, {
          headers: {
             'Content-Type': 'multipart/form-data',
@@ -52,6 +52,9 @@ export const createBatchFiles = async(appealId, files) => {
          formData.append('files', file);
       });
       formData.append('appealId', appealId);
+
+      console.log(":asdadasd")
+      console.log(files)
 
       await axios.post(`${API_BASE_URL}/files/createBatch`, formData, {
          headers: {

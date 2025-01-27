@@ -5,6 +5,8 @@ import { FormContext } from '@/app/context/formContext';
 import { extractAppealDetails } from '@/app/services/gptServices';
 import Link from 'next/link';
 import { FaFileAlt } from "react-icons/fa";
+import { IoClose } from 'react-icons/io5';
+import FileDisplay from './components/file';
 
 const InitialScreen = () => {
    const { inputs, handleInputsChange, documents, setDocuments, appealId, images } = useContext(FormContext);
@@ -12,7 +14,7 @@ const InitialScreen = () => {
 
    const handleFileUpload = async (event) => {
       const file = event.target.files[0];
-      setDocuments(prev => [...prev, file]);
+      setDocuments(prev => [...prev, {id: Date.now(), file: file}]);
       if (file) {
          // You can add any additional logic here if needed
       }
@@ -67,36 +69,16 @@ const InitialScreen = () => {
             </Link>
 
             <div className="space-y-2 mb-12 mt-8">
-               {documents.map((document, index) => (
-                  <a
-                     key={index}
-                     href={document.blob_url || URL.createObjectURL(document)}
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     className="w-full flex flex-row items-center overflow-hidden border-2 rounded-lg"
-                  >
-                     <FaFileAlt size={48} />
-                     <p className="text-md p-4">{document.file_name || document.name}</p>
-                  </a>
-               ))}
-            </div>
-            <div className="space-y-2">
-               {images.map((image, index) => (
-                  <a
-                     key={index}
-                     href={image.src}
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     className="w-full flex flex-row items-center overflow-hidden border-2 rounded-lg"
-                  >
-                     <img
-                        src={image.src}
-                        alt={`Uploaded image ${index + 1}`}
-                        className="w-20 h-20 object-cover"
-                     />
-                     <p className="p-4 text-md">Image {index + 1}</p>
-                  </a>
-               ))}
+            {documents.map((document, index) => {
+               console.log(document)
+               const isImage = document.src?.startsWith("data:image/");
+               const blobUrl = document.blob_url || (document instanceof File ? URL.createObjectURL(document) : null);
+               console.log(blobUrl)
+               return (
+                  <FileDisplay document={document} isImage={isImage} key={index} blobUrl={blobUrl} setDocuments={setDocuments} index={index}/>
+               );
+            })}
+
             </div>
          </div>
       </div>

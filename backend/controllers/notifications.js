@@ -31,7 +31,12 @@ export const getNotificationByUserId = (req, res) => {
 }
 
 export const getNotificationsByAppealId = (req, res) => {
-   const query = "SELECT * FROM notifications WHERE `appeal_id` = ?"
+   const query = `
+      SELECT notifications.*, appeals.internal_name
+      FROM notifications 
+      INNER JOIN appeals on notifications.appeal_id = appeals.id
+      WHERE appeal_id = ?
+   `
 
    const value = req.params.id
 

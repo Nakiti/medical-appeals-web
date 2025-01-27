@@ -66,7 +66,7 @@ const Home = ({}) => {
          {user && (
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                <div className="flex flex-col mb-6 md:mb-0">
-                  <p className="text-sm font-semibold text-gray-600">January 22, 2025</p>
+                  <p className="text-sm font-semibold text-gray-600">Date</p>
                   <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
                      Welcome, {user.first_name} {user.last_name}
                   </h1>
