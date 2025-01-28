@@ -47,7 +47,7 @@ const Notifications = ({ params }) => {
    }, []);
 
    return (
-      <div className="">
+      <div className="bg-white">
          <div className="bg-white p-8 w-full">
             <h1 className="text-2xl text-gray-800 mb-6">Send a Notification</h1>
 

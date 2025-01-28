@@ -28,7 +28,7 @@ const AppealPage = ({ params }) => {
    }, [appealId]);
 
    return (
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-white">
          {/* Appeal Information Section */}
          <div className="p-8">
             <h2 className="text-xl font-semibold text-gray-800 mb-2">Appeal Information</h2>

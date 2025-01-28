@@ -32,7 +32,7 @@ const AdminHome = () => {
    }, [])
 
    return (
-      <div className="p-8 bg-gray-100 min-h-screen">
+      <div className="p-8 bg-gray-50 min-h-screen">
          <div className="flex flex-col mb-6">
             <p className="text-sm font-semibold text-gray-600">January 22, 2025</p>
             <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
@@ -40,7 +40,7 @@ const AdminHome = () => {
             </h1>
          </div>
          <div>
-            
+
          </div>
          <div className="flex flex-row w-full space-x-4">
             <div className="flex flex-col w-3/4">

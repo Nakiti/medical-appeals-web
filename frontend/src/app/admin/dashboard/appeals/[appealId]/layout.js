@@ -16,7 +16,7 @@ const AppealLayout = ({params, children}) => {
 
    return (
       <div className="p-8">
-         <div className="bg-white shadow-md rounded-md">
+         <div className="bg-gray-100 shadow-lg rounded-md">
             <HeaderBar appealId={appealId} links={links} back={back}/>
             {children}
          </div>

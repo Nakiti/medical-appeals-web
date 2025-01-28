@@ -23,7 +23,7 @@ const HeaderBar = ({ appealId, links, back }) => {
    }, [appealId]);
 
    return (
-      <div className="bg-white shadow-sm px-8 pt-6">
+      <div className="bg-white shadow-sm px-8 pt-6 border-b">
          {appeal && (
             <div>
                {/* Appeal Info Section */}
@@ -40,7 +40,7 @@ const HeaderBar = ({ appealId, links, back }) => {
                      </div>
                      <p className="text-sm text-gray-500">
                         {appeal.submitted
-                           ? `Filed: ${appeal.dated_filed}`
+                           ? `Filed: ${new Date(appeal.date_filed).toLocaleDateString("en-US")}`
                            : `Created On: ${new Date(appeal.created_at).toLocaleDateString("en-US")}`}
                      </p>
                   </div>
