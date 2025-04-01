@@ -9,7 +9,7 @@ const AppealLayout = ({params, children}) => {
 
    const links = [
       {pathName: `/user/dashboard/appeals/${appealId}`, title: "Appeal"},
-      {pathName: `/user/dashboard/appeals/${appealId}/updates`, title: "Updates"},
+      {pathName: `/user/dashboard/appeals/${appealId}/updates`, title: "Notifications"},
    ]
 
    const back = "/user/dashboard/appeals"

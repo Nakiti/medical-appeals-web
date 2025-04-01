@@ -9,6 +9,7 @@ const ProgressBar = ({ userId, appealId }) => {
    const paths = [
       `/user/appeal/edit/${appealId}/initial`,
       `/user/appeal/edit/${appealId}/patient-details`,
+      `/user/appeal/edit/${appealId}/letter-details`,
       `/user/appeal/edit/${appealId}/procedure-details`,
       `/user/appeal/edit/${appealId}/additional-details`,
       `/user/appeal/edit/${appealId}/supporting-documents`,

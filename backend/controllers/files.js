@@ -12,7 +12,7 @@ const upload = multer({
 
 const accountName  = "appeals"
 const containerName = "appeals"
-const token = "sp=racwdli&st=2025-01-28T05:52:09Z&se=2025-01-30T13:52:09Z&spr=https&sv=2022-11-02&sr=c&sig=VbgMlWYiMx8DFJbZru0B7ZujibF%2FHzWNiwqtWeM%2Fo80%3D"
+const token = "sp=racwdli&st=2025-04-01T02:39:05Z&se=2025-04-01T10:39:05Z&spr=https&sv=2024-11-04&sr=c&sig=m01QrxFGKsCPZsTUbGoywitTiOaWq3cMAt34QjDiI30%3D"
 const accountKey = "+fHXAcxCf6awMQQnLdlDzPWTFusSCqet/DpjeTgfd24XtCVbSwxghUCMc0G2TRWvp4CrbJSzSG55+ASteAZbjw=="
 
 const blobServiceClient = new BlobServiceClient(
@@ -105,9 +105,12 @@ export const getFilesByAppeal = (req, res) => {
 
    const values = [req.params.id]
 
+   console.log(values)
+
    db.query(query, values, async (err, data) => {
       if (err) return res.json(err)
 
+      console.log(data)
       try {
          const files = await Promise.all(data.map(async(file) => {
             const sharedKeyCredential = new StorageSharedKeyCredential(accountName, accountKey);
@@ -122,7 +125,7 @@ export const getFilesByAppeal = (req, res) => {
                protocol: SASProtocol.Https
             }, sharedKeyCredential).toString();
 
-            const blobUrl = `${file.blob_url}?${blobSAS}`
+            const blobUrl = `${file.blob_url}?${blobSAS}&response-content-disposition=inline&response-content-type=application/pdf`
             console.log(blobUrl)
             return {
                ...file,

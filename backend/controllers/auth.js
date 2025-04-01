@@ -18,6 +18,7 @@ export const login = (req, res) => {
       );
    
       if (!isPasswordCorrect) {
+         console.log("err")
          return res.status(400).json("Password is incorrect");
       }
 
@@ -72,8 +73,8 @@ export const createUser = (req, res) => {
 
 export const getCurrentUser = (req, res) => {
    const token = req.cookies.session
-   console.log("cookies", req.cookies)
-   console.log("token \n", req.cookies.session, "\n")
+   // console.log("cookies", req.cookies)
+   // console.log("token \n", req.cookies.session, "\n")
 
    if (!token) return res.status(401).json("Not authenticated");
 

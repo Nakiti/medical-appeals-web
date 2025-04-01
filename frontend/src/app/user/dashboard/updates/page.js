@@ -24,7 +24,7 @@ const Updates = () => {
 
    return (
       <div className="p-8">
-         <div className="container mx-auto p-8 bg-white rounded-lg shadow-sm">
+         <div className="container mx-auto p-8 bg-white rounded-lg shadow-sm min-h-screen">
             <h1 className="text-2xl font-bold text-gray-900 mb-6">Notifications</h1>
             <div className="space-y-6">
             {data && Object.keys(data).map((section, index) => (

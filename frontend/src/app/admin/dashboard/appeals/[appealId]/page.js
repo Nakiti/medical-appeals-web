@@ -19,13 +19,14 @@ const AppealPage = ({ params }) => {
 
             const filesResponse = await getFilesByAppeal(appealId);
             setFiles(filesResponse);
+            console.log(filesResponse)
          } catch (err) {
             console.error(err);
          }
       };
 
       fetchData();
-   }, [appealId]);
+   }, []);
 
    return (
       <div className="min-h-screen bg-white">
@@ -51,8 +52,8 @@ const AppealPage = ({ params }) => {
                {files &&
                   files.map((document, index) => (
                      <a
-                        key={index}
-                        href={document.blob_url || URL.createObjectURL(document)}
+                        key={index} 
+                        href={document.blob_url}                    
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center p-3 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"

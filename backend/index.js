@@ -24,7 +24,7 @@ app.use(cookieParser())
 
 app.use("/api/user", userRoutes)
 app.use("/api/appeal", appealRoutes)
-app.use("/api/auth", authRoutes)
+app.use("/api/auth", authRoutes) 
 app.use("/api/gpt", gptRoutes)
 app.use("/api/notifications", notificationRoutes)
 app.use("/api/files", fileRoutes)

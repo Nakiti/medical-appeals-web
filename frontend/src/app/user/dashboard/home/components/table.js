@@ -5,7 +5,7 @@ const Table = ({ columns, data, type }) => {
 
    const handleClick = (id) => {
       if (type == "draft") {
-         router.push(`/user/appeal/edit/${id}/form/patient-details`)
+         router.push(`/appeal/patient-details?appealId=${id}`)
       } else if (type == "appeal") {
          router.push(`/user/dashboard/appeals/${id}`)
       } else {

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, use } from 'react';
-import { getAppeal } from '@/app/services/fetchServices';
+import { getAppeal, getFilesByAppeal } from '@/app/services/fetchServices';
 import { AiOutlineFileText, AiOutlineHourglass, AiOutlineCheckCircle } from 'react-icons/ai';
 import Link from 'next/link';
 
@@ -11,12 +11,16 @@ const AppealScreen = ({ params }) => {
    const barBackgroundColor = "bg-gray-200"; // Light gray for background
    const unwrappedParams = use(params);
    const appealId = unwrappedParams.appealId;
+   const [files, setFiles] = useState(null)
 
    useEffect(() => {
       const fetchData = async () => {
          try {
             const response = await getAppeal(appealId);
             setData(response);
+
+            const filesResponse = await getFilesByAppeal(appealId)
+            setFiles(filesResponse)
          } catch (err) {
             console.log(err);
          }
@@ -58,10 +62,19 @@ const AppealScreen = ({ params }) => {
                </div>
                <div>
                   <h2 className="text-lg font-semibold text-gray-700">Your Appeal</h2>
-                  {/* <div className="flex items-center p-4 bg-gray-100 rounded-md shadow-inner mt-4">
+                  <div className="flex items-center p-4 bg-gray-100 rounded-md shadow-inner mt-4">
                      <div className="w-12 h-12 bg-gray-300 rounded-sm mr-6" />
-                     <p className="text-gray-700">Additional details about the appeal...</p>
-                  </div> */}
+                     <p className="text-gray-700">Appeal File (temp)</p>
+                  </div>
+               </div>
+               <div>
+                  <h2 className="text-lg font-semibold text-gray-700 mt-4">Relevant Files</h2>
+                  {files && files.map((item, index) => (
+                     <div key={index} className="flex items-center p-4 bg-gray-100 rounded-md shadow-inner mt-4">
+                        <div className="w-12 h-12 bg-gray-300 rounded-sm mr-6" />
+                        <p className="text-gray-700">Appeal File (temp)</p>
+                     </div>
+                  ))}
                </div>
             </div>
          )}

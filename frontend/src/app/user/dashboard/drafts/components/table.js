@@ -32,7 +32,7 @@ const Table = ({ data, userId, isEditing, handleSelect }) => {
                      <td className="py-3 px-4">
                         <p className="">{item.internal_name}</p>
                      </td>
-                     <td className="py-3 px-4">{item.claim_number}</td>
+                     <td className="py-3 px-4">{item.claim_number || "-"}</td>
                      <td className="py-3 px-4">{new Date(item.created_at).toLocaleDateString("en-US")}</td>
                   </tr>
                ))}

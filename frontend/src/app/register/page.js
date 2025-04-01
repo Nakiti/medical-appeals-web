@@ -2,7 +2,7 @@
 import React from 'react';
 import useFormInput from '../hooks/useFormInput';
 import { useRouter } from 'next/navigation';
-import { register } from '../services/authServices';
+import { register, login } from '../services/authServices';
 
 const Register = () => {
    const [inputs, handleInputsChange, setInputs] = useFormInput({
@@ -18,7 +18,14 @@ const Register = () => {
       e.preventDefault()
       try {
          await register(inputs)
-         router.push("/login")
+         const response = await login({email: inputs.email, password: inputs.password})
+
+         if (response.error) {
+            router.push("/login")
+         } else {
+            router.push("/appeal/patient-details")
+         }
+
       } catch (err) {
          console.log(err)
       }

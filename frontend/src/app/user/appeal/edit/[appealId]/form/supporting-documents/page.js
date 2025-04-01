@@ -1,45 +1,24 @@
 "use client"
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { FormContext } from '@/app/context/formContext';
+import FileDisplay from '../initial/components/file';
+import { FaUpload } from 'react-icons/fa';
 
 const SupportingDocuments = ({ navigation }) => {
    const {documents, setDocuments} = useContext(FormContext)
+   const fileInputRef = useRef(null);
 
-
-   const handleFileSelection = async () => {
-      try {
-         const result = await window.showOpenFilePicker({
-            types: [{ description: 'PDF files', accept: { 'application/pdf': ['.pdf'] } }],
-            multiple: true,
-         });
-
-         const files = await Promise.all(result.map(async (fileHandle) => {
-            const file = await fileHandle.getFile();
-            return {
-               uri: URL.createObjectURL(file),
-               name: file.name,
-            };
-         }));
-
-         setDocuments([...documents, ...files]);
-      } catch (err) {
-         console.error(err);
+   const handleFileUpload = async (event) => {
+      const file = event.target.files[0];
+      setDocuments(prev => [...prev, {id: Date.now(), file: file}]);
+      if (file) {
+         // You can add any additional logic here if needed
       }
+      console.log(documents)
    };
 
-   const handleUpload = async () => {
-      try {
-         const [fileHandle] = await window.showOpenFilePicker({
-            multiple: false,
-         });
-         const file = await fileHandle.getFile();
-         setDocuments([...documents, {
-            uri: URL.createObjectURL(file),
-            name: file.name,
-         }]);
-      } catch (err) {
-         console.error(err);
-      }
+   const handleUploadClick = () => {
+      fileInputRef.current.click();
    };
 
    return (
@@ -50,20 +29,30 @@ const SupportingDocuments = ({ navigation }) => {
                Upload files or images as required for your submission. You can preview your uploads below.
             </p>
 
+            <input
+               type="file"
+               ref={fileInputRef}
+               style={{ display: 'none' }}
+               onChange={handleFileUpload}
+            />
             <button
-               className="bg-blue-500 text-white py-3 px-6 rounded-lg mb-6"
-               onClick={handleFileSelection}
+               className="flex mb-6 w-5/6 md:w-1/2 mx-auto items-center justify-center bg-blue-500 rounded-full p-3 cursor-pointer opacity-70"
+               onClick={handleUploadClick}
             >
-               Upload Document
+               <FaUpload className="text-white text-xl" />
+               <p className="text-white text-sm font-semibold ml-3">Upload Files</p>
             </button>
 
             <div className="space-y-4">
-               {documents.map((item, index) => (
-                  <div key={index} className="flex items-center bg-white p-4 rounded-lg shadow-sm">
-                     <img src={item.uri} alt={item.name} className="w-8 h-8 rounded-lg mr-4" />
-                     <span className="text-sm text-gray-800">{item.name || 'File'}</span>
-                  </div>
-               ))}
+               {documents.map((document, index) => {
+                  console.log(document)
+                  const isImage = document.src?.startsWith("data:image/");
+                  const blobUrl = document.blob_url || (document instanceof File ? URL.createObjectURL(document) : null);
+                  console.log(blobUrl)
+                  return (
+                     <FileDisplay document={document} isImage={isImage} key={index} blobUrl={blobUrl} setDocuments={setDocuments} index={index}/>
+                  );
+               })}
             </div>
          </div>
       </div>

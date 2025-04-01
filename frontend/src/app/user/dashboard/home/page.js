@@ -10,6 +10,7 @@ import Modal from "./components/modal";
 import { AuthContext } from "@/app/context/authContext";
 import Table from "./components/table";
 import Updates from "./components/updates";
+import { useRouter } from "next/navigation";
 
 const Home = ({}) => {
    const [drafts, setDrafts] = useState(null);
@@ -21,6 +22,7 @@ const Home = ({}) => {
    const [showAppeals, setShowAppeals] = useState(true);
    const { currentUser } = useContext(AuthContext);
    const [user, setUser] = useState(null);
+   const router = useRouter()
 
    const appealColumns = [
       { title: "Id", value: "id" },
@@ -66,13 +68,13 @@ const Home = ({}) => {
          {user && (
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                <div className="flex flex-col mb-6 md:mb-0">
-                  <p className="text-sm font-semibold text-gray-600">Date</p>
+                  <p className="text-md font-semibold text-gray-600">Hello,</p>
                   <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
-                     Welcome, {user.first_name} {user.last_name}
+                     {user.first_name} {user.last_name}
                   </h1>
                </div>
                <button
-                  onClick={() => setVisible(true)}
+                  onClick={() => router.push("/appeal/claim-number")}
                   className="w-full md:w-1/4 h-14 md:h-16 bg-blue-500 font-semibold py-2 px-4 rounded-md text-white hover:bg-blue-700 transition ease-in-out duration-300"
                >
                   Create New Appeal

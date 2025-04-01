@@ -6,26 +6,51 @@ import { AuthContext } from "./authContext";
 
 export const FormContext = createContext()
 
-export const FormContextProvider = ({children, appealId, userId}) => {
-   const [inputs, handleInputsChange, setInputs] = useFormInput({})
+export const FormContextProvider = ({children}) => {
+   const [inputs, handleInputsChange, setInputs] = useFormInput({
+      appealId: null,
+      firstName: "",
+      lastName: "",
+      claimNumber: "",
+      ssn: "",
+      dob: "",
+      insuranceProvider: "",
+      insuranceAddress: "",
+      physicianName: "",
+      physicianPhone: "",
+      physicianAddress: "",
+      physicianEmail: "",
+      policyNumber: "",
+      procedureName: "",
+      denialReason: "",
+      additionalDetails: "",
+      dateFiled: null,
+      submitted: 0,
+      status: "",
+   })
    const [documents, setDocuments] = useState([])
-   const {currentUser} = useContext(AuthContext)
    const [images, setImages] = useState([])
+   const [appealId, setAppealId] = useState(null)
 
    useEffect(() => {
       const fetchData = async() => {
-         console.log(appealId)
          if (appealId != null) {
             console.log("yo")
             const response = await getAppeal(appealId)
             console.log(response)
             setInputs({
+               appealId: response.id || null,
                firstName: response.first_name || "",
                lastName: response.last_name || "",
                claimNumber: response.claim_number || "",
                ssn: response.ssn || "",
                dob: response.dob || "",
                insuranceProvider: response.insurance_provider || "",
+               insuranceAddress: response.insurance_address || "",
+               physicianName: response.physician_name || "",
+               physicianPhone: response.physicial_phone || "",
+               physicianAddress: response.physician_address || "",
+               physicianEmail: response.physician_email || "",
                policyNumber: response.policy_number || "",
                procedureName: response.procedure_name || "",
                denialReason: response.denial_reason || "",
@@ -42,10 +67,10 @@ export const FormContextProvider = ({children, appealId, userId}) => {
       }
 
       fetchData()
-   }, [])
+   }, [appealId])
 
    return (
-      <FormContext.Provider value={{inputs, handleInputsChange, setInputs, documents, setDocuments, appealId, currentUser, images, setImages}}>
+      <FormContext.Provider value={{inputs, handleInputsChange, setInputs, documents, setDocuments, appealId, setAppealId, images, setImages}}>
          {children}
       </FormContext.Provider>
    )

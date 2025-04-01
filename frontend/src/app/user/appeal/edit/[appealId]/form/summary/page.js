@@ -5,6 +5,8 @@ import { FormContext } from '@/app/context/formContext';
 const Summary = () => {
    const {inputs, documents} = useContext(FormContext)
 
+   console.log("documents", documents)
+
    const renderInfoGroup = (label, value) => (
       <div className="">
          <label className="block text-sm font-semibold text-gray-600 mb-1">{label}</label>
@@ -32,8 +34,8 @@ const Summary = () => {
             <label className="block text-sm font-semibold text-gray-600 mt-6">Documents</label>
             {documents.map((item, index) => (
                <div className="flex items-center bg-white rounded-lg p-4 mb-4 shadow" key={index}>
-                  <img src={item.uri} alt={item.name} className="w-16 h-16 rounded-lg mr-4" />
-                  <p className="text-sm text-gray-800">{item.name || "File"}</p>
+                  <img src={item.uri} alt={item.name} className="w-12 h-12 rounded-lg mr-4" />
+                  <p className="text-sm text-gray-800">{item.file_name || item.name || item.file?.name || "File"}</p>
                </div>
             ))}
          </div>

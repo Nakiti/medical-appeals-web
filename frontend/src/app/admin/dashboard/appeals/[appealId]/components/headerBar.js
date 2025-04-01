@@ -36,7 +36,7 @@ const HeaderBar = ({ appealId, links, back }) => {
                               className="text-gray-500 hover:text-blue-600 transition-all duration-200 cursor-pointer"
                            />
                         </Link>
-                        <span className="ml-4 text-xl font-medium text-gray-700">{appeal.internal_name}</span>
+                        <span className="ml-4 text-xl font-medium text-gray-700">Claim #: {appeal.claim_number}</span>
                      </div>
                      <p className="text-sm text-gray-500">
                         {appeal.submitted

@@ -22,13 +22,13 @@ const Navbar = () => {
    }
 
    return (
-      <div className='flex flex-row justify-between mb-4 border-b-2 pb-3'>
+      <div className='flex flex-row justify-between mb-4 border-b-2 pb-2'>
          <div className='space-y-2 ml-4 md:ml-8 md:mb-4'>
-            <Link href={`/user/dashboard/home`} className='flex flex-row items-center space-x-2'>
+            <Link href={`/user/dashboard/home`} className='flex flex-row items-center justify-center space-x-2'>
                <FaArrowLeft />
                <p className='text-xs md:text-sm'>Back to Home</p>
             </Link>
-            <h1 className='text-lg md:text-2xl'>Appeal Internal Name</h1>
+            <h1 className='text-lg md:text-xl'>{inputs.internalName || "Claim Number"}</h1>
          </div>
          <button
             className="bg-blue-600 hover:bg-blue-500 h-1/2 mr-8 self-center py-2 px-6 rounded-sm text-sm font-medium text-white transition-transform transform hover:scale-105"

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 
 export const middleware = (req) => {
    const token = req.cookies.get("session");
-   console.log("Token found: ", token);
+   // console.log("Token found: ", token);
 
    const isAuthPage = req.nextUrl.pathname == "/login";
    // console.log("Is login page: ", isAuthPage);
@@ -19,7 +19,7 @@ export const middleware = (req) => {
          const decodedToken = jwt.decode(token.value);
          const userType = decodedToken.userType
 
-         console.log("Decoded token is: ", decodedToken);
+         // console.log("Decoded token is: ", decodedToken);
 
          // const pathname = req.nextUrl.pathname;
 

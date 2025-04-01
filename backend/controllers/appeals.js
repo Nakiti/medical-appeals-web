@@ -1,16 +1,33 @@
 import { db } from "../db.js";
 
 export const createAppeal = (req, res) => {
-   const query = "INSERT INTO appeals (`user_id`, `internal_name`, `submitted`, `created_at`, `updated_at`) VALUES (?)"
+   const query = "INSERT INTO appeals (`user_id`, `first_name`, `last_name`, `claim_number`, `ssn`, `dob`, `insurance_provider`, `insurance_address`, `physician_name`, `physician_address`, `physician_phone`, `physician_email`, `policy_number`, `procedure_name`, `denial_reason`, `additional_details`, `supporting_documents`, `date_filed`, `submitted`, `created_at`, `updated_at`) VALUES (?)"
 
    const values = [
       req.body.userId,
-      req.body.internalName,
-      0,
+      req.body.firstName,
+      req.body.lastName,
+      req.body.claimNumber,
+      req.body.ssn,
+      req.body.dob,
+      req.body.insuranceProvider,
+      req.body.insuranceAddress,
+      req.body.physicianName,
+      req.body.physicianAddress,
+      req.body.physicianPhone,
+      req.body.physicianEmail,
+      req.body.policyNumber,
+      req.body.procedureName,
+      req.body.denialReason,
+      req.body.additionalDetails,
+      req.body.supportingDocuments,
+      req.body.dateFiled,
+      req.body.status,
       (new Date()).toISOString().slice(0, 19).replace('T', ' '),
       (new Date()).toISOString().slice(0, 19).replace('T', ' ')
    ]
 
+   console.log("values: ", values)
 
    db.query(query, [values], (err, data) => {
       console.log(err)
@@ -20,7 +37,7 @@ export const createAppeal = (req, res) => {
 } 
 
 export const updateAppeal = (req, res) => {
-   const query = "UPDATE appeals SET `first_name` = ?, `last_name` = ?, `claim_number` = ?, `ssn` = ?, `dob` = ?, `insurance_provider` = ?, `policy_number` = ?, `procedure_name` = ?, `denial_reason` = ?, `additional_details` = ?, `supporting_documents` = ?, `date_filed` = ?, `submitted` = ?, `status` = ?, `updated_at` = ? WHERE `id` = ?"
+   const query = "UPDATE appeals SET `first_name` = ?, `last_name` = ?, `claim_number` = ?, `ssn` = ?, `dob` = ?, `insurance_provider` = ?, `insurance_address` = ?, `physician_name` = ?, `physician_address` = ?, `physician_phone` = ?, `physician_email` = ?, `policy_number` = ?, `procedure_name` = ?, `denial_reason` = ?, `additional_details` = ?, `supporting_documents` = ?, `date_filed` = ?, `submitted` = ?, `status` = ?, `updated_at` = ? WHERE `id` = ?"
 
    console.log((req.body.supportingDocuments))
 
@@ -31,6 +48,11 @@ export const updateAppeal = (req, res) => {
       req.body.ssn,
       req.body.dob,
       req.body.insuranceProvider,
+      req.body.insuranceAddress,
+      req.body.physicianName,
+      req.body.physicianPhone,
+      req.body.physicianAddress,
+      req.body.physicianEmail,
       req.body.policyNumber,
       req.body.procedureName,
       req.body.denialReason,
@@ -47,6 +69,20 @@ export const updateAppeal = (req, res) => {
 
    db.query(query, values, (err, data) => {
       if (err) return console.log(err)
+      return res.status(200).json(data)
+   })
+}
+
+export const checkClaimNumber = (req, res) => {
+   const query = "SELECT * FROM appeals WHERE `claim_number` = ?"
+
+   const value = [req.query.claimNumber]
+
+   console.log(value)
+
+   db.query(query, value, (err, data) => {
+      if (err) return res.json(err)
+      console.log(data)
       return res.status(200).json(data)
    })
 }

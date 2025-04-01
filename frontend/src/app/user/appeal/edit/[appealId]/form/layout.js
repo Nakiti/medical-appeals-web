@@ -8,6 +8,7 @@ import Footer from '../components/footer';
 import Link from 'next/link';
 import { AuthContext } from '@/app/context/authContext';
 import Navbar from '../components/navbar';
+import Header from '@/app/components/header';
 
 const AppealFormLayout = ({ params, children }) => {
    const unwrappedParams = use(params)
@@ -24,11 +25,7 @@ const AppealFormLayout = ({ params, children }) => {
             </div>
          )}
 
-         <header className="bg-midnight w-full text-white flex items-center justify-between p-4">
-            <div className="flex items-center">
-               <h1 className="text-xl font-semibold">My App</h1>
-            </div>
-         </header>
+         <Header />
 
          <div className="flex-1 py-6 bg-white max-w-5xl w-full mx-auto shadow-xl">
             <Navbar />

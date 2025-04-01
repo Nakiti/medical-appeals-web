@@ -25,7 +25,7 @@ const Appeals = () => {
 
    return (
       <div className="md:p-8 w-full min-h-screen bg-gray-50">
-         <div className="p-8 w-full min-h-screen bg-white shadow-lg rounded-lg">
+         <div className="p-8 w-full min-h-screen bg-white shadow-sm rounded-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">My Appeals</h2>
             <p className="text-gray-700 mb-6">
                The following table lists all appeals you have submitted.

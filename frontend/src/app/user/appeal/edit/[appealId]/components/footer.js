@@ -16,6 +16,7 @@ const Footer = ({appealId, userId, setLoading}) => {
    const paths = [
       `/user/appeal/edit/${appealId}/form/initial`,
       `/user/appeal/edit/${appealId}/form/patient-details`,
+      `/user/appeal/edit/${appealId}/form/letter-details`,
       `/user/appeal/edit/${appealId}/form/procedure-details`,
       `/user/appeal/edit/${appealId}/form/additional-details`,
       `/user/appeal/edit/${appealId}/form/supporting-documents`,
@@ -40,6 +41,7 @@ const Footer = ({appealId, userId, setLoading}) => {
             submitted: 1,
             status: "Submitted"
          }, documents)
+         console.log("docs", documents)
          router.push("/user/dashboard/home")
       } catch (err) {
          console.log(err)

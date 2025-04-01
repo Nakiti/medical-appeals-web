@@ -58,7 +58,7 @@ const Updates = ({ params }) => {
    return (
       <div className="p-8 min-h-screen">
          <div className="container mx-auto md:px-8 bg-white">
-            <h1 className="text-2xl text-gray-900 mb-6">Notifications</h1>
+            {/* <h1 className="text-2xl text-gray-900 mb-6">Notifications</h1> */}
             <div className="space-y-6">
                {Object.keys(categorizedNotifications).map((section, index) => (
                   categorizedNotifications[section].length > 0 && (

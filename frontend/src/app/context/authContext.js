@@ -13,8 +13,8 @@ export const AuthContextProvider = ({children}) => {
       // always checks that user is logged in
       const fetchData = async () => {
          const response = await getCurrentUser()
-         console.log(response.id)
-         setCurrentUser(response.id)
+         console.log(response?.id)
+         setCurrentUser(response?.id)
          console.log(currentUser)
       }
       
