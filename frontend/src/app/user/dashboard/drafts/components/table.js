@@ -11,35 +11,43 @@ const Table = ({ data, userId, isEditing, handleSelect }) => {
    }
 
    return (
-      <div className="overflow-x-auto">
-         <table className="min-w-full bg-white">
-            <thead className='border-b border-gray-600'>
+      <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+         <table className="min-w-full divide-y divide-gray-200 bg-white text-sm text-left">
+            <thead className="bg-gray-50">
                <tr>
-                  {isEditing && <th className="text-left py-3 px-4 font-medium text-gray-700"></th>}
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">id</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Internal Name</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Claim Number</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Date Created</th>
+                  {isEditing && (
+                     <th className="px-4 py-3 font-semibold text-gray-600"></th>
+                  )}
+                  <th className="px-4 py-3 font-semibold text-gray-600">ID</th>
+                  <th className="px-4 py-3 font-semibold text-gray-600">Claim Number</th>
+                  <th className="px-4 py-3 font-semibold text-gray-600">Date Created</th>
                </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-gray-100">
                {data.map((item, index) => (
-                  <tr key={index} className="border-b border-gray-200 text-sm hover:bg-gray-100 cursor-pointer" onClick={() => isEditing ? handleSelect(item.id) : handleClick(item.id)}>
-                     {isEditing && <td className="py-3 px-4 flex justify-center items-center">
-                        <input type='checkbox' value={item.selected}></input>
-                     </td>}
-                     <td className="py-3 px-4">{item.id}</td>
-                     <td className="py-3 px-4">
-                        <p className="">{item.internal_name}</p>
+                  <tr
+                     key={index}
+                     className="hover:bg-gray-50 transition-colors"
+                     onClick={() =>
+                        isEditing ? handleSelect(item.id) : handleClick(item.id)
+                     }
+                  >
+                     {isEditing && (
+                        <td className="px-4 py-3">
+                           <input type="checkbox" value={item.selected} />
+                        </td>
+                     )}
+                     <td className="px-4 py-3">{item.id}</td>
+                     <td className="px-4 py-3">{item.claim_number || "-"}</td>
+                     <td className="px-4 py-3">
+                        {new Date(item.created_at).toLocaleDateString("en-US")}
                      </td>
-                     <td className="py-3 px-4">{item.claim_number || "-"}</td>
-                     <td className="py-3 px-4">{new Date(item.created_at).toLocaleDateString("en-US")}</td>
                   </tr>
                ))}
             </tbody>
          </table>
       </div>
-   );
+   );   
 };
 
 export default Table;

@@ -1,9 +1,10 @@
-"use client"
-import { getSubmittedAppeals } from "@/app/services/fetchServices";
-import AppealItem from "../components/appealItem";
+"use client";
+
 import { useState, useEffect, useContext } from "react";
-import Table from "./components/table";
+import { getSubmittedAppeals } from "@/app/services/fetchServices";
 import { AuthContext } from "@/app/context/authContext";
+
+import Table from "./components/table";
 import Searchbar from "../components/searchbar";
 
 const Appeals = () => {
@@ -16,7 +17,7 @@ const Appeals = () => {
             const response = await getSubmittedAppeals(currentUser);
             setAppeals(response);
          } catch (err) {
-            console.log(err);
+            console.error(err);
          }
       };
 
@@ -24,14 +25,26 @@ const Appeals = () => {
    }, []);
 
    return (
-      <div className="md:p-8 w-full min-h-screen bg-gray-50">
-         <div className="p-8 w-full min-h-screen bg-white shadow-sm rounded-lg">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">My Appeals</h2>
-            <p className="text-gray-700 mb-6">
-               The following table lists all appeals you have submitted.
-            </p>
+      <div className="w-full min-h-screen bg-gray-50 md:p-8">
+         <div className="w-full min-h-screen bg-white p-6 md:p-8 rounded-lg shadow-sm">
+            {/* Header */}
+            <div className="mb-6">
+               <h2 className="text-2xl font-bold text-gray-800">My Appeals</h2>
+               <p className="text-gray-600 mt-2">
+                  The following table lists all appeals you have submitted.
+               </p>
+            </div>
 
-            <Searchbar setData={setAppeals} userId={currentUser} submitted={1} />
+            {/* Search */}
+            <div className="mb-6">
+               <Searchbar
+                  setData={setAppeals}
+                  userId={currentUser}
+                  submitted={1}
+               />
+            </div>
+
+            {/* Table */}
             {appeals && <Table data={appeals} />}
          </div>
       </div>

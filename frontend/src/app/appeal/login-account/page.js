@@ -31,7 +31,7 @@ const LoginAccountPage = () => {
       return Object.keys(newErrors).length === 0;
    };
 
-   const handleRegister = async () => {
+   const handleLogin = async () => {
       setServerError(""); 
 
       if (!validateInputs()) return;
@@ -76,9 +76,9 @@ const LoginAccountPage = () => {
 
             <button
                className="w-full mx-auto mt-8 rounded-full py-4 bg-blue-800 text-white font-bold text-lg hover:bg-blue-900 transition duration-200"
-               onClick={handleRegister}
+               onClick={handleLogin}
             >
-               Create
+               Login
             </button>
          </div>
       </div>

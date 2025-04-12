@@ -62,7 +62,7 @@ const ClaimNumber = () => {
             {/* Status Message */}
             {claimStatus !== null && (
                <div className={`mt-4 py-4 px-5 rounded-sm text-white text-xs ${claimStatus ? "bg-red-200 text-red-800" : "bg-green-200 text-green-800"}`}>
-                  {claimStatus ? "Claim already exists. Please log in." : "No existing claim found. Proceed to create one."}
+                  {claimStatus && currentUser ? "Claim already exists. Check User Dashboard." : claimStatus && !currentUser ? "Claim already exists. Please Login" :  "No existing claim found. Proceeding to create one."}
                </div>
             )}
 
@@ -77,14 +77,21 @@ const ClaimNumber = () => {
                </button>
 
                {/* Show "Login" button only if claim exists */}
-               {claimStatus && (
+               {claimStatus && !currentUser ? 
                   <button
                      className="w-full rounded-full px-6 py-4 font-bold text-lg shadow-md transition duration-200 bg-gray-600 text-white hover:bg-gray-700"
                      onClick={() => router.push("/login")}
                   >
                      Login
-                  </button>
-               )}
+                  </button> :
+                  claimStatus && currentUser ? 
+                  <button
+                     className="w-full rounded-full px-6 py-4 font-bold text-lg shadow-md transition duration-200 bg-gray-600 text-white hover:bg-gray-700"
+                     onClick={() => router.push("/user/dashboard/home")}
+                  >
+                     Home
+                  </button> : null
+               }
             </div>
          </div>
       </div>

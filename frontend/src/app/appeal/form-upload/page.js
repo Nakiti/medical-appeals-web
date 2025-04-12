@@ -8,7 +8,8 @@ import { FormContext } from "@/app/context/formContext";
 const FormUploadPage = () => {
    const router = useRouter()
    const fileInputRef = useRef(null);
-   const {documents, setDocuments} = useContext(FormContext)
+   const {documents, setDocuments, inputs} = useContext(FormContext)
+   console.log(inputs)
 
    const handleFileUpload = async (event) => {
       const file = event.target.files[0];

@@ -22,7 +22,7 @@ export const createAppeal = (req, res) => {
       req.body.additionalDetails,
       req.body.supportingDocuments,
       req.body.dateFiled,
-      req.body.status,
+      req.body.submitted,
       (new Date()).toISOString().slice(0, 19).replace('T', ' '),
       (new Date()).toISOString().slice(0, 19).replace('T', ' ')
    ]

@@ -4,6 +4,7 @@ import DefaultInput from "../components/defaultInput";
 import { useRouter } from "next/navigation";
 import useFormInput from "@/app/hooks/useFormInput";
 import { register, login } from "@/app/services/authServices";
+import Link from "next/link";
 
 const CreateAccountPage = () => {
    const router = useRouter();
@@ -89,6 +90,14 @@ const CreateAccountPage = () => {
             >
                Create
             </button>
+            <div className="mt-4 text-center">
+               <p className="text-sm text-slate-400">
+                  Already have an account?{" "}
+                  <Link href="/appeal/login-account" className="text-blue-500 hover:underline">
+                     Log in
+                  </Link>
+               </p>
+            </div>
          </div>
       </div>
    );
