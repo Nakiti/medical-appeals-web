@@ -1,10 +1,10 @@
 "use client"
-import NavigationButtons from "../components/nextButton"
+import NavigationButtons from "../../components/nextButton"
 import { useContext } from "react"
 import { FormContext } from "@/app/context/formContext"
 
 const AdditionalDetailsPage = () => {
-   const {inputs, handleInputsChange} = useContext(FormContext)
+   const {inputs, handleInputsChange, appealId} = useContext(FormContext)
    
    return (
       <div className="w-full flex items-center justify-center py-4">
@@ -31,7 +31,7 @@ const AdditionalDetailsPage = () => {
                </div>
             </div>
 
-            <NavigationButtons backHref="/appeal/procedure-details" nextHref="/appeal/summary"/>
+            <NavigationButtons backHref={`/appeal/${appealId}/procedure-details`} nextHref={`/appeal/${appealId}/summary`}/>
          </div>
       </div>  
    )

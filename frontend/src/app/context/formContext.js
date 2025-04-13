@@ -6,9 +6,8 @@ import { AuthContext } from "./authContext";
 
 export const FormContext = createContext()
 
-export const FormContextProvider = ({children}) => {
+export const FormContextProvider = ({appealId, children}) => {
    const [inputs, handleInputsChange, setInputs] = useFormInput({
-      appealId: null,
       firstName: "",
       lastName: "",
       claimNumber: "",
@@ -30,16 +29,16 @@ export const FormContextProvider = ({children}) => {
    })
    const [documents, setDocuments] = useState([])
    const [images, setImages] = useState([])
-   const [appealId, setAppealId] = useState(null)
 
    useEffect(() => {
+      console.log("appealId", appealId)
+
       const fetchData = async() => {
-         if (appealId != null) {
+         if (appealId != "new") {
             console.log("yo")
             const response = await getAppeal(appealId)
             console.log(response)
             setInputs({
-               appealId: response.id || null,
                firstName: response.first_name || "",
                lastName: response.last_name || "",
                claimNumber: response.claim_number || "",
@@ -67,10 +66,10 @@ export const FormContextProvider = ({children}) => {
       }
 
       fetchData()
-   }, [appealId])
+   }, [])
 
    return (
-      <FormContext.Provider value={{inputs, handleInputsChange, setInputs, documents, setDocuments, appealId, setAppealId, images, setImages}}>
+      <FormContext.Provider value={{inputs, handleInputsChange, setInputs, documents, setDocuments, appealId, images, setImages}}>
          {children}
       </FormContext.Provider>
    )

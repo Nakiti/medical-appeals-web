@@ -1,20 +1,14 @@
 "use client"
-import DefaultInput from "../components/defaultInput"
+import DefaultInput from "../../components/defaultInput"
 import { useContext, useEffect } from "react"
 import { FormContext } from "@/app/context/formContext"
 import { useRouter, useSearchParams } from "next/navigation"
-import NavigationButtons from "../components/nextButton"
+import NavigationButtons from "../../components/nextButton"
 
 const PatientDetailsPage = () => {
-   const {inputs, handleInputsChange, setInputs, setAppealId} = useContext(FormContext)
+   const {inputs, handleInputsChange, setInputs, appealId} = useContext(FormContext)
    const router = useRouter()
-   const searchParams = useSearchParams()
-   const appealId = searchParams.get("appealId")
 
-   useEffect(() => {
-      console.log(appealId)
-      setAppealId(appealId)
-   }, [])
 
    return (
       <div className="w-full flex items-center justify-center py-8">
@@ -34,7 +28,7 @@ const PatientDetailsPage = () => {
                <DefaultInput label="Date of Birth" value={inputs.dob} placeholder="Enter Date of Birth" name="dob" handleInputsChange={handleInputsChange}/>
             </div>
 
-            <NavigationButtons backHref="/appeal/form-upload" nextHref="/appeal/letter-details"/>
+            <NavigationButtons backHref={`/appeal/${appealId}/form-upload`} nextHref={`/appeal/${appealId}/letter-details`}/>
          </div>
       </div>
    )

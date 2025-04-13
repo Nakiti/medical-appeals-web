@@ -8,7 +8,7 @@ import { FormContext } from "@/app/context/formContext";
 const FormUploadPage = () => {
    const router = useRouter()
    const fileInputRef = useRef(null);
-   const {documents, setDocuments, inputs} = useContext(FormContext)
+   const {documents, setDocuments, inputs, appealId} = useContext(FormContext)
    console.log(inputs)
 
    const handleFileUpload = async (event) => {
@@ -27,7 +27,7 @@ const FormUploadPage = () => {
    
 
    const handleClick = async() => {
-      router.push("/appeal/patient-details")
+      router.push(`/appeal/${appealId}/patient-details`)
    }
 
    return (

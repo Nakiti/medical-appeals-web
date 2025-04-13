@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
-import DefaultInput from "../components/defaultInput";
+import { useState, useContext } from "react";
+import DefaultInput from "../../components/defaultInput";
 import { useRouter } from "next/navigation";
 import useFormInput from "@/app/hooks/useFormInput";
 import { login } from "@/app/services/authServices";
+import { FormContext } from "@/app/context/formContext";
 
 const LoginAccountPage = () => {
    const router = useRouter();
@@ -11,7 +12,7 @@ const LoginAccountPage = () => {
       email: "",
       password: ""
    });
-
+   const {appealId} = useContext(FormContext)
    const [errors, setErrors] = useState({});
    const [serverError, setServerError] = useState("");
 
@@ -39,7 +40,7 @@ const LoginAccountPage = () => {
       try {
 
          await login({ email: inputs.email, password: inputs.password });
-         router.push("/appeal/form-upload");
+         router.push(`/appeal/${appealId}/form-upload`);
       } catch (err) {
          setServerError(err.message || "An error occurred while registering.");
       }
@@ -49,8 +50,8 @@ const LoginAccountPage = () => {
       <div className="w-full flex items-center justify-center py-6">
          <div className="w-1/3 mx-auto">
             <div className="mb-4">
-               <p className="text-xl text-left">First, Let's Create an Account</p>
-               <p className="text-3xl font-semibold text-left">Register:</p>
+               <p className="text-xl text-left">First, Let's Sign In</p>
+               <p className="text-3xl font-semibold text-left">Login:</p>
             </div>
 
             <div className="grid gap-4">

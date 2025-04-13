@@ -80,7 +80,7 @@ const Home = () => {
                   </h1>
                </div>
                <button
-                  onClick={() => router.push("/appeal/claim-number")}
+                  onClick={() => router.push("/appeal/new/claim-number")}
                   className="w-full md:w-auto mt-4 md:mt-0 h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 rounded-md transition"
                >
                   <span className="inline-flex items-center gap-2">

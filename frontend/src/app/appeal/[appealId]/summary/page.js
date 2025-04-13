@@ -83,7 +83,7 @@ const Summary = () => {
             <div className="w-full flex flex-row justify-between mt-6 space-x-4">
                <Link
                   className="w-1/2 text-center rounded-full py-3 bg-gray-600 text-white font-bold text-lg hover:bg-gray-700 transition duration-200"
-                  href="/appeal/additional-details"
+                  href={`/appeal/${appealId}/additional-details`}
                >
                   Previous
                </Link>

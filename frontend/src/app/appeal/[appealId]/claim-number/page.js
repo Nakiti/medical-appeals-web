@@ -6,7 +6,7 @@ import { checkClaimNumber } from "@/app/services/fetchServices";
 import { AuthContext } from "@/app/context/authContext";
 
 const ClaimNumber = () => {
-   const { inputs, handleInputsChange } = useContext(FormContext);
+   const { inputs, handleInputsChange, appealId } = useContext(FormContext);
    const router = useRouter();
    const { currentUser } = useContext(AuthContext);
 
@@ -29,7 +29,7 @@ const ClaimNumber = () => {
          
          // If claim doesn't exist, proceed to create appeal
          if (!claimExists) {
-            router.push(currentUser ? "/appeal/form-upload" : "/appeal/create-account");
+            router.push(currentUser ? `/appeal/${appealId}/form-upload` : `/appeal/${appealId}/create-account`);
          }
       } catch (err) {
          console.error("Error checking claim number:", err);

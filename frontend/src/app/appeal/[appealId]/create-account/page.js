@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
-import DefaultInput from "../components/defaultInput";
+import { useState, useContext } from "react";
+import DefaultInput from "../../components/defaultInput";
 import { useRouter } from "next/navigation";
 import useFormInput from "@/app/hooks/useFormInput";
 import { register, login } from "@/app/services/authServices";
 import Link from "next/link";
+import { FormContext } from "@/app/context/formContext";
 
 const CreateAccountPage = () => {
    const router = useRouter();
@@ -14,6 +15,7 @@ const CreateAccountPage = () => {
       email: "",
       password: ""
    });
+   const {appealId} = useContext(FormContext)
 
    const [errors, setErrors] = useState({});
    const [serverError, setServerError] = useState("");
@@ -49,7 +51,7 @@ const CreateAccountPage = () => {
          }
 
          await login({ email: inputs.email, password: inputs.password });
-         router.push("/appeal/form-upload"); // Navigate only if successful
+         router.push(`/appeal/${appealId}/form-upload`); // Navigate only if successful
       } catch (err) {
          setServerError(err.message || "An error occurred while registering.");
       }
@@ -93,7 +95,7 @@ const CreateAccountPage = () => {
             <div className="mt-4 text-center">
                <p className="text-sm text-slate-400">
                   Already have an account?{" "}
-                  <Link href="/appeal/login-account" className="text-blue-500 hover:underline">
+                  <Link href={`/appeal/${appealId}/login-account`} className="text-blue-500 hover:underline">
                      Log in
                   </Link>
                </p>

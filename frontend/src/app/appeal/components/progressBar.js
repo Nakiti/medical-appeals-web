@@ -1,20 +1,23 @@
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import SaveButton from "./saveButton";
+import { useContext } from "react";
+import { AuthContext } from "@/app/context/authContext";
 
-const ProgressBar = () => {
+const ProgressBar = ({appealId}) => {
    const pathname = usePathname();
-   const keyword = pathname.split("/")[2];
+   const keyword = pathname.split("/")[3];
+   const {currentUser} = useContext(AuthContext)
 
    const paths = [
-      `/appeal/claim-number`,
-      `/appeal/create-account`,
-      `/appeal/form-upload`,
-      `/appeal/patient-details`,
-      `/appeal/letter-details`,
-      `/appeal/procedure-details`,
-      `/appeal/additional-details`,
-      `/appeal/summary`,
+      `/appeal/${appealId}/claim-number`,
+      `/appeal/${appealId}/create-account`,
+      `/appeal/${appealId}/form-upload`,
+      `/appeal/${appealId}/patient-details`,
+      `/appeal/${appealId}/letter-details`,
+      `/appeal/${appealId}/procedure-details`,
+      `/appeal/${appealId}/additional-details`,
+      `/appeal/${appealId}/summary`,
    ];
 
    const currentIndex = paths.findIndex(path => path.includes(keyword));
@@ -32,7 +35,7 @@ const ProgressBar = () => {
             </div>
          </div>
 
-         <SaveButton />
+         {currentUser && <SaveButton />}
 
       </div>
 

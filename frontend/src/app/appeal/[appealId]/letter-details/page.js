@@ -1,12 +1,12 @@
 "use client"
-import DefaultInput from "../components/defaultInput"
 import { useContext } from "react"
 import { FormContext } from "@/app/context/formContext"
 import Link from "next/link"
-import NavigationButtons from "../components/nextButton"
+import NavigationButtons from "../../components/nextButton"
+import DefaultInput from "../../components/defaultInput"
 
 const LetterDetailsPage = () => {
-   const {inputs, handleInputsChange} = useContext(FormContext)
+   const {inputs, handleInputsChange, appealId} = useContext(FormContext)
 
    return (
       <div className="w-full flex items-center justify-center py-8">
@@ -27,7 +27,7 @@ const LetterDetailsPage = () => {
                <DefaultInput label="Physican Email" value={inputs.physicianEmail} placeholder="Enter Physician Email" name="physicianEmail" handleInputsChange={handleInputsChange} />
             </div>
 
-            <NavigationButtons backHref="/appeal/patient-details" nextHref="/appeal/procedure-details"/>
+            <NavigationButtons backHref={`/appeal/${appealId}/patient-details`} nextHref={`/appeal/${appealId}/procedure-details`}/>
          </div>
       </div>
    )

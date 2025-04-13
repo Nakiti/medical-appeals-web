@@ -12,7 +12,7 @@ const SaveButton = () => {
    const router = useRouter()
 
    const handleSave = async() => {
-      if (appealId) {
+      if (appealId != "new") {
          console.log(appealId, inputs)
          await updateAppeal(
             appealId,
