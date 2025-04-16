@@ -20,7 +20,7 @@ import Modal from "./components/modal";
 
 const Home = () => {
    const router = useRouter();
-   const { currentUser } = useContext(AuthContext);
+   const { currentUser, loading } = useContext(AuthContext);
 
    const [user, setUser] = useState(null);
    const [drafts, setDrafts] = useState(null);
@@ -45,26 +45,28 @@ const Home = () => {
    ];
 
    useEffect(() => {
-      const fetchData = async () => {
-         try {
-            const [draftsData, appealsData, userData, updatesData] = await Promise.all([
-               getDrafts(currentUser),
-               getSubmittedAppeals(currentUser),
-               getUser(currentUser),
-               getNotificationByUserId(currentUser)
-            ]);
-
-            setDrafts(draftsData);
-            setAppeals(appealsData);
-            setUser(userData);
-            setUpdates(updatesData);
-         } catch (err) {
-            console.error("Error fetching data:", err);
-         }
-      };
-
-      fetchData();
-   }, [currentUser]);
+      if (!loading && currentUser) {
+         const fetchData = async () => {
+            try {
+               const [draftsData, appealsData, userData, updatesData] = await Promise.all([
+                  getDrafts(currentUser),
+                  getSubmittedAppeals(currentUser),
+                  getUser(currentUser),
+                  getNotificationByUserId(currentUser)
+               ]);
+   
+               setDrafts(draftsData);
+               setAppeals(appealsData);
+               setUser(userData);
+               setUpdates(updatesData);
+            } catch (err) {
+               console.error("Error fetching data:", err);
+            }
+         };
+   
+         fetchData();
+      }
+   }, [loading, currentUser]);
 
    return (
       <div className="p-4 md:p-8 space-y-6">

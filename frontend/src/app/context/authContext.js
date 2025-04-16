@@ -8,20 +8,22 @@ export const AuthContext = createContext()
 
 export const AuthContextProvider = ({children}) => {
    const [currentUser, setCurrentUser] = useState(null);
+   const [loading, setLoading] = useState(true)
  
    useEffect(() => {
       // always checks that user is logged in
       const fetchData = async () => {
          const response = await getCurrentUser()
-         console.log(response?.id)
+         console.log("from auth context ", response?.id)
          setCurrentUser(response?.id)
+         setLoading(false)
       }
       
       fetchData()
    }, []);
 
    return (
-      <AuthContext.Provider value={{currentUser}}>
+      <AuthContext.Provider value={{currentUser, loading}}>
          {children}
       </AuthContext.Provider>
    );
