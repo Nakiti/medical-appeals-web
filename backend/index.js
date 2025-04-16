@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
    res.send("its running!")
 })
 
-const port = 4000
+const port = 8080
 
 app.listen(port, (req, res) => {
    console.log("runninnnnnnnnnnnn")
