@@ -12,7 +12,7 @@ const upload = multer({
 
 const accountName  = "appeals"
 const containerName = "appeals"
-const token = "sp=racwdli&st=2025-04-01T02:39:05Z&se=2025-04-01T10:39:05Z&spr=https&sv=2024-11-04&sr=c&sig=m01QrxFGKsCPZsTUbGoywitTiOaWq3cMAt34QjDiI30%3D"
+const token = "sp=racwdli&st=2025-04-14T22:38:40Z&se=2025-04-24T06:38:40Z&spr=https&sv=2024-11-04&sr=c&sig=Qt7FAIfIblBihD9X%2FSx1%2B88Y49aT80AgQk7KuOpu4Iw%3D"
 const accountKey = "+fHXAcxCf6awMQQnLdlDzPWTFusSCqet/DpjeTgfd24XtCVbSwxghUCMc0G2TRWvp4CrbJSzSG55+ASteAZbjw=="
 
 const blobServiceClient = new BlobServiceClient(
@@ -64,7 +64,7 @@ export const createBatchFiles = (req, res) => {
       try {
          const containerClient = blobServiceClient.getContainerClient(containerName);
          const filesData = [];
-
+ 
          console.log("THESE THE FILES", req.files)
 
          for (const file of req.files) {
@@ -89,6 +89,7 @@ export const createBatchFiles = (req, res) => {
 
          const query = "INSERT INTO files (`appeal_id`, `file_name`, `file_type`, `blob_url`, `blob_name`, `uploaded_at`) VALUES ?";
          db.query(query, [filesData], (err, data) => {
+
             if (err) return res.json(err);
             return res.status(200).json(data);
          });

@@ -4,6 +4,7 @@ import { FaCamera, FaUpload, FaPencilAlt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useRef, useContext } from "react";
 import { FormContext } from "@/app/context/formContext";
+import DocumentDisplay from "../../components/documentDisplay";
 
 const FormUploadPage = () => {
    const router = useRouter()
@@ -28,6 +29,10 @@ const FormUploadPage = () => {
 
    const handleClick = async() => {
       router.push(`/appeal/${appealId}/patient-details`)
+   }
+
+   const handleRemove = (id) => {
+      setDocuments(documents.filter(item => item.id != id))
    }
 
    return (
@@ -72,6 +77,13 @@ const FormUploadPage = () => {
                   <FaUpload className="text-xl" />
                   <span className="ml-3 text-sm">Upload Files</span>
                </button>
+               {
+                  documents && documents.map((item, index) => {
+                     return (
+                        <DocumentDisplay item={item} key={index}/>
+                     );
+                  })
+                  }
 
                {/* <Link
                   className="flex items-center justify-center w-full mx-auto rounded-full p-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold"

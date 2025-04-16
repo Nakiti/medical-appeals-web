@@ -12,7 +12,7 @@ const LoginAccountPage = () => {
       email: "",
       password: ""
    });
-   const {appealId} = useContext(FormContext)
+   const {appealId, setIsLoggedIn} = useContext(FormContext)
    const [errors, setErrors] = useState({});
    const [serverError, setServerError] = useState("");
 
@@ -40,6 +40,7 @@ const LoginAccountPage = () => {
       try {
 
          await login({ email: inputs.email, password: inputs.password });
+         setIsLoggedIn(true)
          router.push(`/appeal/${appealId}/form-upload`);
       } catch (err) {
          setServerError(err.message || "An error occurred while registering.");

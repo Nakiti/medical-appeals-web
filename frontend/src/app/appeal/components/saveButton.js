@@ -12,8 +12,14 @@ const SaveButton = () => {
    const router = useRouter()
 
    const handleSave = async() => {
+      if (inputs.claimNumber == "") {
+         console.log("empty")
+         return;
+      }
+      console.log(appealId, inputs)
+
+
       if (appealId != "new") {
-         console.log(appealId, inputs)
          await updateAppeal(
             appealId,
             inputs,

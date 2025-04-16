@@ -3,9 +3,10 @@ import { updateAppeal } from "@/app/services/updateServices";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/app/context/authContext";
-import { createAppeal } from "@/app/services/createServices";
+import { createAppeal, createBatchFiles } from "@/app/services/createServices";
 import { FormContext } from "@/app/context/formContext";
 import Link from "next/link";
+import DocumentDisplay from "../../components/documentDisplay";
 
 const Summary = () => {
    const router = useRouter();
@@ -18,7 +19,6 @@ const Summary = () => {
       { title: "Medical Information", fields: ["diagnosis", "treatment", "medications"] },
       { title: "Appeal Details", fields: ["claimNumber", "reason", "insurance", "denialReason"] },
       { title: "Additional Details", fields: ["additionalDetails"] },
-      { title: "Supporting Documents", fields: ["document1", "document2", "document3"] },
    ];
 
    const handleSubmit = async () => {
@@ -46,10 +46,14 @@ const Summary = () => {
             status: "Submitted",
          };
 
-         if (appealId) {
+         console.log(appealId)
+
+         if (appealId != "new") {
             await updateAppeal(appealId, appealData, documents);
+            await createBatchFiles(appealId, documents)
          } else {
             await createAppeal(appealData, documents);
+            await createBatchFiles(appealId, documents)
          }
 
          router.push("/user/dashboard/home");
@@ -79,6 +83,10 @@ const Summary = () => {
                   </ul>
                </div>
             ))}
+
+            {documents && documents.map((item, index) => {
+               return <DocumentDisplay item={item} key={index}/>
+            })}
 
             <div className="w-full flex flex-row justify-between mt-6 space-x-4">
                <Link

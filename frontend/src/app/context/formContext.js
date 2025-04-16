@@ -29,13 +29,14 @@ export const FormContextProvider = ({appealId, children}) => {
    })
    const [documents, setDocuments] = useState([])
    const [images, setImages] = useState([])
+   const [isLoggedIn, setIsLoggedIn] = useState(false) 
 
    useEffect(() => {
       console.log("appealId", appealId)
 
       const fetchData = async() => {
          if (appealId != "new") {
-            console.log("yo")
+            console.log(appealId)
             const response = await getAppeal(appealId)
             console.log(response)
             setInputs({
@@ -69,7 +70,7 @@ export const FormContextProvider = ({appealId, children}) => {
    }, [])
 
    return (
-      <FormContext.Provider value={{inputs, handleInputsChange, setInputs, documents, setDocuments, appealId, images, setImages}}>
+      <FormContext.Provider value={{inputs, handleInputsChange, setInputs, documents, setDocuments, appealId, images, setImages, isLoggedIn, setIsLoggedIn}}>
          {children}
       </FormContext.Provider>
    )

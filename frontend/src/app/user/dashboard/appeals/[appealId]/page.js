@@ -21,6 +21,7 @@ const AppealScreen = ({ params }) => {
 
             const filesResponse = await getFilesByAppeal(appealId)
             setFiles(filesResponse)
+            console.log(filesResponse)
          } catch (err) {
             console.log(err);
          }
@@ -70,11 +71,33 @@ const AppealScreen = ({ params }) => {
                <div>
                   <h2 className="text-lg font-semibold text-gray-700 mt-4">Relevant Files</h2>
                   {files && files.map((item, index) => (
-                     <div key={index} className="flex items-center p-4 bg-gray-100 rounded-md shadow-inner mt-4">
-                        <div className="w-12 h-12 bg-gray-300 rounded-sm mr-6" />
-                        <p className="text-gray-700">Appeal File (temp)</p>
+                     <div
+                        key={index}
+                        className="flex items-center justify-between p-2 bg-white border border-gray-200 rounded-lg shadow-sm mt-4"
+                     >
+                        {/* Icon + Info */}
+                        <div className="flex items-center gap-4">
+                           <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center text-gray-500 text-xl">
+                           📄
+                           </div>
+                           <div>
+                           <p className="font-medium text-gray-800">{item.file_name}</p>
+                           <p className="text-sm text-gray-500">{item.file_type || "Unknown type"}</p>
+                           </div>
+                        </div>
+
+                        {/* Action */}
+                        <a
+                           href={item.blob_url}
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           className="text-sm text-blue-600 hover:underline font-medium mr-8"
+                        >
+                           View
+                        </a>
                      </div>
                   ))}
+
                </div>
             </div>
          )}
