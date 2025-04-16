@@ -12,7 +12,7 @@ import fileRoutes from "./routes/fileRoutes.js"
 const app = express()
 
 const corsOptions = {
-   origin: true,
+   origin: ["https://icy-hill-05965451e.4.azurestaticapps.net", "http://localhost:3000"],
    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
    allowedHeaders: ['Content-Type', 'Authorization'],
    credentials: true, 
