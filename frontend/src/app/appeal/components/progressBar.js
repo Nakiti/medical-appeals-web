@@ -34,7 +34,7 @@ const ProgressBar = ({appealId, currentUser}) => {
    }
 
    return (
-      <div className="flex flex-row items-center gap-4 p-4 w-7/12 mt-4 self-center mx-auto">
+      <div className="flex flex-row items-center gap-4 p-4 sm:w-11/12 md:w-7/12 mt-4 self-center mx-auto">
          <button
             className="p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-600 hover:text-black"
             onClick={handleBack} // add your own handler here

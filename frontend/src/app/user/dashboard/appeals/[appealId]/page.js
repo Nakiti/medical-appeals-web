@@ -21,7 +21,7 @@ const AppealScreen = ({ params }) => {
 
             const filesResponse = await getFilesByAppeal(appealId)
             setFiles(filesResponse)
-            console.log(filesResponse)
+            console.log("files from appeal ", filesResponse)
          } catch (err) {
             console.log(err);
          }

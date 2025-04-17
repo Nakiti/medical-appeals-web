@@ -87,10 +87,6 @@ const Drafts = () => {
                </div>
             </div>
 
-            {/* Description */}
-            <p className="text-gray-600 mb-6 leading-relaxed">
-               As we are evaluating your qualifications, we may contact you to provide additional information. In this case, you will receive a notification with instructions. Thank you for your interest in joining our team!
-            </p>
 
             {/* Searchbar */}
             <div className="mb-6">

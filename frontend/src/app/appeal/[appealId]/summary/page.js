@@ -46,14 +46,12 @@ const Summary = () => {
             status: "Submitted",
          };
 
-         console.log(appealId)
-
-         if (appealId != "new") {
+         if (appealId !== "new") {
             await updateAppeal(appealId, appealData, documents);
-            await createBatchFiles(appealId, documents.map(item => item.file))
+            await createBatchFiles(appealId, documents.map(item => item.file));
          } else {
-            await createAppeal(appealData, documents);
-            await createBatchFiles(appealId, documents.map(item => item.file))
+            const newAppealId = await createAppeal(appealData, documents);
+            await createBatchFiles(newAppealId, documents.map(item => item.file));
          }
 
          router.push("/user/dashboard/home");
@@ -64,18 +62,18 @@ const Summary = () => {
    };
 
    return (
-      <div className="w-full flex items-center justify-center py-8">
-         <div className="w-2/3 mx-auto px-6">
-            <h2 className="text-3xl font-semibold text-center mb-6">Summary</h2>
+      <div className="w-full flex items-center justify-center px-4 py-8">
+         <div className="w-full sm:w-4/5 md:w-2/3 lg:w-1/2">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-6">Summary</h2>
 
             {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
 
             {sections.map(({ title, fields }) => (
                <div key={title} className="mb-6">
-                  <h3 className="text-xl font-semibold border-b pb-2 mb-4">{title}</h3>
+                  <h3 className="text-lg sm:text-xl font-semibold border-b pb-2 mb-4">{title}</h3>
                   <ul className="space-y-2">
                      {fields.map((field) => (
-                        <li key={field} className="flex justify-between border-b pb-2">
+                        <li key={field} className="flex justify-between border-b pb-2 text-sm sm:text-base">
                            <span className="font-medium">{field.replace(/([A-Z])/g, ' $1').trim()}:</span>
                            <span>{inputs[field] || "N/A"}</span>
                         </li>
@@ -84,13 +82,13 @@ const Summary = () => {
                </div>
             ))}
 
-            {documents && documents.map((item, index) => {
-               return <DocumentDisplay item={item} key={index}/>
-            })}
+            {documents && documents.map((item, index) => (
+               <DocumentDisplay item={item} key={index} />
+            ))}
 
-            <div className="w-full flex flex-row justify-between mt-6 space-x-4">
+            <div className="w-full flex flex-col sm:flex-row justify-between gap-4 mt-6">
                <Link
-                  className="w-1/2 text-center rounded-full py-3 bg-gray-600 text-white font-bold text-lg hover:bg-gray-700 transition duration-200"
+                  className="w-full sm:w-1/2 text-center rounded-full py-3 bg-gray-600 text-white font-bold text-base sm:text-lg hover:bg-gray-700 transition duration-200"
                   href={`/appeal/${appealId}/additional-details`}
                >
                   Previous
@@ -98,7 +96,7 @@ const Summary = () => {
 
                <button
                   onClick={handleSubmit}
-                  className="w-1/2 rounded-full py-3 bg-blue-800 text-white font-bold text-lg hover:bg-blue-900 transition duration-200"
+                  className="w-full sm:w-1/2 rounded-full py-3 bg-blue-800 text-white font-bold text-base sm:text-lg hover:bg-blue-900 transition duration-200"
                >
                   Submit Appeal
                </button>

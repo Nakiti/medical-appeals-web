@@ -7,62 +7,57 @@ import { FormContext } from "@/app/context/formContext";
 import DocumentDisplay from "../../components/documentDisplay";
 
 const FormUploadPage = () => {
-   const router = useRouter()
+   const router = useRouter();
    const fileInputRef = useRef(null);
-   const {documents, setDocuments, inputs, appealId} = useContext(FormContext)
-   console.log(inputs)
+   const { documents, setDocuments, inputs, appealId } = useContext(FormContext);
 
    const handleFileUpload = async (event) => {
       const file = event.target.files[0];
-      console.log(file)
-      setDocuments(prev => [...prev, {id: Date.now(), file: file}]);
       if (file) {
-         // You can add any additional logic here if needed
+         setDocuments(prev => [...prev, { id: Date.now(), file }]);
       }
-      console.log("document upload ",documents)
    };
 
    const handleUploadClick = () => {
       fileInputRef.current.click();
    };
-   
 
-   const handleClick = async() => {
-      router.push(`/appeal/${appealId}/patient-details`)
-   }
+   const handleClick = async () => {
+      router.push(`/appeal/${appealId}/patient-details`);
+   };
 
    const handleRemove = (id) => {
-      setDocuments(documents.filter(item => item.id != id))
-   }
+      setDocuments(documents.filter(item => item.id !== id));
+   };
 
    return (
-      <div className="w-full flex items-center justify-center py-8">
-         <div className="w-1/3 mx-auto">
+      <div className="w-full flex items-center justify-center px-4 py-8">
+         <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3">
             <div className="mb-4">
-               <p className="text-xl text-left">Onto the Next Step!</p>
-               <p className="text-3xl font-semibold text-left">
+               <p className="text-lg sm:text-xl text-left">Onto the Next Step!</p>
+               <p className="text-2xl sm:text-3xl font-semibold text-left">
                   Upload any forms/letters relevant to the appeal
                </p>
             </div>
-            <div className="space-y-2">
 
-
+            <div className="space-y-4">
                {/* Upload Button */}
                <Link
-                  className="bg-white border border-blue-500 w-full mx-auto rounded-lg h-36 p-6 sm:p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-300"
+                  className="bg-white border border-blue-500 w-full rounded-lg h-32 sm:h-36 p-4 sm:p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-300"
                   href={`/user/appeal/edit/capture/camera`}
                >
-                  <FaCamera className="text-4xl text-gray-500" />
-                  <p className="text-gray-500 font-semibold mt-4">Take a Picture</p>
+                  <FaCamera className="text-3xl sm:text-4xl text-gray-500" />
+                  <p className="text-gray-500 font-semibold mt-3 sm:mt-4 text-sm sm:text-base">Take a Picture</p>
                </Link>
 
+               {/* Divider */}
                <div className="flex items-center justify-center w-full">
                   <div className="flex-grow h-px bg-gray-300"></div>
-                  <span className="px-3 text-gray-500 font-semibold">or</span>
+                  <span className="px-3 text-gray-500 font-semibold text-sm">or</span>
                   <div className="flex-grow h-px bg-gray-300"></div>
                </div>
 
-               {/* File Upload Input */}
+               {/* File Upload */}
                <input
                   type="file"
                   ref={fileInputRef}
@@ -71,33 +66,26 @@ const FormUploadPage = () => {
                />
 
                <button
-                  className="flex items-center justify-center w-full mx-auto rounded-full p-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold "
+                  className="flex items-center justify-center w-full rounded-full p-3 sm:p-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold text-sm sm:text-base"
                   onClick={handleUploadClick}
                >
-                  <FaUpload className="text-xl" />
-                  <span className="ml-3 text-sm">Upload Files</span>
+                  <FaUpload className="text-lg sm:text-xl" />
+                  <span className="ml-3">Upload Files</span>
                </button>
-               {
-                  documents && documents.map((item, index) => {
-                     return (
-                        <DocumentDisplay item={item} key={index}/>
-                     );
-                  })
-                  }
 
-               {/* <Link
-                  className="flex items-center justify-center w-full mx-auto rounded-full p-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold"
-                  href={`/user/appeal/edit//form/patient-details`}
-               >
-                  <FaPencilAlt className="text-xl" />
-                  <span className="ml-3 text-sm">Enter Details Manually</span>
-               </Link> */}
-               </div>
+               {/* Uploaded Files */}
+               {documents && documents.map((item, index) => (
+                  <DocumentDisplay item={item} key={index} />
+               ))}
+            </div>
 
-               {/* Next Button */}
-               <button onClick={handleClick} className="w-full mt-8 rounded-full py-4 bg-blue-800 text-white font-bold text-lg hover:bg-blue-900 transition duration-200">
-                  Next
-               </button>
+            {/* Next Button */}
+            <button
+               onClick={handleClick}
+               className="w-full mt-8 rounded-full py-3 sm:py-4 bg-blue-800 text-white font-bold text-base sm:text-lg hover:bg-blue-900 transition duration-200"
+            >
+               Next
+            </button>
          </div>
       </div>
    );

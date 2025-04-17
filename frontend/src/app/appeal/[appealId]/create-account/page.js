@@ -15,7 +15,7 @@ const CreateAccountPage = () => {
       email: "",
       password: ""
    });
-   const {appealId} = useContext(FormContext)
+   const { appealId } = useContext(FormContext);
 
    const [errors, setErrors] = useState({});
    const [serverError, setServerError] = useState("");
@@ -39,30 +39,30 @@ const CreateAccountPage = () => {
    };
 
    const handleRegister = async () => {
-      setServerError(""); // Reset previous errors
+      setServerError("");
 
-      if (!validateInputs()) return; // Stop if validation fails
+      if (!validateInputs()) return;
 
       try {
          const response = await register(inputs);
          if (response.error) {
-            setServerError(response.message)
-            return
+            setServerError(response.message);
+            return;
          }
 
          await login({ email: inputs.email, password: inputs.password });
-         router.push(`/appeal/${appealId}/form-upload`); // Navigate only if successful
+         router.push(`/appeal/${appealId}/form-upload`);
       } catch (err) {
          setServerError(err.message || "An error occurred while registering.");
       }
    };
 
    return (
-      <div className="w-full flex items-center justify-center py-6">
-         <div className="w-1/3 mx-auto">
+      <div className="w-full flex items-center justify-center px-4 py-8">
+         <div className="w-full sm:w-4/5 md:w-2/3 lg:w-1/3">
             <div className="mb-4">
-               <p className="text-xl text-left">First, Let's Create an Account</p>
-               <p className="text-3xl font-semibold text-left">Register:</p>
+               <p className="text-lg sm:text-xl text-left">First, Let's Create an Account</p>
+               <p className="text-2xl sm:text-3xl font-semibold text-left">Register:</p>
             </div>
 
             <div className="grid gap-4">
@@ -87,11 +87,12 @@ const CreateAccountPage = () => {
             )}
 
             <button
-               className="w-full mx-auto mt-8 rounded-full py-4 bg-blue-800 text-white font-bold text-lg hover:bg-blue-900 transition duration-200"
+               className="w-full mt-8 rounded-full py-3 sm:py-4 bg-blue-800 text-white font-bold text-base sm:text-lg hover:bg-blue-900 transition duration-200"
                onClick={handleRegister}
             >
                Create
             </button>
+
             <div className="mt-4 text-center">
                <p className="text-sm text-slate-400">
                   Already have an account?{" "}
