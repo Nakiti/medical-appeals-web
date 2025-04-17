@@ -16,7 +16,7 @@ const SaveButton = () => {
          console.log("empty")
          return;
       }
-      console.log(appealId, inputs)
+      console.log("appealId", appealId,"\n inputs: ", inputs)
 
 
       if (appealId != "new") {
@@ -28,6 +28,8 @@ const SaveButton = () => {
          await createBatchFiles(appealId, documents.map(item => item.file))
          
       } else {
+         console.log("here")
+         console.log(currentUser)
          const appealId = await createAppeal({
             userId: currentUser,
             ...inputs,

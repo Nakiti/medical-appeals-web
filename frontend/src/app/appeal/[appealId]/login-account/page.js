@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import useFormInput from "@/app/hooks/useFormInput";
 import { login } from "@/app/services/authServices";
 import { FormContext } from "@/app/context/formContext";
+import { AuthContext } from "@/app/context/authContext";
 
 const LoginAccountPage = () => {
    const router = useRouter();
@@ -13,6 +14,7 @@ const LoginAccountPage = () => {
       password: ""
    });
    const { appealId, setIsLoggedIn } = useContext(FormContext);
+   const {setCurrentUser} = useContext(AuthContext)
    const [errors, setErrors] = useState({});
    const [serverError, setServerError] = useState("");
 
@@ -38,8 +40,9 @@ const LoginAccountPage = () => {
       if (!validateInputs()) return;
 
       try {
-         await login({ email: inputs.email, password: inputs.password });
+         const loginResponse = await login({ email: inputs.email, password: inputs.password });
          setIsLoggedIn(true);
+         setCurrentUser(loginResponse.id)
          router.push(`/appeal/${appealId}/form-upload`);
       } catch (err) {
          setServerError(err.message || "An error occurred while logging in.");

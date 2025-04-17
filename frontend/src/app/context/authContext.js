@@ -20,10 +20,10 @@ export const AuthContextProvider = ({children}) => {
       }
       
       fetchData()
-   }, []);
+   }, [currentUser]);
 
    return (
-      <AuthContext.Provider value={{currentUser, loading}}>
+      <AuthContext.Provider value={{currentUser, loading, setCurrentUser}}>
          {children}
       </AuthContext.Provider>
    );

@@ -1,11 +1,12 @@
 "use client";
-import { useState, useContext } from "react";
+import { useState, useContext, use } from "react";
 import DefaultInput from "../../components/defaultInput";
 import { useRouter } from "next/navigation";
 import useFormInput from "@/app/hooks/useFormInput";
 import { register, login } from "@/app/services/authServices";
 import Link from "next/link";
 import { FormContext } from "@/app/context/formContext";
+import { AuthContext } from "@/app/context/authContext";
 
 const CreateAccountPage = () => {
    const router = useRouter();
@@ -15,7 +16,8 @@ const CreateAccountPage = () => {
       email: "",
       password: ""
    });
-   const { appealId } = useContext(FormContext);
+   const { appealId, setIsLoggedIn } = useContext(FormContext);
+   const {setCurrentUser} = useContext(AuthContext)
 
    const [errors, setErrors] = useState({});
    const [serverError, setServerError] = useState("");
@@ -50,7 +52,11 @@ const CreateAccountPage = () => {
             return;
          }
 
-         await login({ email: inputs.email, password: inputs.password });
+         const loginResponse = await login({ email: inputs.email, password: inputs.password });
+         console.log(loginResponse)
+         setCurrentUser(loginResponse.id)
+         setIsLoggedIn(true)
+
          router.push(`/appeal/${appealId}/form-upload`);
       } catch (err) {
          setServerError(err.message || "An error occurred while registering.");
