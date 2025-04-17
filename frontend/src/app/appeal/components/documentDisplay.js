@@ -21,7 +21,7 @@ const DocumentDisplay = ({item}) => {
             <button 
                className="text-blue-500 hover:underline text-sm" 
                onClick={() => {
-                  const url = URL.createObjectURL(item.file || item.blob_url);
+                  const url = item.file ? URL.createObjectURL(item.file) : item.blob_url
                   window.open(url, "_blank");
                }}
             >View</button>

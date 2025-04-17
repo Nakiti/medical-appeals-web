@@ -28,7 +28,12 @@ export const createFile = (req, res) => {
          const blobName = `${req.body.appealId}/${req.file.originalname}`
          const blockBlobClient = containerClient.getBlockBlobClient(blobName)
 
-         const uploadBlobResponse = await blockBlobClient.upload(req.file.buffer, req.file.buffer.length)
+         const uploadBlobResponse = await blockBlobClient.upload(file.buffer, file.buffer.length, {
+            blobHTTPHeaders: {
+               blobContentType: file.mimetype, // this tells Azure how to render it
+               blobContentDisposition: 'inline' // this forces in-browser viewing
+            }
+         });
          console.log(`Blob was uploaded successfully. Request ID: ${uploadBlobResponse.requestId}`);
 
          const blobUrl = `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}`
@@ -72,7 +77,12 @@ export const createBatchFiles = (req, res) => {
             const blobName = `${req.body.appealId}/${file.originalname}`;
             const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-            await blockBlobClient.upload(file.buffer, file.buffer.length);
+            await blockBlobClient.upload(file.buffer, file.buffer.length, {
+               blobHTTPHeaders: {
+                  blobContentType: file.mimetype, // this tells Azure how to render it
+                  blobContentDisposition: 'inline' // this forces in-browser viewing
+               }
+            });
             console.log(`Blob uploaded successfully: ${blobName}`);
 
             const blobUrl = `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}`;

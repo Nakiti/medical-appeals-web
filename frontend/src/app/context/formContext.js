@@ -61,7 +61,7 @@ export const FormContextProvider = ({appealId, children}) => {
             })
 
             const documentsResponse = await getFilesByAppeal(appealId)
-            console.log(documentsResponse)
+            console.log("docus ", documentsResponse)
             setDocuments(documentsResponse || [])
          }
       }

@@ -32,6 +32,7 @@ const SaveButton = () => {
             userId: currentUser,
             ...inputs,
             submitted: 0,
+            staus: ""
          }, documents)
          await createBatchFiles(appealId, documents.map(item => item.file))
       }

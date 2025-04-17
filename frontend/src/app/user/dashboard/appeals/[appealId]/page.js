@@ -88,7 +88,7 @@ const AppealScreen = ({ params }) => {
 
                         {/* Action */}
                         <a
-                           href={item.blob_url}
+                           href={`${item.blob_url}${item.blob_url.includes('?') ? '&' : '?'}response-content-disposition=inline&response-content-type=application/pdf`}
                            target="_blank"
                            rel="noopener noreferrer"
                            className="text-sm text-blue-600 hover:underline font-medium mr-8"

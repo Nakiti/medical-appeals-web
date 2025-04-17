@@ -1,7 +1,7 @@
 import { db } from "../db.js";
 
 export const createAppeal = (req, res) => {
-   const query = "INSERT INTO appeals (`user_id`, `first_name`, `last_name`, `claim_number`, `ssn`, `dob`, `insurance_provider`, `insurance_address`, `physician_name`, `physician_address`, `physician_phone`, `physician_email`, `policy_number`, `procedure_name`, `denial_reason`, `additional_details`, `supporting_documents`, `date_filed`, `submitted`, `created_at`, `updated_at`) VALUES (?)"
+   const query = "INSERT INTO appeals (`user_id`, `first_name`, `last_name`, `claim_number`, `ssn`, `dob`, `insurance_provider`, `insurance_address`, `physician_name`, `physician_address`, `physician_phone`, `physician_email`, `policy_number`, `procedure_name`, `denial_reason`, `additional_details`, `supporting_documents`, `date_filed`, `submitted`, `status`, `created_at`, `updated_at`) VALUES (?)"
 
    const values = [
       req.body.userId,
@@ -23,6 +23,7 @@ export const createAppeal = (req, res) => {
       req.body.supportingDocuments,
       req.body.dateFiled,
       req.body.submitted,
+      req.body.status,
       (new Date()).toISOString().slice(0, 19).replace('T', ' '),
       (new Date()).toISOString().slice(0, 19).replace('T', ' ')
    ]

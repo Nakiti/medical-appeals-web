@@ -50,10 +50,10 @@ const Summary = () => {
 
          if (appealId != "new") {
             await updateAppeal(appealId, appealData, documents);
-            await createBatchFiles(appealId, documents)
+            await createBatchFiles(appealId, documents.map(item => item.file))
          } else {
             await createAppeal(appealData, documents);
-            await createBatchFiles(appealId, documents)
+            await createBatchFiles(appealId, documents.map(item => item.file))
          }
 
          router.push("/user/dashboard/home");

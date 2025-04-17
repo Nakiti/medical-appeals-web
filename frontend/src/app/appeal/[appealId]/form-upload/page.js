@@ -19,7 +19,7 @@ const FormUploadPage = () => {
       if (file) {
          // You can add any additional logic here if needed
       }
-      console.log(documents)
+      console.log("document upload ",documents)
    };
 
    const handleUploadClick = () => {

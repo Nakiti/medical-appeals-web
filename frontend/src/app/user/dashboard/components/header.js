@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { FiMenu, FiUser } from 'react-icons/fi'; // Import profile icon
-import Sidebar from './sidebar';
-import { logout } from '@/app/services/authServices';
+import React, { useState, useEffect, useRef } from 'react';
+import { FiMenu, FiUser } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
+import { logout } from '@/app/services/authServices';
 
 const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
    const router = useRouter();
+   const dropdownRef = useRef(null);
 
    const handleSidebarToggle = () => {
       setIsSidebarOpen(!isSidebarOpen);
@@ -15,41 +15,54 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
    const handleLogout = async () => {
       try {
          document.cookie = "cookieName=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-         router.push("/");
+         router.push('/');
       } catch (err) {
-         console.log(err);
+         console.error(err);
       }
    };
 
    const toggleDropdown = () => {
-      setIsDropdownOpen(!isDropdownOpen);
+      setIsDropdownOpen(prev => !prev);
    };
 
+   // Close dropdown on outside click
+   useEffect(() => {
+      const handleClickOutside = (e) => {
+         if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+            setIsDropdownOpen(false);
+         }
+      };
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+   }, []);
+
    return (
-      <header className="bg-white border-b w-full shadow-lg text-black flex items-center justify-between p-3">
-         <div className="flex items-center">
+      <header className="bg-white border-b w-full px-6 py-2 flex items-center justify-between z-40">
+         <div className="flex items-center space-x-4">
             <button
                onClick={handleSidebarToggle}
-               className="text-xl mr-4 focus:outline-none"
+               className="text-xl focus:outline-none hover:text-blue-600 transition-colors"
                aria-label="Toggle Sidebar"
             >
                <FiMenu />
             </button>
-            <h1 className="text-md font-semibold">My App</h1>
+            <h1 className="text-md font-bold tracking-wide text-gray-800">Dashboard</h1>
          </div>
-         <div className="relative flex items-center">
+
+         <div className="relative" ref={dropdownRef}>
             <button
                onClick={toggleDropdown}
-               className="text-xl focus:outline-none"
+               className="flex items-center justify-center text-xl text-gray-700 hover:text-blue-600 focus:outline-none transition"
                aria-label="User Menu"
             >
                <FiUser />
             </button>
+
             {isDropdownOpen && (
-               <div className="absolute right-0 mt-24 w-48 bg-white text-black rounded-lg shadow-lg">
+               <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg ring-1 ring-gray-200 animate-fadeIn">
                   <button
                      onClick={handleLogout}
-                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                     className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition"
                   >
                      Logout
                   </button>
