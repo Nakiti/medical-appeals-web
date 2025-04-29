@@ -55,6 +55,18 @@ const ClaimNumber = () => {
                />
             </div>
 
+            <div className="w-full mt-4">
+               <label className="text-sm sm:text-md font-bold mb-2">Appeal Deadline</label>
+               <input
+                  className="rounded-md border border-gray-600 shadow-sm py-3 px-4 sm:py-4 sm:px-6 w-full"
+                  value={inputs.appealDeadline}
+                  name="appealDeadline"
+                  onChange={handleInputsChange}
+                  placeholder="Enter Appeal Deadline"
+                  type="date"
+               />
+            </div>
+
             {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
 
             {claimStatus !== null && (

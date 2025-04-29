@@ -21,6 +21,7 @@ const ProgressBar = ({appealId, currentUser}) => {
       `/appeal/${appealId}/procedure-details`,
       `/appeal/${appealId}/additional-details`,
       `/appeal/${appealId}/summary`,
+      `/appeal/${appealId}/review`
    ];
 
    const currentIndex = paths.findIndex(path => path.includes(keyword));
@@ -53,8 +54,6 @@ const ProgressBar = ({appealId, currentUser}) => {
 
          {isLoggedIn || currentUser && currentIndex !== 0 ? <SaveButton /> : null}
       </div>
-
-
    );
 }
 

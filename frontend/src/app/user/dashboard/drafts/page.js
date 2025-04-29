@@ -7,9 +7,9 @@ import { getDrafts, getAppealSearch } from "@/app/services/fetchServices";
 import { deleteDrafts } from "@/app/services/deleteServices";
 
 import { AuthContext } from "@/app/context/authContext";
-import Table from "./components/table";
 import Searchbar from "../components/searchbar";
 import ConfirmModal from "../components/confirmModal";
+import Table from "../components/table";
 
 const Drafts = () => {
    const [drafts, setDrafts] = useState(null);
@@ -17,6 +17,19 @@ const Drafts = () => {
    const { currentUser } = useContext(AuthContext);
    const [open, setOpen] = useState(false);
    const [message, setMessage] = useState("");
+   const columns = [
+      { header: "ID", accessor: "id" },
+      { header: "Claim Number", accessor: "claim_number" },
+      { 
+         header: "Appeal Deadline", 
+         render: (item) => new Date(item.appeal_deadline).toLocaleDateString("en-US"),
+      },
+      {
+         header: "Date Created",
+         render: (item) => new Date(item.created_at).toLocaleDateString("en-US"),
+      },
+
+   ];
 
    useEffect(() => {
       fetchData();
@@ -105,6 +118,7 @@ const Drafts = () => {
                   userId={currentUser}
                   isEditing={isEditing}
                   handleSelect={handleSelect}
+                  columns={columns}
                />
             )}
          </div>

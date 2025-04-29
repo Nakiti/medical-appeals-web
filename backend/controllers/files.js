@@ -28,12 +28,7 @@ export const createFile = (req, res) => {
          const blobName = `${req.body.appealId}/${req.file.originalname}`
          const blockBlobClient = containerClient.getBlockBlobClient(blobName)
 
-         const uploadBlobResponse = await blockBlobClient.upload(file.buffer, file.buffer.length, {
-            blobHTTPHeaders: {
-               blobContentType: file.mimetype, // this tells Azure how to render it
-               blobContentDisposition: 'inline' // this forces in-browser viewing
-            }
-         });
+c
          console.log(`Blob was uploaded successfully. Request ID: ${uploadBlobResponse.requestId}`);
 
          const blobUrl = `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}`
@@ -157,4 +152,8 @@ async function streamToBuffer(readableStream) {
        chunks.push(chunk instanceof Buffer ? chunk : Buffer.from(chunk));
    }
    return Buffer.concat(chunks);
+}
+
+export const uploadAppealLetterFile = async(req, res) => {
+   
 }

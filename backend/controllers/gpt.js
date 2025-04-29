@@ -3,6 +3,7 @@ import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
 import busboy from 'busboy';
 // import * as tesseract from 'tesseract.js';
 import Tesseract from "tesseract.js";
+import PDFDocument from "pdfkit"
 
 const openai = new OpenAI({
     apiKey: "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"
@@ -76,7 +77,21 @@ export const extractData = (req, res) => {
             messages: [
                { role: "user", 
                   content: 
-                  `Get the first name, last name, claim number, dob, policy number, and insurer from the following text. Once extracted format the response as a JSON string with keys firstName, lastName, claimNumber, dob, policyNumber, insuranceProvider. If a value is not found, just put an empty string, do not make up values. the following is the text:  ${textString}` 
+                  `
+                  Extract the following fields from the denial letter:
+                  - First Name
+                  - Last Name
+                  - Date of Birth
+                  - Insurance Provider
+                  - Insurance Address
+                  - Physician Name
+                  - Physician Address
+                  - Policy Number
+                  - Procedure Name
+                  - Denial Reason
+                  Format the response as a JSON string with keys firstName, lastName, dob, insuranceProvider, insuranceAddress, physicianName, physicianAddress, policyNumber, procedureName, denialReason   
+                  
+                  ${textString}` 
                }
             ],
          });
@@ -91,3 +106,55 @@ export const extractData = (req, res) => {
 
    req.pipe(bb);
 };
+
+export const writeAppealLetter = async(req, res) => {
+
+   try {
+      const completion = await openai.chat.completions.create({
+         model: "gpt-3.5-turbo",
+         messages: [
+            {
+               role: "user",
+               content: `
+                  You are a medical appeals assistant. Given the following information, write a formal insurance appeal letter:
+
+                  - Patient Name: ${req.body.firstName + " " + req.body.lastName}
+                  - Date of Birth: ${req.body.dob}
+                  - Claim Number: ${req.body.claimNumber}
+                  - Insurance Provider: ${req.body.insuranceProvider}
+                  - Insurance Address: ${req.body.insuranceAddress}
+                  - Physician Name: ${req.body.physicianName}
+                  - Physician Address: ${req.body.physicianAddress}
+                  - Policy Number: ${req.body.policyNumber}
+                  - Procedure Name: ${req.body.procedureName}
+                  - Denial Reason: ${req.body.denialReason}
+                  - Additional Details: ${req.body.additionalDetails}
+               `
+            }
+         ]
+      })
+
+      const letterText = completion.choices[0].message.content
+
+      const doc = new PDFDocument()
+      let buffers = []
+
+      doc.on("data", buffers.push.bind(buffers))
+      doc.on("end", () => {
+         const pdfData = Buffer.concat(buffers)
+
+         res.setHeader("Content-Type", "application/pdf")
+         res.setHeader("Content-Disposition", "attatchment; filename=appeal-letter.pdf")
+         res.send(pdfData)
+      })
+
+      doc.font("Times-Roman").fontSize(12).text(letterText, {
+         align: "left",
+         lineGap: 6,
+      });
+
+      doc.end();
+   } catch (err) {
+      console.log(err)
+   }
+}

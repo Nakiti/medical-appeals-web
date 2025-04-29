@@ -17,6 +17,8 @@ import { AuthContext } from "@/app/context/authContext";
 import Table from "./components/table";
 import Updates from "./components/updates";
 import Modal from "./components/modal";
+import Deadlines from "./components/deadlines";
+import SummaryBar from "./components/summary";
 
 const Home = () => {
    const router = useRouter();
@@ -41,7 +43,7 @@ const Home = () => {
       { title: "Id", value: "id" },
       { title: "Claim Number", value: "claim_number" },
       { title: "Date Created", value: "created_at" },
-      { title: "Status", value: "status" },
+      { title: "Appeal Deadline", value: "appeal_deadline" },
    ];
 
    useEffect(() => {
@@ -83,7 +85,7 @@ const Home = () => {
                </div>
                <button
                   onClick={() => router.push("/appeal/new/claim-number")}
-                  className="w-full md:w-auto mt-4 md:mt-0 h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 rounded-md transition"
+                  className="w-full md:w-auto mt-4 md:mt-0 h-16 bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 rounded-md transition"
                >
                   <span className="inline-flex items-center gap-2">
                      <FaPlus className="text-sm" />
@@ -93,11 +95,10 @@ const Home = () => {
             </div>
          )}
 
-         {/* Main Content */}
+         <SummaryBar />
+
          <div className="flex flex-col md:flex-row gap-6">
-            {/* Drafts + Appeals */}
             <div className="flex flex-col space-y-6 w-full md:w-3/4">
-               {/* Drafts */}
                <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm">
                   <div className="flex justify-between items-center mb-3">
                      <Link href="/user/dashboard/drafts" className="flex items-center gap-2 text-gray-800 font-semibold text-lg hover:text-blue-600">
@@ -130,8 +131,10 @@ const Home = () => {
                </div>
             </div>
 
-            {/* Notifications */}
-            <Updates data={updates} />
+            <div className="w-1/4 flex flex-col space-y-6">
+               <Updates data={updates} />
+               <Deadlines data={updates} />
+            </div>
          </div>
       </div>
    );

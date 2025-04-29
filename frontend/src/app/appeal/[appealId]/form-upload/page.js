@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { useRef, useContext } from "react";
 import { FormContext } from "@/app/context/formContext";
 import DocumentDisplay from "../../components/documentDisplay";
+import { extractAppealDetails } from "@/app/services/gptServices";
 
 const FormUploadPage = () => {
    const router = useRouter();
    const fileInputRef = useRef(null);
-   const { documents, setDocuments, inputs, appealId } = useContext(FormContext);
+   const { documents, setDocuments, inputs, appealId, setInputs } = useContext(FormContext);
 
    const handleFileUpload = async (event) => {
       const file = event.target.files[0];
@@ -22,9 +23,25 @@ const FormUploadPage = () => {
       fileInputRef.current.click();
    };
 
+   const handleManualEntry = () => {
+      router.push(`/appeal/${appealId}/patient-details`)
+   }
+
    const handleClick = async () => {
       router.push(`/appeal/${appealId}/patient-details`);
    };
+
+   const handleNext = async() => {
+      if (documents.length > 0) {
+         const response = await extractAppealDetails(documents)
+         setInputs({
+            ...inputs, 
+            ...response
+         })
+      }
+
+      router.push(`/appeal/${appealId}/patient-details`)
+   }
 
    const handleRemove = (id) => {
       setDocuments(documents.filter(item => item.id !== id));
@@ -72,6 +89,13 @@ const FormUploadPage = () => {
                   <FaUpload className="text-lg sm:text-xl" />
                   <span className="ml-3">Upload Files</span>
                </button>
+               <button
+                  className="flex items-center justify-center w-full rounded-full p-3 sm:p-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold text-sm sm:text-base"
+                  onClick={handleManualEntry}
+               >
+                  <FaPencilAlt className="text-lg sm:text-xl" />
+                  <span className="ml-3">Enter Details Manually</span>
+               </button>
 
                {/* Uploaded Files */}
                {documents && documents.map((item, index) => (
@@ -81,7 +105,7 @@ const FormUploadPage = () => {
 
             {/* Next Button */}
             <button
-               onClick={handleClick}
+               onClick={handleNext}
                className="w-full mt-8 rounded-full py-3 sm:py-4 bg-blue-800 text-white font-bold text-base sm:text-lg hover:bg-blue-900 transition duration-200"
             >
                Next

@@ -23,6 +23,23 @@ const Table = ({ columns, data, type }) => {
       }
    };
 
+   const getStatusClasses = (status) => {
+      console.log(status)
+
+      switch (status.toLowerCase()) {
+         case "":
+            return "bg-blue-100 text-blue-800";
+         case "approved":
+            return "bg-green-100 text-green-800";
+         case "denied":
+            return "bg-red-100 text-red-800";
+         case "submitted":
+            return "bg-yellow-100 text-yellow-800";
+         default:
+            return "bg-gray-100 text-gray-700";
+      }
+   };
+
    return (
       <div className="overflow-x-auto">
          <table className="min-w-full rounded-md">
@@ -31,7 +48,7 @@ const Table = ({ columns, data, type }) => {
                   {columns.map((column, colIndex) => (
                      <th
                         key={colIndex}
-                        className="text-left px-6 py-2 text-sm font-semibold text-gray-700"
+                        className="text-center px-6 py-2 text-sm font-semibold text-gray-700"
                      >
                         {column.title}
                      </th>
@@ -49,11 +66,13 @@ const Table = ({ columns, data, type }) => {
                         {columns.map((column, colIndex) => (
                            <td
                               key={colIndex}
-                              className="px-6 py-2 text-sm text-gray-600"
+                              className={`px-6 py-2 text-sm text-gray-600 `}
                            >
-                              {column.value === "date_filed" || column.value === "created_at"
-                                 ? formatDate(item[column.value]) // Safe date formatting
-                                 : item[column.value] || "-"}
+                              <p className={`text-center p-1 rounded-lg ${column.value == "status" && getStatusClasses(item.status)}`}>
+                                 {column.value === "date_filed" || column.value === "created_at" || column.value == "appeal_deadline"
+                                    ? formatDate(item[column.value])
+                                    : item[column.value] || "-"}
+                              </p>
                            </td>
                         ))}
                      </tr>

@@ -7,43 +7,44 @@ import { createAppeal, createBatchFiles } from "@/app/services/createServices";
 import { FormContext } from "@/app/context/formContext";
 import Link from "next/link";
 import DocumentDisplay from "../../components/documentDisplay";
+import { writeAppealLetter } from "@/app/services/gptServices";
 
 const Summary = () => {
    const router = useRouter();
    const { currentUser } = useContext(AuthContext);
-   const { inputs, appealId, documents } = useContext(FormContext);
+   const { inputs, appealId, documents, setAppealLetter } = useContext(FormContext);
    const [error, setError] = useState("");
 
    const sections = [
-      { title: "Patient Details", fields: ["name", "dob", "gender", "contact"] },
-      { title: "Medical Information", fields: ["diagnosis", "treatment", "medications"] },
-      { title: "Appeal Details", fields: ["claimNumber", "reason", "insurance", "denialReason"] },
+      { title: "Patient Details", fields: ["firstName", "lastName", "dob", "ssn"] },
+      { title: "Letter Details", fields: ["insuranceProvider", "insuranceAddress", "physicianName", "physicianPhone", "physicianAddress", "physicianEmail"] },
+      { title: "Procedure Details", fields: ["claimNumber", "procedureName", "denialReason"] },
       { title: "Additional Details", fields: ["additionalDetails"] },
    ];
 
    const handleSubmit = async () => {
       let missingFields = [];
 
-      Object.entries(inputs).forEach(([key, value]) => {
-         if (!["dateFiled", "submitted", "status", "additionalDetails"].includes(key)) {
-            if (/^\s*$/.test(value) || value === 0) {
-               missingFields.push(key);
-            }
-         }
-      });
+      // Object.entries(inputs).forEach(([key, value]) => {
+      //    if (!["dateFiled", "submitted", "status", "additionalDetails"].includes(key)) {
+      //       if (/^\s*$/.test(value) || value === 0) {
+      //          missingFields.push(key);
+      //       }
+      //    }
+      // });
 
-      if (missingFields.length > 0) {
-         setError(`Please fill in all required fields: ${missingFields.join(", ")}`);
-         return;
-      }
+      // if (missingFields.length > 0) {
+      //    setError(`Please fill in all required fields: ${missingFields.join(", ")}`);
+      //    return;
+      // }
 
       try {
          const appealData = {
             userId: currentUser,
             ...inputs,
-            dateFiled: new Date().toISOString().slice(0, 19).replace("T", " "),
-            submitted: 1,
-            status: "Submitted",
+            // dateFiled: new Date().toISOString().slice(0, 19).replace("T", " "),
+            submitted: 0,
+            status: "Ready to Submit",
          };
 
          if (appealId !== "new") {
@@ -53,8 +54,10 @@ const Summary = () => {
             const newAppealId = await createAppeal(appealData, documents);
             await createBatchFiles(newAppealId, documents.map(item => item.file));
          }
+         const letterResponse = await writeAppealLetter(inputs)
 
-         router.push("/user/dashboard/home");
+         setAppealLetter(letterResponse)
+         router.push(`/appeal/${appealId}/review`);
       } catch (err) {
          console.error("Error submitting appeal:", err);
          setError("An error occurred. Please try again.");
@@ -98,7 +101,7 @@ const Summary = () => {
                   onClick={handleSubmit}
                   className="w-full sm:w-1/2 rounded-full py-3 bg-blue-800 text-white font-bold text-base sm:text-lg hover:bg-blue-900 transition duration-200"
                >
-                  Submit Appeal
+                  Create Appeal
                </button>
             </div>
          </div>

@@ -3,13 +3,38 @@
 import { useState, useEffect, useContext } from "react";
 import { getSubmittedAppeals } from "@/app/services/fetchServices";
 import { AuthContext } from "@/app/context/authContext";
-
-import Table from "./components/table";
+import Table from "../components/table";
 import Searchbar from "../components/searchbar";
 
 const Appeals = () => {
    const [appeals, setAppeals] = useState(null);
    const { currentUser } = useContext(AuthContext);
+   const columns = [
+      { header: "ID", accessor: "id" },
+      { header: "Claim Number", accessor: "claim_number" },
+      {
+         header: "Status",
+         render: (item) => (
+            <span
+               className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                  item.status === "Approved"
+                     ? "bg-green-100 text-green-700"
+                     : item.status === "Submitted"
+                     ? "bg-blue-100 text-blue-600"
+                     : item.status === "Under Review"
+                     ? "bg-yellow-100 text-yellow-700"
+                     : "bg-red-100 text-red-700"
+               }`}
+            >
+               {item.status}
+            </span>
+         ),
+      },
+      {
+         header: "Date Filed",
+         render: (item) => new Date(item.date_filed).toLocaleDateString("en-US"),
+      },
+   ];
 
    useEffect(() => {
       const fetchData = async () => {
@@ -30,9 +55,6 @@ const Appeals = () => {
             {/* Header */}
             <div className="mb-6">
                <h2 className="text-2xl font-bold text-gray-800">My Appeals</h2>
-               <p className="text-gray-600 mt-2">
-                  The following table lists all appeals you have submitted.
-               </p>
             </div>
 
             {/* Search */}
@@ -45,7 +67,7 @@ const Appeals = () => {
             </div>
 
             {/* Table */}
-            {appeals && <Table data={appeals} />}
+            {appeals && <Table data={appeals} columns={columns}/>}
          </div>
       </div>
    );
