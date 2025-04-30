@@ -28,7 +28,6 @@ export const createFile = (req, res) => {
          const blobName = `${req.body.appealId}/${req.file.originalname}`
          const blockBlobClient = containerClient.getBlockBlobClient(blobName)
 
-c
          console.log(`Blob was uploaded successfully. Request ID: ${uploadBlobResponse.requestId}`);
 
          const blobUrl = `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}`
@@ -46,7 +45,7 @@ c
       
          db.query(query, [values], (err, data) => {
             if (err) return res.json(err)
-            return res.status(200).json(data)
+            return res.status(200).json(data.insertId)
          })
       } catch (err) {
          console.log(err)

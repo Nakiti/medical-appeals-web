@@ -31,6 +31,7 @@ export const FormContextProvider = ({appealId, children}) => {
    const [documents, setDocuments] = useState([])
    const [images, setImages] = useState([])
    const [isLoggedIn, setIsLoggedIn] = useState(false) 
+   const [appealLetterUrl, setAppealLetterUrl] = useState(null)
    const [appealLetter, setAppealLetter] = useState(null)
 
    useEffect(() => {
@@ -73,7 +74,7 @@ export const FormContextProvider = ({appealId, children}) => {
    }, [])
 
    return (
-      <FormContext.Provider value={{inputs, handleInputsChange, setInputs, documents, setDocuments, appealId, images, setImages, isLoggedIn, setIsLoggedIn, appealLetter, setAppealLetter}}>
+      <FormContext.Provider value={{inputs, handleInputsChange, setInputs, documents, setDocuments, appealId, images, setImages, isLoggedIn, setIsLoggedIn, appealLetter, setAppealLetter, appealLetterUrl, setAppealLetterUrl}}>
          {children}
       </FormContext.Provider>
    )

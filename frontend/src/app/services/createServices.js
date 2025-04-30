@@ -34,11 +34,13 @@ export const createFile = async(data, file) => {
       form.append("fileType", data.fileType)
 
 
-      await axios.post(`${API_BASE_URL}/files/create`, form, {
+      const response = await axios.post(`${API_BASE_URL}/files/create`, form, {
          headers: {
             'Content-Type': 'multipart/form-data',
          },
       }) 
+
+      return response.data
    } catch (err) {
       console.log(err)
    }
@@ -61,6 +63,15 @@ export const createBatchFiles = async(appealId, files) => {
             'Content-Type': 'multipart/form-data',
          },
       })
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+export const createAppealLetter = async(fileId, appealId) => {
+   try {
+      await axios.post(`${API_BASE_URL}/appealLetter/create`, {fileId, appealId})
+      
    } catch (err) {
       console.log(err)
    }

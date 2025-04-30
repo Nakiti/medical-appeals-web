@@ -137,5 +137,13 @@ export const checkClaimNumber = async(claimNumber) => {
    }
 }
 
+export const getAppealLetter = async(appealId) => {
+   try {
+      const response = await axios.get(`${API_BASE_URL}/appealLetter/get/${appealId}`)
+      return response.data[0]
+   } catch (err) {
+      console.log(err)
+   }
+}
 
 

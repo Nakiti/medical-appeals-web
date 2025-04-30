@@ -2,14 +2,13 @@
 
 import { useState, useEffect, useContext } from "react";
 import { FaTrash } from "react-icons/fa";
-
 import { getDrafts, getAppealSearch } from "@/app/services/fetchServices";
 import { deleteDrafts } from "@/app/services/deleteServices";
-
 import { AuthContext } from "@/app/context/authContext";
 import Searchbar from "../components/searchbar";
 import ConfirmModal from "../components/confirmModal";
 import Table from "../components/table";
+import LoadingSpinner from "@/app/components/loadingSpinner";
 
 const Drafts = () => {
    const [drafts, setDrafts] = useState(null);
@@ -65,6 +64,10 @@ const Drafts = () => {
       await fetchData();
       setIsEditing(false);
    };
+
+   if (!drafts) {
+      return <LoadingSpinner />;
+   }
 
    return (
       <div className="w-full min-h-screen bg-gray-100 md:p-8">

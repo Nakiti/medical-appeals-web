@@ -4,13 +4,7 @@ const Table = ({ columns, data, type }) => {
    const router = useRouter()
 
    const handleClick = (id) => {
-      if (type == "draft") {
-         router.push(`/appeal/${id}/patient-details`)
-      } else if (type == "appeal") {
-         router.push(`/user/dashboard/appeals/${id}`)
-      } else {
-         return
-      }
+      router.push(`/user/dashboard/appeals/${id}`)
    }
 
    const formatDate = (dateString) => {

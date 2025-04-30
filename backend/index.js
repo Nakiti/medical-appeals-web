@@ -8,6 +8,7 @@ import { db } from "./db.js";
 import gptRoutes from "./routes/gptRoutes.js"
 import notificationRoutes from "./routes/notificationRoutes.js"
 import fileRoutes from "./routes/fileRoutes.js"
+import appealLetterRoutes from "./routes/appealLetterRoutes.js"
 
 const app = express()
 
@@ -28,6 +29,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/gpt", gptRoutes)
 app.use("/api/notifications", notificationRoutes)
 app.use("/api/files", fileRoutes)
+app.use("/api/appealLetter", appealLetterRoutes)
 
 app.use((req, res, next) => {
    console.log(`Incoming request: ${req.method} ${req.url}`);

@@ -4,6 +4,7 @@ import Header from "./components/header";
 import Sidebar from "./components/sidebar";
 import { AuthContext } from "@/app/context/authContext";
 
+
 const DashboardLayout = ({ children }) => {
    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
    const sidebarRef = useRef(null);

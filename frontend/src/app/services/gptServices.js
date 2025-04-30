@@ -29,9 +29,10 @@ export const writeAppealLetter = async(inputs) => {
          }
       )
 
+
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
-      return url
+      return {file: blob, url: url}
 
    } catch (err) {
       console.log(err)

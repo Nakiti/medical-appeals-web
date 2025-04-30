@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { FaCamera, FaUpload, FaPencilAlt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import { FormContext } from "@/app/context/formContext";
 import DocumentDisplay from "../../components/documentDisplay";
 import { extractAppealDetails } from "@/app/services/gptServices";
@@ -11,6 +11,7 @@ const FormUploadPage = () => {
    const router = useRouter();
    const fileInputRef = useRef(null);
    const { documents, setDocuments, inputs, appealId, setInputs } = useContext(FormContext);
+   const [loading, setLoading] = useState(false)
 
    const handleFileUpload = async (event) => {
       const file = event.target.files[0];
@@ -32,20 +33,35 @@ const FormUploadPage = () => {
    };
 
    const handleNext = async() => {
-      if (documents.length > 0) {
-         const response = await extractAppealDetails(documents)
-         setInputs({
-            ...inputs, 
-            ...response
-         })
+      try {
+         setLoading(true)
+         if (documents.length > 0) {
+            const response = await extractAppealDetails(documents)
+            setInputs({
+               ...inputs, 
+               ...response
+            })
+         }
+      } catch (err) {
+         console.log(err)
+      } finally {
+         router.push(`/appeal/${appealId}/patient-details`)
+         setLoading(false)
       }
-
-      router.push(`/appeal/${appealId}/patient-details`)
    }
 
    const handleRemove = (id) => {
       setDocuments(documents.filter(item => item.id !== id));
    };
+
+   if (loading) {
+      return (
+         <div className="flex flex-col items-center justify-center h-screen text-center px-4">
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-6" />
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">Parsing documents...</h2>
+         </div>
+      );
+   }
 
    return (
       <div className="w-full flex items-center justify-center px-4 py-8">
@@ -83,17 +99,17 @@ const FormUploadPage = () => {
                />
 
                <button
-                  className="flex items-center justify-center w-full rounded-full p-3 sm:p-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold text-sm sm:text-base"
+                  className="flex items-center justify-center w-full rounded-full p-2 sm:p-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold text-sm sm:text-base"
                   onClick={handleUploadClick}
                >
-                  <FaUpload className="text-lg sm:text-xl" />
+                  <FaUpload className="text-md sm:text-xl" />
                   <span className="ml-3">Upload Files</span>
                </button>
                <button
-                  className="flex items-center justify-center w-full rounded-full p-3 sm:p-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold text-sm sm:text-base"
+                  className="flex items-center justify-center w-full rounded-full p-2 sm:p-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold text-sm sm:text-base"
                   onClick={handleManualEntry}
                >
-                  <FaPencilAlt className="text-lg sm:text-xl" />
+                  <FaPencilAlt className="text-md sm:text-xl" />
                   <span className="ml-3">Enter Details Manually</span>
                </button>
 

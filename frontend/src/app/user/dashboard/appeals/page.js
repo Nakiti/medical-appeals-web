@@ -5,6 +5,7 @@ import { getSubmittedAppeals } from "@/app/services/fetchServices";
 import { AuthContext } from "@/app/context/authContext";
 import Table from "../components/table";
 import Searchbar from "../components/searchbar";
+import LoadingSpinner from "@/app/components/loadingSpinner";
 
 const Appeals = () => {
    const [appeals, setAppeals] = useState(null);
@@ -48,6 +49,10 @@ const Appeals = () => {
 
       fetchData();
    }, []);
+
+   if (!appeals) {
+      return <LoadingSpinner />;
+   }
 
    return (
       <div className="w-full min-h-screen bg-gray-50 md:p-8">

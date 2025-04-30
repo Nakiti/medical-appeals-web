@@ -1,14 +1,17 @@
 "use client";
 import React, { useEffect, useState, use } from 'react';
-import { getAppeal, getFilesByAppeal } from '@/app/services/fetchServices';
+import { getAppeal, getAppealLetter, getFilesByAppeal } from '@/app/services/fetchServices';
 import ProgressBar from './components/progressBar';
 import AppealDetails from './components/appealDetails';
 import AppealDocuments from './components/appealDocuments';
 import { useRouter } from 'next/navigation';
+import { IoDocumentTextOutline } from "react-icons/io5";
+import LoadingSpinner from '@/app/components/loadingSpinner';
 
 const AppealScreen = ({ params }) => {
    const [data, setData] = useState(null);
    const [files, setFiles] = useState(null);
+   const [appealLetter, setAppealLetter] = useState(null)
    const unwrappedParams = use(params);
    const appealId = unwrappedParams.appealId;
    const [isDraft, setIsDraft] = useState(false)
@@ -56,7 +59,9 @@ const AppealScreen = ({ params }) => {
 
             const filesResponse = await getFilesByAppeal(appealId);
             setFiles(filesResponse);
-            console.log("files from appeal ", filesResponse);
+            
+            const appealLetterResponse = await getAppealLetter(appealId)
+            setAppealLetter(appealLetterResponse)
          } catch (err) {
             console.log(err);
          }
@@ -73,6 +78,10 @@ const AppealScreen = ({ params }) => {
       router.push(`/appeal/${appealId}/form-upload`)
    }
 
+   if (!data) {
+      return <LoadingSpinner />;
+   }
+
    return (
       <div className="p-8 min-h-screen bg-gray-50">
          {data && (
@@ -87,6 +96,20 @@ const AppealScreen = ({ params }) => {
                         <ProgressBar currentStatus={"Submitted"} />
                      </div>
                   )}
+                  {appealLetter && 
+                     <div className="flex flex-row items-center space-x-2 px-6 py-6">
+                        <p className="text-base font-semibold text-gray-700 text-lg">Appeal Letter:</p>
+                        <button
+                           className="cursor-pointer w-full sm:w-1/2 flex items-center gap-3 px-4 py-3 border border-gray-300 rounded-lg bg-white shadow-sm hover:shadow-md transition duration-200"
+                           onClick={() => {
+                              window.open(appealLetter.blob_url, "_blank");
+                           }}
+                        >
+                           <IoDocumentTextOutline size={24} className="text-blue-600" />
+                           <span className="text-sm font-medium text-gray-800">View Appeal Letter</span>
+                        </button>
+                     </div>
+                  }
 
                   <AppealDetails inputs={inputs} isDraft={isDraft} handleDetailsEdit={handleDetailsEdit}/>
                </div>

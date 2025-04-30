@@ -15,8 +15,8 @@ const ClaimNumber = () => {
    const [error, setError] = useState("");
 
    const handleProceed = async () => {
-      if (!inputs.claimNumber || inputs.claimNumber.trim() === "") {
-         setError("Claim number cannot be empty.");
+      if (!inputs.claimNumber || inputs.claimNumber.trim() === "" || !inputs.appealDeadline || inputs.appealDeadline.trim() == "") {
+         setError("Fields cannot be empty.");
          return;
       }
 
@@ -64,6 +64,7 @@ const ClaimNumber = () => {
                   onChange={handleInputsChange}
                   placeholder="Enter Appeal Deadline"
                   type="date"
+                  min={new Date().toISOString().split("T")[0]}
                />
             </div>
 

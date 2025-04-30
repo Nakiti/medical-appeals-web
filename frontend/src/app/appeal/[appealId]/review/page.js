@@ -1,24 +1,71 @@
 "use client";
 import React, { useState, useContext } from "react";
 import { FormContext } from "@/app/context/formContext";
+import { useRouter } from "next/navigation";
+import { createAppealLetter, createFile } from "@/app/services/createServices";
+import { AuthContext } from "@/app/context/authContext";
 
 const ReviewPage = () => {
    const [showSubmitDialog, setShowSubmitDialog] = useState(false);
-   const {appealLetter} = useContext(FormContext)
+   const {appealLetter, appealId, inputs, appealLetterUrl } = useContext(FormContext)
+   const {currentUser} = useContext(AuthContext)
+   const router = useRouter()
 
-   const handleSave = () => {
-      
+   const handleSave = async() => {
+      const appealData = {
+         userId: currentUser,
+         ...inputs,
+         // dateFiled: new Date().toISOString().slice(0, 19).replace("T", " "),
+         submitted: 0,
+         status: "Ready to Submit",
+      };
+
+      await processAppeal(appealData)
+   }
+
+   const handleSubmit = async() => {
+      const appealData = {
+         userId: currentUser,
+         ...inputs,
+         dateFiled: new Date().toISOString().slice(0, 19).replace("T", " "),
+         submitted: 1,
+         status: "Submitted",
+      };
+
+      await processAppeal(appealData)
+      setShowSubmitDialog(false);
+   }
+
+   const processAppeal = async (appealData) => {
+      try {
+         if (appealId !== "new") {
+            await updateAppeal(appealId, appealData, documents);
+            await createBatchFiles(appealId, documents.map(item => item.file));
+         } else {
+            const newAppealId = await createAppeal(appealData, documents);
+            await createBatchFiles(newAppealId, documents.map(item => item.file));
+
+            const appealLetterId = await createFile({appealId: appealId, fileName: "appeal-letter", fileType: "application/pdf", appealLetter})
+            await createAppealLetter(appealLetterId, appealId)
+         }
+      } catch (err) {
+         console.log(err)
+      } finally {
+         router.push("/user/dashboard/home")
+      }
+   }
+
+   const handleEdit = () => {
+      router.push(`/appeal/${appealId}/patient-details`)
    }
 
    return (
       <div className="max-w-4xl mx-auto px-4 py-8">
-         {/* Title */}
          <h1 className="text-3xl font-bold mb-6 text-gray-800">Review Your Claim</h1>
 
-         {/* PDF Viewer Placeholder */}
          {appealLetter ? (
             <iframe
-               src={appealLetter}
+               src={appealLetterUrl}
                className="w-full h-[600px] border border-gray-300 rounded-lg mb-6"
             />
          ) : (
@@ -37,12 +84,14 @@ const ReviewPage = () => {
 
             <button 
                className="w-full rounded-full py-3 sm:py-4 bg-gray-200 text-gray-800 font-semibold text-base sm:text-lg hover:bg-gray-300 transition duration-200"
+               onClick={handleSave}
             >
                Save & Exit
             </button>
 
             <button 
                className="w-full rounded-full py-3 sm:py-4 bg-white border border-gray-300 text-gray-700 font-semibold text-base sm:text-lg hover:bg-gray-100 transition duration-200"
+               onClick={handleEdit}
             >
                Edit
             </button>
@@ -65,10 +114,7 @@ const ReviewPage = () => {
                         Cancel
                      </button>
                      <button
-                        onClick={() => {
-                           // Submit logic here
-                           setShowSubmitDialog(false);
-                        }}
+                        onClick={handleSubmit}
                         className="px-4 py-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition"
                      >
                         Confirm & Submit

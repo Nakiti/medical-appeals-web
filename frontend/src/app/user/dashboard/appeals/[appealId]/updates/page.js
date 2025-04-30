@@ -56,10 +56,10 @@ const Updates = ({ params }) => {
    const categorizedNotifications = categorizeNotifications(notifications);
 
    return (
-      <div className="p-8 min-h-screen">
-         <div className="container mx-auto md:px-8 bg-white">
-            {/* <h1 className="text-2xl text-gray-900 mb-6">Notifications</h1> */}
-            <div className="space-y-6">
+      <div className="p-8 min-h-screen bg-gray-50">
+         <div className="container mx-auto md:px-8 bg-white p-6 rounded-md shadow-sm min-h-96">
+            <h1 className="text-2xl text-gray-900 mb-6 font-semibold">Updates</h1>
+            {notifications.length > 0 ? <div className="space-y-6">
                {Object.keys(categorizedNotifications).map((section, index) => (
                   categorizedNotifications[section].length > 0 && (
                      <div key={index} className="section-container mb-8">
@@ -79,7 +79,9 @@ const Updates = ({ params }) => {
                      </div>
                   )
                ))}
-            </div>
+            </div> :
+            <p>No updates</p>
+            }
          </div>
       </div>
    );

@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FaArrowRight, FaPlus } from "react-icons/fa";
-
+import LoadingSpinner from "@/app/components/loadingSpinner";
 import {
    getAppealsByUser,
    getDrafts,
@@ -69,6 +69,10 @@ const Home = () => {
          fetchData();
       }
    }, [loading, currentUser]);
+
+   if (loading || !user || !drafts || !appeals || !updates) {
+      return <LoadingSpinner />;
+   }
 
    return (
       <div className="p-4 md:p-8 space-y-6">
