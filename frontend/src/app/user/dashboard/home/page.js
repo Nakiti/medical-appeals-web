@@ -31,6 +31,7 @@ const Home = () => {
    const [visible, setVisible] = useState(false);
    const [showDrafts, setShowDrafts] = useState(true);
    const [showAppeals, setShowAppeals] = useState(true);
+   const [summaryData, setSummaryData] = useState(null)
 
    const appealColumns = [
       { title: "Id", value: "id" },
@@ -56,11 +57,27 @@ const Home = () => {
                   getUser(currentUser),
                   getNotificationByUserId(currentUser)
                ]);
+               
    
                setDrafts(draftsData);
+               console.log(draftsData, appealsData)
                setAppeals(appealsData);
                setUser(userData);
                setUpdates(updatesData);
+
+               setSummaryData({
+                  submittedCount: Array.isArray(appealsData) ? appealsData.length : 0,
+                  draftCount: Array.isArray(draftsData) ? draftsData.length : 0,
+                  dueSoonCount: Array.isArray(draftsData)
+                    ? draftsData.filter(item => {
+                        const d = new Date(item.appeal_deadline), n = new Date();
+                        return d > n && d <= new Date(n.getTime() + 7 * 24 * 60 * 60 * 1000);
+                      }).length
+                    : 0,
+                  approvedCount: Array.isArray(appealsData)
+                    ? appealsData.filter(item => item.status === "Approved").length
+                    : 0
+               });
             } catch (err) {
                console.error("Error fetching data:", err);
             }
@@ -99,7 +116,7 @@ const Home = () => {
             </div>
          )}
 
-         <SummaryBar />
+         {summaryData && <SummaryBar data={summaryData}/>}
 
          <div className="flex flex-col md:flex-row gap-6">
             <div className="flex flex-col space-y-6 w-full md:w-3/4">

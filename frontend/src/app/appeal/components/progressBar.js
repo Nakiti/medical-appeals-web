@@ -14,8 +14,9 @@ const ProgressBar = ({appealId, currentUser}) => {
 
    const paths = [
       `/appeal/${appealId}/claim-number`,
-      `/appeal/${appealId}/create-account`,
+      isLoggedIn ? `/appeal/${appealId}/login-account` : `/appeal/${appealId}/create-account`,
       `/appeal/${appealId}/form-upload`,
+      `/appeal/${appealId}/appealer-details`,
       `/appeal/${appealId}/patient-details`,
       `/appeal/${appealId}/letter-details`,
       `/appeal/${appealId}/procedure-details`,

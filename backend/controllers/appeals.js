@@ -1,7 +1,7 @@
 import { db } from "../db.js";
 
 export const createAppeal = (req, res) => {
-   const query = "INSERT INTO appeals (`user_id`, `appeal_deadline`, `first_name`, `last_name`, `claim_number`, `ssn`, `dob`, `insurance_provider`, `insurance_address`, `physician_name`, `physician_address`, `physician_phone`, `physician_email`, `policy_number`, `procedure_name`, `denial_reason`, `additional_details`, `supporting_documents`, `date_filed`, `submitted`, `status`, `created_at`, `updated_at`) VALUES (?)"
+   const query = "INSERT INTO appeals (`user_id`, `appeal_deadline`, `first_name`, `last_name`, `claim_number`, `ssn`, `dob`, `insurance_provider`, `insurance_address`, `physician_name`, `physician_address`, `physician_phone`, `physician_email`, `policy_number`, `procedure_name`, `denial_reason`, `additional_details`, `supporting_documents`, `date_filed`, `submitted`, `status`, `created_at`, `updated_at`, `appealer_first_name`, `appealer_last_name`, `appealer_address`, `appealer_email_address`, `appealer_phone_number`, `appealer_relation`) VALUES (?)"
 
    const values = [
       req.body.userId,
@@ -26,7 +26,13 @@ export const createAppeal = (req, res) => {
       req.body.submitted,
       req.body.status,
       (new Date()).toISOString().slice(0, 19).replace('T', ' '),
-      (new Date()).toISOString().slice(0, 19).replace('T', ' ')
+      (new Date()).toISOString().slice(0, 19).replace('T', ' '),
+      req.body.appealerFirstName,
+      req.body.appealerLastName,
+      req.body.appealerAddress,
+      req.body.appealerEmailAddress,
+      req.body.appealerPhoneNumber,
+      req.body.appealerRelation
    ]
 
    console.log("values: ", values)
@@ -39,10 +45,10 @@ export const createAppeal = (req, res) => {
 } 
 
 export const updateAppeal = (req, res) => {
-   const query = "UPDATE appeals SET `first_name` = ?, `last_name` = ?, `ssn` = ?, `dob` = ?, `insurance_provider` = ?, `insurance_address` = ?, `physician_name` = ?, `physician_address` = ?, `physician_phone` = ?, `physician_email` = ?, `policy_number` = ?, `procedure_name` = ?, `denial_reason` = ?, `additional_details` = ?, `supporting_documents` = ?, `date_filed` = ?, `submitted` = ?, `status` = ?, `updated_at` = ? WHERE `id` = ?"
+   const query = "UPDATE appeals SET `first_name` = ?, `last_name` = ?, `ssn` = ?, `dob` = ?, `insurance_provider` = ?, `insurance_address` = ?, `physician_name` = ?, `physician_address` = ?, `physician_phone` = ?, `physician_email` = ?, `policy_number` = ?, `procedure_name` = ?, `denial_reason` = ?, `additional_details` = ?, `supporting_documents` = ?, `date_filed` = ?, `submitted` = ?, `status` = ?, `updated_at` = ?, `appealer_first_name` = ?, `appealer_last_name` = ?, `appealer_address` = ? `appealer_email_address` = ?, `appealer_phone_number` = ?, `appealer_relation` = ? WHERE `id` = ?"
 
    console.log((req.body.supportingDocuments))
-
+ 
    const values = [
       req.body.firstName,
       req.body.lastName, 
@@ -63,6 +69,12 @@ export const updateAppeal = (req, res) => {
       req.body.submitted,
       req.body.status,
       (new Date()).toISOString().slice(0, 19).replace('T', ' '),
+      req.body.appealerFirstName,
+      req.body.appealerLastName,
+      req.body.appealerAddress,
+      req.body.appealerEmailAddress,
+      req.body.appealerPhoneNumber,
+      req.body.appealerRelation,
       req.params.id
    ]
 

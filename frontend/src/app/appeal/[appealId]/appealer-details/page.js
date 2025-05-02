@@ -13,53 +13,60 @@ const PatientDetailsPage = () => {
       <div className="w-full flex items-center justify-center px-4 py-8">
          <div className="w-full sm:w-4/5 md:w-2/3 lg:w-1/2">
             <div className="mb-4">
-               <p className="text-lg sm:text-xl text-left">Verify Details</p>
+               <p className="text-lg sm:text-xl text-left">First, Your Details</p>
                <p className="text-2xl sm:text-3xl font-semibold text-left">
-                  Fill In Patient Details
+                  Fill In Appealer Details
                </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                <DefaultInput
                   label="First Name"
-                  value={inputs.firstName}
+                  value={inputs.appealerFirstName}
                   placeholder="Enter First Name"
-                  name="firstName"
+                  name="appealerFirstName"
                   handleInputsChange={handleInputsChange}
                />
                <DefaultInput
                   label="Last Name"
-                  value={inputs.lastName}
+                  value={inputs.appealerLastName}
                   placeholder="Enter Last Name"
-                  name="lastName"
+                  name="appealerLastName"
                   handleInputsChange={handleInputsChange}
                />
                <DefaultInput
-                  label="SSN"
-                  value={inputs.ssn}
-                  placeholder="Enter SSN"
-                  name="ssn"
+                  label="Address"
+                  value={inputs.appealerAddress}
+                  placeholder="Enter Address"
+                  name="appealerAddress"
                   handleInputsChange={handleInputsChange}
                />
                <DefaultInput
-                  label="Policy Number"
-                  value={inputs.policyNumber}
-                  placeholder="Enter Policy Number"
-                  name="policyNumber"
+                  label="Email Address"
+                  value={inputs.appealerEmailAddress}
+                  placeholder="Enter Email Address"
+                  name="appealerEmailAddress"
                   handleInputsChange={handleInputsChange}
                />
                <DefaultInput
-                  label="Date of Birth"
-                  value={inputs.dob}
-                  placeholder="Enter Date of Birth"
-                  name="dob"
+                  label="Phone Number"
+                  value={inputs.appealerPhoneNumber}
+                  placeholder="Enter Phone Number"
+                  name="appealerPhoneNumber"
+                  handleInputsChange={handleInputsChange}
+               />
+               <DefaultInput
+                  label="Relation"
+                  value={inputs.appealerRelation}
+                  placeholder="Enter Relation"
+                  name="appealerRelation"
                   handleInputsChange={handleInputsChange}
                />
             </div>
 
             <NavigationButtons
-               backHref={`/appeal/${appealId}/appealer-details`}
-               nextHref={`/appeal/${appealId}/letter-details`}
+               backHref={`/appeal/${appealId}/form-upload`}
+               nextHref={`/appeal/${appealId}/patient-details`}
             />
          </div>
       </div>

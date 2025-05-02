@@ -2,12 +2,13 @@
 import React, { useState, useContext } from "react";
 import { FormContext } from "@/app/context/formContext";
 import { useRouter } from "next/navigation";
-import { createAppealLetter, createFile } from "@/app/services/createServices";
+import { createAppealLetter, createFile, createAppeal, createBatchFiles } from "@/app/services/createServices";
+import { updateAppeal } from "@/app/services/updateServices";
 import { AuthContext } from "@/app/context/authContext";
 
 const ReviewPage = () => {
    const [showSubmitDialog, setShowSubmitDialog] = useState(false);
-   const {appealLetter, appealId, inputs, appealLetterUrl } = useContext(FormContext)
+   const {appealLetter, appealId, inputs, appealLetterUrl, documents } = useContext(FormContext)
    const {currentUser} = useContext(AuthContext)
    const router = useRouter()
 
@@ -41,12 +42,18 @@ const ReviewPage = () => {
          if (appealId !== "new") {
             await updateAppeal(appealId, appealData, documents);
             await createBatchFiles(appealId, documents.map(item => item.file));
+
+            const appealLetterId = await createFile({appealId: appealId, fileName: "appeal-letter", fileType: "application/pdf"}, appealLetter)
+            await createAppealLetter(appealLetterId, appealId)
          } else {
             const newAppealId = await createAppeal(appealData, documents);
             await createBatchFiles(newAppealId, documents.map(item => item.file));
 
-            const appealLetterId = await createFile({appealId: appealId, fileName: "appeal-letter", fileType: "application/pdf", appealLetter})
-            await createAppealLetter(appealLetterId, appealId)
+            console.log("appeal Letter ", appealLetter)
+            const appealLetterId = await createFile({appealId: newAppealId, fileName: "appeal-letter", fileType: "application/pdf"}, appealLetter)
+            console.log("appeal letter id: ", appealLetterId)
+            const response = await createAppealLetter(appealLetterId, newAppealId)
+            console.log(response)
          }
       } catch (err) {
          console.log(err)
@@ -56,7 +63,7 @@ const ReviewPage = () => {
    }
 
    const handleEdit = () => {
-      router.push(`/appeal/${appealId}/patient-details`)
+      router.push(`/appeal/${appealId}/appealer-details`)
    }
 
    return (

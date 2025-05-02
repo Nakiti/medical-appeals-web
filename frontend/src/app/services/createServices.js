@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080/api";
+const API_BASE_URL = "https://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.net/api";
 
 export const createAppeal = async(data, documents) => {
    try {
@@ -33,6 +33,7 @@ export const createFile = async(data, file) => {
       form.append("fileName", data.fileName)
       form.append("fileType", data.fileType)
 
+      console.log("form from createFile", form)
 
       const response = await axios.post(`${API_BASE_URL}/files/create`, form, {
          headers: {

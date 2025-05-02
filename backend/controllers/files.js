@@ -12,9 +12,9 @@ const upload = multer({
 
 const accountName  = "appeals"
 const containerName = "appeals"
-const token = "sp=racwdli&st=2025-04-14T22:38:40Z&se=2025-04-24T06:38:40Z&spr=https&sv=2024-11-04&sr=c&sig=Qt7FAIfIblBihD9X%2FSx1%2B88Y49aT80AgQk7KuOpu4Iw%3D"
+const token = "sp=racwdli&st=2025-04-29T06:22:22Z&se=2025-05-07T14:22:22Z&spr=https&sv=2024-11-04&sr=c&sig=HYVN4qLDZi%2FodOHG8Cb9s2n%2BOGKkdI3e2WUjp4U99a4%3D"
 const accountKey = "+fHXAcxCf6awMQQnLdlDzPWTFusSCqet/DpjeTgfd24XtCVbSwxghUCMc0G2TRWvp4CrbJSzSG55+ASteAZbjw=="
-
+ 
 const blobServiceClient = new BlobServiceClient(
    `https://${accountName}.blob.core.windows.net?${token}`
 )
@@ -28,6 +28,12 @@ export const createFile = (req, res) => {
          const blobName = `${req.body.appealId}/${req.file.originalname}`
          const blockBlobClient = containerClient.getBlockBlobClient(blobName)
 
+         const uploadBlobResponse = await blockBlobClient.uploadData(req.file.buffer, {
+            blobHTTPHeaders: {
+               blobContentType: req.file.mimetype,
+               blobContentDisposition: 'inline' 
+            }
+         })
          console.log(`Blob was uploaded successfully. Request ID: ${uploadBlobResponse.requestId}`);
 
          const blobUrl = `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}`

@@ -109,6 +109,8 @@ export const extractData = (req, res) => {
 
 export const writeAppealLetter = async(req, res) => {
 
+   console.log("writing")
+
    try {
       const completion = await openai.chat.completions.create({
          model: "gpt-3.5-turbo",
@@ -123,22 +125,28 @@ export const writeAppealLetter = async(req, res) => {
                - Date of Birth: ${req.body.dob}
                - Claim Number: ${req.body.claimNumber}
                - Policy Number: ${req.body.policyNumber}
-               - Insurance Provider: ${req.body.insuranceProvider}
-               - Insurance Address: ${req.body.insuranceAddress}
+               - Insurance Provider Name: ${req.body.insuranceProvider}
+               - Insurance Provider Address: ${req.body.insuranceAddress}
                - Physician Name: ${req.body.physicianName}
                - Physician Address: ${req.body.physicianAddress}
                - Procedure Name: ${req.body.procedureName}
                - Denial Reason: ${req.body.denialReason}
                - Additional Details: ${req.body.additionalDetails}
+               - Appealer Name: ${req.body.appealerFirstName} ${req.body.appealerLastName}
+               - Appealer Address: ${req.body.appealerAddress}
+               - Appealer Email: ${req.body.appealerEmailAddress}
+               - Appealer Phone: ${req.body.appealerPhoneNumber}
+               - Appealer Relation: ${req.body.appealerRelation}
                
                Instructions:
-               - Begin the letter with the date and a formal salutation to the insurance provider.
+               - Begin the letter with the current date and a formal salutation to the insurance provider.
+               - Make sure all pieces of information are used in the appropriate location
                - Clearly state the purpose of the letter: to appeal the denial of coverage for the procedure.
                - Summarize the medical background and need for the procedure in 1-2 paragraphs.
                - Address and respectfully refute the denial reason using medical rationale or new evidence (based on "Additional Details").
                - Include a closing statement requesting reconsideration, and offer to provide further information.
                - Use formal tone and professional structure. Format the letter for printing if needed.
-               
+
                The entire letter should sound like it came from the patient or their authorized representative (e.g., physician or caregiver).
                Return only the letter content. No extra commentary.
                `

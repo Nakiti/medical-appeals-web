@@ -48,8 +48,6 @@ const Summary = () => {
       } catch (err) {
          console.error("Error submitting appeal:", err);
          setError("An error occurred. Please try again.");
-      } finally {
-         setLoading(false)
       }
    };
 

@@ -25,12 +25,8 @@ const FormUploadPage = () => {
    };
 
    const handleManualEntry = () => {
-      router.push(`/appeal/${appealId}/patient-details`)
+      router.push(`/appeal/${appealId}/appealer-details`)
    }
-
-   const handleClick = async () => {
-      router.push(`/appeal/${appealId}/patient-details`);
-   };
 
    const handleNext = async() => {
       try {
@@ -45,8 +41,8 @@ const FormUploadPage = () => {
       } catch (err) {
          console.log(err)
       } finally {
-         router.push(`/appeal/${appealId}/patient-details`)
-         setLoading(false)
+         router.push(`/appeal/${appealId}/appealer-details`)
+         // setLoading(false)
       }
    }
 

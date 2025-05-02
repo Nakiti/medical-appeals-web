@@ -27,6 +27,12 @@ export const FormContextProvider = ({appealId, children}) => {
       dateFiled: null,
       submitted: 0,
       status: "",
+      appealerFirstName: "",
+      appealerLastName: "",
+      appealerAddress: "",
+      appealerEmailAddress: "",
+      appealerPhoneNumber: "",
+      appealerRelation: ""
    })
    const [documents, setDocuments] = useState([])
    const [images, setImages] = useState([])
@@ -62,6 +68,12 @@ export const FormContextProvider = ({appealId, children}) => {
                dateFiled: response.date_filed || null,
                submitted: response.submitted || 0,
                status: response.status || "",
+               appealerFirstName: response.appealer_first_name || "",
+               appealerLastName: response.appealer_last_name || "",
+               appealerAddress: response.appealer_address || "",
+               appealerEmailAddress: response.appealer_email_address || "",
+               appealerPhoneNumber: response.appealer_phone_number || "",
+               appealerRelation: response.appealer_relation || ""
             })
 
             const documentsResponse = await getFilesByAppeal(appealId)

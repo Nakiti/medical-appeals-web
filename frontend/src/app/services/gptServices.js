@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080/api";
+const API_BASE_URL = "https://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.net/api";
 
 export const extractAppealDetails = async (files) => {
    try {
@@ -32,7 +32,14 @@ export const writeAppealLetter = async(inputs) => {
 
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
-      return {file: blob, url: url}
+
+      const file = new File([blob], "appeal-letter.pdf", {
+         type: "application/pdf",
+         lastModified: Date.now(),
+       });
+
+      console.log(file, url)
+      return {file: file, url: url}
 
    } catch (err) {
       console.log(err)
