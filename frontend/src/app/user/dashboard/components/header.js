@@ -37,32 +37,32 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
    }, []);
 
    return (
-      <header className="bg-white border-b w-full px-6 py-2 flex items-center justify-between z-40">
+      <header className="bg-gray-900 border-b border-gray-800 w-full px-6 py-4 flex items-center justify-between z-40">
          <div className="flex items-center space-x-4">
             <button
                onClick={handleSidebarToggle}
-               className="text-xl focus:outline-none hover:text-blue-600 transition-colors"
+               className="text-xl focus:outline-none text-gray-300 hover:text-white transition-colors"
                aria-label="Toggle Sidebar"
             >
                <FiMenu />
             </button>
-            <h1 className="text-md font-bold tracking-wide text-gray-800">Dashboard</h1>
+            <h1 className="text-lg font-bold tracking-wide text-white">Dashboard</h1>
          </div>
 
          <div className="relative" ref={dropdownRef}>
             <button
                onClick={toggleDropdown}
-               className="flex items-center justify-center text-xl text-gray-700 hover:text-blue-600 focus:outline-none transition"
+               className="flex items-center justify-center text-xl text-gray-300 hover:text-white focus:outline-none transition"
                aria-label="User Menu"
             >
                <FiUser />
             </button>
 
             {isDropdownOpen && (
-               <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg ring-1 ring-gray-200 animate-fadeIn">
+               <div className="absolute right-0 mt-2 w-44 bg-gray-800 rounded-lg shadow-lg ring-1 ring-gray-700 animate-fadeIn">
                   <button
                      onClick={handleLogout}
-                     className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition"
+                     className="w-full px-4 py-2 text-left text-sm text-gray-200 hover:bg-gray-700 transition"
                   >
                      Logout
                   </button>
@@ -70,6 +70,7 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
             )}
          </div>
       </header>
+
    );
 };
 

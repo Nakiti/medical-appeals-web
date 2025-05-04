@@ -6,10 +6,9 @@ import { checkClaimNumber } from "@/app/services/fetchServices";
 import { AuthContext } from "@/app/context/authContext";
 
 const ClaimNumber = () => {
-   const { inputs, handleInputsChange, appealId } = useContext(FormContext);
+   const { inputs, handleInputsChange, appealId, isLoggedIn } = useContext(FormContext);
    const router = useRouter();
    const { currentUser } = useContext(AuthContext);
-
    const [claimStatus, setClaimStatus] = useState(null);
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState("");
@@ -26,9 +25,10 @@ const ClaimNumber = () => {
       try {
          const claimExists = await checkClaimNumber(inputs.claimNumber);
          setClaimStatus(claimExists);
+         console.log("current user from claim ", currentUser)
 
          if (!claimExists) {
-            router.push(currentUser ? `/appeal/${appealId}/form-upload` : `/appeal/${appealId}/create-account`);
+            router.push(currentUser || isLoggedIn ? `/appeal/${appealId}/form-upload` : `/appeal/${appealId}/create-account`);
          }
       } catch (err) {
          console.error("Error checking claim number:", err);
@@ -40,7 +40,7 @@ const ClaimNumber = () => {
 
    return (
       <div className="w-full px-4">
-         <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 mx-auto py-8">
+         <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 mx-auto py-4">
             <p className="text-lg sm:text-xl">Let's Get You Started!</p>
             <p className="text-2xl sm:text-3xl font-semibold">Enter Your Claim Number below:</p>
 

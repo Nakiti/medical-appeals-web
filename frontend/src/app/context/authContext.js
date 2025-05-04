@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
 import { getCurrentUser } from "../services/fetchServices";
+import { login } from "../services/authServices";
 
 export const AuthContext = createContext()
 
@@ -16,14 +17,21 @@ export const AuthContextProvider = ({children}) => {
          const response = await getCurrentUser()
          console.log("from auth context ", response?.id)
          setCurrentUser(response?.id)
+         console.log("currentUser ", currentUser)
          setLoading(false)
       }
       
       fetchData()
-   }, [currentUser]);
+   }, []);
+
+   const loginUser = async(email, password) => {
+      const loginResponse = await login({ email: email, password: password })
+      setCurrentUser(loginResponse?.id)
+      return loginResponse
+   }
 
    return (
-      <AuthContext.Provider value={{currentUser, loading, setCurrentUser}}>
+      <AuthContext.Provider value={{currentUser, loading, setCurrentUser, loginUser}}>
          {children}
       </AuthContext.Provider>
    );

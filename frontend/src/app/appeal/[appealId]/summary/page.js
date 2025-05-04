@@ -34,7 +34,13 @@ const Summary = () => {
       });
 
       if (missingFields.length > 0) {
-         setError(`Please fill in all required fields: ${missingFields.join(", ")}`);
+         const formatFieldName = str => str
+            .replace(/([A-Z])/g, " $1")   // insert space before capital letters
+            .replace(/^./, c => c.toUpperCase()); // capitalize first letter
+         
+         const formattedFields = missingFields.map(formatFieldName).join(", ");
+         
+         setError(`Please fill in all required fields: ${formattedFields}`);
          setLoading(false)
          return;
       }
@@ -64,7 +70,7 @@ const Summary = () => {
    }
 
    return (
-      <div className="w-full flex items-center justify-center px-4 py-8">
+      <div className="w-full flex items-center justify-center px-4 py-4">
          <div className="w-full sm:w-4/5 md:w-2/3 lg:w-1/2">
             <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-6">Summary</h2>
             {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}

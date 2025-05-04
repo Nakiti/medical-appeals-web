@@ -4,6 +4,8 @@ import useFormInput from '../hooks/useFormInput';
 import { useRouter } from 'next/navigation';
 import { login } from '../services/authServices';
 import { useState } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../context/authContext';
 
 const Login = () => {
    const router = useRouter();
@@ -13,6 +15,7 @@ const Login = () => {
    });
    const [error, setError] = useState(false); // Updated to `false` initially
    const [errorMessage, setErrorMessage] = useState("");
+   const {loginUser} = useContext(AuthContext)
 
    const handleLogin = async (e) => {
       e.preventDefault();
@@ -20,8 +23,7 @@ const Login = () => {
          setError(false); // Reset error state
          setErrorMessage(""); // Clear any previous error message
 
-         const user = await login(inputs);
-         console.log(user);
+         const user = await loginUser(inputs.email, inputs.password);
 
          if (user.error) {
             setError(true);

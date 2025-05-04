@@ -10,15 +10,14 @@ const Deadlines = ({data}) => {
          
             {data && data.map(item => (
                <Link 
-                  href={`/user/dashboard/appeals/${item.appeal_id}/updates`}
+                  href={`/user/dashboard/appeals/${item.id}/`}
                   key={item.id}
                >
                   <div className="border-b border-gray-300 mb-4 pb-2 hover:bg-gray-100 cursor-pointer">
                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-semibold text-gray-700">{item.title}</p>
-                        <p className="text-sm text-gray-800">{item.internal_name}</p>
+                        <p className="text-sm font-semibold text-gray-700">{item.claim_number}</p>
                      </div>
-                     <p className="text-xs text-gray-700">{item.text}</p>
+                     <p className="text-xs text-gray-700">{new Date(item.appeal_deadline).toLocaleDateString("en-US")}</p>
                   </div>
                </Link>
             ))}

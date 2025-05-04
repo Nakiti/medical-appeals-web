@@ -154,7 +154,7 @@ const Home = () => {
 
             <div className="w-1/4 flex flex-col space-y-6">
                <Updates data={updates} />
-               <Deadlines data={updates} />
+               <Deadlines data={drafts} />
             </div>
          </div>
       </div>

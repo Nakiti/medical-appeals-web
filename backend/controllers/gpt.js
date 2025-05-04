@@ -140,7 +140,6 @@ export const writeAppealLetter = async(req, res) => {
                
                Instructions:
                - Begin the letter with the current date and a formal salutation to the insurance provider.
-               - Make sure all pieces of information are used in the appropriate location
                - Clearly state the purpose of the letter: to appeal the denial of coverage for the procedure.
                - Summarize the medical background and need for the procedure in 1-2 paragraphs.
                - Address and respectfully refute the denial reason using medical rationale or new evidence (based on "Additional Details").

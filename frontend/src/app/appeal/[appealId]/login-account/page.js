@@ -3,9 +3,10 @@ import { useState, useContext } from "react";
 import DefaultInput from "../../components/defaultInput";
 import { useRouter } from "next/navigation";
 import useFormInput from "@/app/hooks/useFormInput";
-import { login } from "@/app/services/authServices";
 import { FormContext } from "@/app/context/formContext";
 import { AuthContext } from "@/app/context/authContext";
+import Link from "next/link";
+import { getCurrentUser } from "@/app/services/fetchServices";
 
 const LoginAccountPage = () => {
    const router = useRouter();
@@ -14,7 +15,7 @@ const LoginAccountPage = () => {
       password: ""
    });
    const { appealId, setIsLoggedIn } = useContext(FormContext);
-   const {setCurrentUser} = useContext(AuthContext)
+   const {setCurrentUser, loginUser} = useContext(AuthContext)
    const [errors, setErrors] = useState({});
    const [serverError, setServerError] = useState("");
 
@@ -40,9 +41,8 @@ const LoginAccountPage = () => {
       if (!validateInputs()) return;
 
       try {
-         const loginResponse = await login({ email: inputs.email, password: inputs.password });
+         await loginUser(inputs.email, inputs.password);
          setIsLoggedIn(true);
-         setCurrentUser(loginResponse.id)
          router.push(`/appeal/${appealId}/form-upload`);
       } catch (err) {
          setServerError(err.message || "An error occurred while logging in.");
@@ -84,6 +84,14 @@ const LoginAccountPage = () => {
             >
                Login
             </button>
+            <div className="mt-4 text-center">
+               <p className="text-sm text-slate-400">
+                  Don't have an account?{" "}
+                  <Link href={`/appeal/${appealId}/create-account`} className="text-blue-500 hover:underline">
+                     Create Account
+                  </Link>
+               </p>
+            </div>
          </div>
       </div>
    );

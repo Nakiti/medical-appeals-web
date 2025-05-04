@@ -8,7 +8,7 @@ const ProcedureDetailsPage = () => {
    const { inputs, handleInputsChange, appealId } = useContext(FormContext)
 
    return (
-      <div className="w-full flex items-center justify-center px-4 py-8">
+      <div className="w-full flex items-center justify-center px-4 py-4">
          <div className="w-full sm:w-4/5 md:w-2/3 lg:w-1/2">
             <div className="mb-4">
                <p className="text-lg sm:text-xl text-left">Provide Additional Information</p>

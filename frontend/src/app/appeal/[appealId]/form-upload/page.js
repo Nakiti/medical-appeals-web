@@ -60,7 +60,7 @@ const FormUploadPage = () => {
    }
 
    return (
-      <div className="w-full flex items-center justify-center px-4 py-8">
+      <div className="w-full flex items-center justify-center px-4 py-4">
          <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3">
             <div className="mb-4">
                <p className="text-lg sm:text-xl text-left">Onto the Next Step!</p>
@@ -69,7 +69,7 @@ const FormUploadPage = () => {
                </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-2">
                {/* Upload Button */}
                <Link
                   className="bg-white border border-blue-500 w-full rounded-lg h-32 sm:h-36 p-4 sm:p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-300"
@@ -95,17 +95,17 @@ const FormUploadPage = () => {
                />
 
                <button
-                  className="flex items-center justify-center w-full rounded-full p-2 sm:p-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold text-sm sm:text-base"
+                  className="flex items-center justify-center w-full rounded-full p-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold text-sm sm:text-base"
                   onClick={handleUploadClick}
                >
-                  <FaUpload className="text-md sm:text-xl" />
+                  <FaUpload className="text-md" />
                   <span className="ml-3">Upload Files</span>
                </button>
                <button
-                  className="flex items-center justify-center w-full rounded-full p-2 sm:p-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold text-sm sm:text-base"
+                  className="flex items-center justify-center w-full rounded-full p-3 bg-gray-500 hover:bg-gray-600 text-white font-semibold text-sm sm:text-base"
                   onClick={handleManualEntry}
                >
-                  <FaPencilAlt className="text-md sm:text-xl" />
+                  <FaPencilAlt className="text-md" />
                   <span className="ml-3">Enter Details Manually</span>
                </button>
 
