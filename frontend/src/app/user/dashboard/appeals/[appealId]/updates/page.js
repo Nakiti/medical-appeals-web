@@ -56,7 +56,7 @@ const Updates = ({ params }) => {
    const categorizedNotifications = categorizeNotifications(notifications);
 
    return (
-      <div className="p-8 min-h-screen bg-gray-50">
+      <div className="p-8 min-h-screen bg-gray-50 bg-gradient-to-b from-white via-indigo-50 to-slate-100">
          <div className="container mx-auto md:px-8 bg-white p-6 rounded-md shadow-sm min-h-96">
             <h1 className="text-2xl text-gray-900 mb-6 font-semibold">Updates</h1>
             {notifications.length > 0 ? <div className="space-y-6">

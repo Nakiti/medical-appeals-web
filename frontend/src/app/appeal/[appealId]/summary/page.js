@@ -79,13 +79,14 @@ const Summary = () => {
                <SummaryItem title={title} fields={fields} inputs={inputs}/>
             ))}
 
+            <h1 className="text-lg sm:text-xl font-semibold border-b pb-2 mb-4">Files:</h1>
             {documents && documents.map((item, index) => (
                <DocumentDisplay item={item} key={index} />
             ))}
 
             <div className="w-full flex flex-col sm:flex-row justify-between gap-4 mt-6">
                <Link
-                  className="w-full sm:w-1/2 text-center rounded-full py-3 bg-gray-600 text-white font-bold text-base sm:text-lg hover:bg-gray-700 transition duration-200"
+                  className="flex-1 text-center rounded-full py-3 px-6 bg-gray-200 text-gray-700 font-medium text-base hover:bg-gray-300 transition duration-200 shadow-sm"
                   href={`/appeal/${appealId}/additional-details`}
                >
                   Back
@@ -93,7 +94,7 @@ const Summary = () => {
 
                <button
                   onClick={handleCreate}
-                  className="w-full sm:w-1/2 rounded-full py-3 bg-blue-800 text-white font-bold text-base sm:text-lg hover:bg-blue-900 transition duration-200"
+                  className="flex-1 text-center rounded-full py-3 px-6 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold text-base hover:opacity-90 transition duration-200 shadow-md"
                >
                   Create Appeal
                </button>

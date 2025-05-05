@@ -13,7 +13,7 @@ const ProcedureDetailsPage = () => {
             <div className="mb-4">
                <p className="text-lg sm:text-xl text-left">Provide Additional Information</p>
                <p className="text-2xl sm:text-3xl font-semibold text-left">
-                  Briefly Explain the Procedure and Denial Reason
+                  Explain the Procedure and Denial Reason
                </p>
             </div>
 

@@ -27,7 +27,7 @@ const AppealLayout = ({ params, children }) => {
 
    return (
       <FormContextProvider appealId={appealId}>
-         <div className="bg-gray-50 min-h-screen">
+         <div className="min-h-screen bg-gradient-to-b from-white via-indigo-50 to-slate-100 text-gray-800">
             <Header />
             <ProgressBar appealId={appealId} currentUser={currentUser}/>
             {children}

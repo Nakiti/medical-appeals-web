@@ -26,7 +26,7 @@ const PeoplePage = () => {
    };
 
    return (
-      <div className="p-8 bg-gray-50 min-h-screen">
+      <div className="p-8 bg-gray-50 min-h-screen bg-gradient-to-b from-white via-indigo-50 to-slate-100">
          <div className="bg-white p-6 rounded-md shadow-md">
             <h1 className="text-2xl font-semibold text-gray-800 mb-6">Doctor References</h1>
 

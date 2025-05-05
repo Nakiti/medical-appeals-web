@@ -118,7 +118,7 @@ const FormUploadPage = () => {
             {/* Next Button */}
             <button
                onClick={handleNext}
-               className="w-full mt-8 rounded-full py-3 sm:py-4 bg-blue-800 text-white font-bold text-base sm:text-lg hover:bg-blue-900 transition duration-200"
+               className="w-full mt-2 flex-1 text-center rounded-full py-3 px-6 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold text-base hover:opacity-90 transition duration-200 shadow-md"
             >
                Next
             </button>

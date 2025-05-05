@@ -70,7 +70,7 @@ const Drafts = () => {
    }
 
    return (
-      <div className="w-full min-h-screen bg-gray-100 md:p-8">
+      <div className="min-h-screen bg-gradient-to-b from-white via-indigo-50 to-slate-100 p-4 md:p-8 space-y-4">
          {open && (
             <ConfirmModal
                isOpen={open}
@@ -80,32 +80,30 @@ const Drafts = () => {
             />
          )}
 
-         <div className="w-full min-h-screen bg-white p-6 md:p-8 rounded-lg shadow-sm">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-6">
-               <h2 className="text-2xl font-bold text-gray-800">My Drafts</h2>
-               <div className="flex items-center space-x-3">
-                  {isEditing && (
-                     <button
-                        onClick={handleModalOpen}
-                        className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition"
-                        title="Delete Selected"
-                     >
-                        <FaTrash className="w-4 h-4" />
-                     </button>
-                  )}
+         <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-gray-800">My Drafts</h2>
+            <div className="flex items-centerspace-x-3">
+               {isEditing && (
                   <button
-                     onClick={toggleEdit}
-                     className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-lg transition"
+                     onClick={handleModalOpen}
+                     className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition"
+                     title="Delete Selected"
                   >
-                     {isEditing ? "Cancel" : "Edit"}
+                     <FaTrash className="w-4 h-4" />
                   </button>
-               </div>
+               )}
+               <button
+                  onClick={toggleEdit}
+                  className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-lg transition"
+               >
+                  {isEditing ? "Cancel" : "Edit"}
+               </button>
             </div>
+         </div>
 
+         <div className="">
 
-            {/* Searchbar */}
-            <div className="mb-6">
+            <div className="mb-2">
                <Searchbar
                   setData={setDrafts}
                   submitted={0}

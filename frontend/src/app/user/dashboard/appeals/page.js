@@ -55,15 +55,12 @@ const Appeals = () => {
    }
 
    return (
-      <div className="w-full min-h-screen bg-gray-50 md:p-8">
-         <div className="w-full min-h-screen bg-white p-6 md:p-8 rounded-lg shadow-sm">
-            {/* Header */}
-            <div className="mb-6">
-               <h2 className="text-2xl font-bold text-gray-800">My Appeals</h2>
-            </div>
-
-            {/* Search */}
-            <div className="mb-6">
+      <div className="min-h-screen bg-gradient-to-b from-white via-indigo-50 to-slate-100 p-4 md:p-8 space-y-4">
+         <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-800">My Appeals</h2>
+         </div>
+         <div className="">
+            <div className="mb-2">
                <Searchbar
                   setData={setAppeals}
                   userId={currentUser}
