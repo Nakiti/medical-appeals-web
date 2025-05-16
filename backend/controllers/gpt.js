@@ -73,7 +73,7 @@ export const extractData = (req, res) => {
          console.log("the text:", textString)
 
          const completion = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
+            model: "gpt-4o",
             messages: [
                { role: "user", 
                   content: 
@@ -113,7 +113,7 @@ export const writeAppealLetter = async(req, res) => {
 
    try {
       const completion = await openai.chat.completions.create({
-         model: "gpt-4.0",
+         model: "gpt-4o",
          messages: [
             {
                role: "user",
