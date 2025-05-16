@@ -78,20 +78,36 @@ export const extractData = (req, res) => {
                { role: "user", 
                   content: 
                   `
-                  Extract the following fields from the denial letter:
-                  - First Name
-                  - Last Name
-                  - Date of Birth
-                  - Insurance Provider
-                  - Insurance Address
-                  - Physician Name
-                  - Physician Address
-                  - Policy Number
-                  - Procedure Name
-                  - Denial Reason
-                  Format the response as a JSON string with keys firstName, lastName, dob, insuranceProvider, insuranceAddress, physicianName, physicianAddress, policyNumber, procedureName, denialReason   
-                  
-                  ${textString}` 
+                     You are a JSON extraction assistant.
+
+                     Your task is to extract the following information from the text of an insurance denial letter.
+
+                     **Instructions:**
+                     - Output a **single valid JSON object**.
+                     - Use the exact keys shown below.
+                     - Do **not include any explanation, markdown, or text outside the JSON**.
+                     - If a field is not present in the letter, return an empty string ("") as its value.
+
+                     **JSON keys:**
+                     - firstName
+                     - lastName
+                     - dob
+                     - insuranceProvider
+                     - insuranceAddress
+                     - physicianName
+                     - physicianAddress
+                     - policyNumber
+                     - procedureName
+                     - denialReason
+
+                     **Input Letter:**
+                     """ 
+                     ${textString}
+                     """
+
+                     **Output:**
+                     Return only the valid JSON object and nothing else.
+                  `
                }
             ],
          });
@@ -117,37 +133,41 @@ export const writeAppealLetter = async(req, res) => {
          messages: [
             {
                role: "user",
-               content: `
-               You are a professional medical appeals assistant writing a formal appeal letter in response to a denial from an insurance company. Use the following patient and denial information to generate a complete, persuasive, and well-formatted appeal letter.
-               
-               Details:
-               - Patient Name: ${req.body.firstName} ${req.body.lastName}
-               - Date of Birth: ${req.body.dob}
-               - Claim Number: ${req.body.claimNumber}
-               - Policy Number: ${req.body.policyNumber}
-               - Insurance Provider Name: ${req.body.insuranceProvider}
-               - Insurance Provider Address: ${req.body.insuranceAddress}
-               - Physician Name: ${req.body.physicianName}
-               - Physician Address: ${req.body.physicianAddress}
-               - Procedure Name: ${req.body.procedureName}
-               - Denial Reason: ${req.body.denialReason}
-               - Additional Details: ${req.body.additionalDetails}
-               - Appealer Name: ${req.body.appealerFirstName} ${req.body.appealerLastName}
-               - Appealer Address: ${req.body.appealerAddress}
-               - Appealer Email: ${req.body.appealerEmailAddress}
-               - Appealer Phone: ${req.body.appealerPhoneNumber}
-               - Appealer Relation: ${req.body.appealerRelation}
-               
-               Instructions:
-               - Begin the letter with the current date and a formal salutation to the insurance provider.
-               - Clearly state the purpose of the letter: to appeal the denial of coverage for the procedure.
-               - Summarize the medical background and need for the procedure in 1-2 paragraphs.
-               - Address and respectfully refute the denial reason using medical rationale or new evidence (based on "Additional Details").
-               - Include a closing statement requesting reconsideration, and offer to provide further information.
-               - Use formal tone and professional structure. Format the letter for printing if needed.
+               content: 
+               `
+                  You are a professional medical appeals assistant tasked with drafting a formal and persuasive appeal letter in response to a denied insurance claim. Using the information provided below, generate a complete and well-structured appeal letter that is suitable for printing and mailing.
 
-               The entire letter should sound like it came from the patient or their authorized representative (e.g., physician or caregiver).
-               Return only the letter content. No extra commentary.
+                  ### Patient & Claim Information
+                  - Patient Name: ${req.body.firstName} ${req.body.lastName}
+                  - Date of Birth: ${req.body.dob}
+                  - Claim Number: ${req.body.claimNumber}
+                  - Policy Number: ${req.body.policyNumber}
+                  - Insurance Provider: ${req.body.insuranceProvider}
+                  - Insurance Address: ${req.body.insuranceAddress}
+                  - Physician Name: ${req.body.physicianName}
+                  - Physician Address: ${req.body.physicianAddress}
+                  - Procedure: ${req.body.procedureName}
+                  - Denial Reason: ${req.body.denialReason}
+                  - Additional Medical or Contextual Details: ${req.body.additionalDetails}
+
+                  ### Appealer Information
+                  - Name: ${req.body.appealerFirstName} ${req.body.appealerLastName}
+                  - Relation to Patient: ${req.body.appealerRelation}
+                  - Address: ${req.body.appealerAddress}
+                  - Email: ${req.body.appealerEmailAddress}
+                  - Phone: ${req.body.appealerPhoneNumber}
+
+                  ### Formatting Instructions:
+                  - Start the letter with today’s date and a formal salutation addressed to the insurance provider.
+                  - Clearly state that this is an appeal of the denied procedure.
+                  - Include a short summary of the patient’s medical background and medical necessity of the procedure (1–2 paragraphs).
+                  - Respectfully refute the denial reason using the information provided, referencing any supporting medical rationale or new details.
+                  - End with a polite but firm request for reconsideration, offering to provide further documentation if needed.
+                  - Use a formal, professional tone throughout, as if written by the patient or their authorized representative.
+                  - The letter should be clear, concise, and printable.
+
+                  ### Output Requirement:
+                  Return **only the final letter content**, with no additional commentary or explanation.
                `
             }
          ]

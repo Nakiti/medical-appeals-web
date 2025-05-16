@@ -7,12 +7,14 @@ export const extractAppealDetails = async (files) => {
       const formData = new FormData()
       console.log("gpt files", files)
       files.forEach((item, index) => {
-         formData.append(`file${index}`, item)
+         console.log(item.file)
+         formData.append(`file${index}`, item.file)
       })
 
-      const response = await axios.post(`${API_BASE_URL}/gpt/extractData`, formData, 
-         {headers: {'Content-Type': 'multipart/form-data'}}
-      )
+
+      console.log(formData)
+
+      const response = await axios.post(`${API_BASE_URL}/gpt/extractData`, formData)
       return JSON.parse(response.data)
    } catch (err) {
       console.log(err)
