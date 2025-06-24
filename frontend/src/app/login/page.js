@@ -24,6 +24,7 @@ const Login = () => {
          setErrorMessage(""); // Clear any previous error message
 
          const user = await loginUser(inputs.email, inputs.password);
+         console.log(user)
 
          if (user.error) {
             setError(true);

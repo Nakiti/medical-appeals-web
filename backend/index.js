@@ -19,8 +19,10 @@ const corsOptions = {
    credentials: true, 
 }; 
 
-app.use(express.json())
 app.use(cors(corsOptions))
+app.options('*', cors(corsOptions)) // Handle preflight requests
+
+app.use(express.json())
 app.use(cookieParser())
 
 app.use("/api/user", userRoutes)
@@ -41,7 +43,7 @@ app.get("/", (req, res) => {
    res.send("its running!")
 })
 
-const port = 4000
+const port = 8080
 
 app.listen(port, (req, res) => {
    console.log("runninnnnnnnnnnnn")
