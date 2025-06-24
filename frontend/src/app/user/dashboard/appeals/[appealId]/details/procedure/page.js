@@ -1,10 +1,20 @@
 "use client"
-import { useContext } from "react"
+import { useContext, useMemo, useState } from "react"
 import { FormContext } from "@/app/context/formContext"
 import FormInput from "../../components/input"
 
 const ProcedureDetailsPage = () => {
-   const {inputs, handleInputsChange} = useContext(FormContext)
+   const {inputs, handleInputsChange, status} = useContext(FormContext)
+   const [isSaving, setIsSaving] = useState(false);
+   const [initialInputs, setInitialInputs] = useState({});
+   
+   const isChanged = useMemo(() => {
+      return JSON.stringify(inputs) !== JSON.stringify(initialInputs);
+   }, [inputs, initialInputs]);
+
+   const handleSave = () => {
+
+   }
 
    return (
       <div className="w-full max-w-4xl mx-auto py-4 px-6">
@@ -34,6 +44,7 @@ const ProcedureDetailsPage = () => {
                   onChange={handleInputsChange}
                   placeholder="Enter the reason for the denial"
                   className="p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out resize-none"
+                  disabled={status != "draft"}
                />
             </div>
 
@@ -48,17 +59,20 @@ const ProcedureDetailsPage = () => {
                   onChange={handleInputsChange}
                   placeholder="Enter additional information relevant to the appeal..."
                   className="p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out resize-none"
+                  disabled={status != "draft"}
                />
             </div>
          </div>
 
          <div className="w-full flex flex-row mt-6">
-            <button 
-               className={`ml-auto px-6 py-3 w-40 rounded-md shadow-sm text-md text-white `}
-               // onClick={handleSave}
-               // disabled={disabled}
+            <button
+               onClick={handleSave}
+               disabled={!isChanged || isSaving || status != "draft"}
+               className={`ml-auto px-6 py-3 w-40 rounded-md shadow-sm text-md text-white transition cursor-pointer
+                  ${!isChanged || isSaving || status != "draft" ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"}
+               `}
             >
-               Save
+               {isSaving ? "Saving..." : status !== "draft" ? "Submitted" : "Save"}
             </button>
          </div>
       </div>

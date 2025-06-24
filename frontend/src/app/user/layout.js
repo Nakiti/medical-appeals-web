@@ -1,3 +1,4 @@
+"use client"
 import { AuthContextProvider } from "@/app/context/authContext"
 
 const UserLayout = ({children}) => {

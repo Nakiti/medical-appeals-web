@@ -7,7 +7,7 @@ import { createBatchFiles } from "@/app/services/createServices";
 
 const DocumentsPage = () => {
    const fileInputRef = useRef();
-   const { documents, setDocuments, appealId } = useContext(FormContext);
+   const { documents, setDocuments, appealId, status } = useContext(FormContext);
    const [isExpanded, setIsExpanded] = useState(true);
    const maxFiles = 3;
 
@@ -36,7 +36,7 @@ const DocumentsPage = () => {
 
    return (
       <div className="p-10 bg-gradient-to-b from-white via-slate-50 to-slate-100 min-h-screen">
-         <div className="max-w-6xl mx-auto bg-white shadow-md rounded-lg px-8 py-10 space-y-12">
+         <div className="max-w-6xl mx-auto bg-white shadow-md rounded-lg px-8 py-10 space-y-6">
             {/* Header */}
             <div className="space-y-1">
                <h1 className="text-3xl font-light text-gray-900">Upload Documents</h1>
@@ -46,7 +46,7 @@ const DocumentsPage = () => {
             </div>
 
             {/* Upload Area */}
-            <div className="flex items-center gap-4">
+            {status == "draft" && <div className="flex items-center gap-4">
                <button
                   onClick={() => !atUploadLimit && fileInputRef.current.click()}
                   className={`w-full sm:w-1/2 px-6 py-4 border-2 border-dashed rounded-md text-sm flex items-center justify-center transition ${
@@ -66,7 +66,7 @@ const DocumentsPage = () => {
                   onChange={handleFileChange}
                   className="hidden"
                />
-            </div>
+            </div>}
 
             {/* Uploaded Documents */}
             <div>

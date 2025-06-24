@@ -5,7 +5,7 @@ import FormInput from "./input";
 import { FormContext } from "@/app/context/formContext";
 
 const DetailsForm = ({ title, subtitle, fields, onSave }) => {
-   const { inputs, handleInputsChange, appealId, documents } = useContext(FormContext);
+   const { inputs, handleInputsChange, appealId, documents, status } = useContext(FormContext);
    const [initialInputs, setInitialInputs] = useState({});
    const [isSaving, setIsSaving] = useState(false);
 
@@ -48,12 +48,12 @@ const DetailsForm = ({ title, subtitle, fields, onSave }) => {
          <div className="w-full flex flex-row mt-6">
             <button
                onClick={handleSave}
-               disabled={!isChanged || isSaving}
+               disabled={!isChanged || isSaving || status != "draft"}
                className={`ml-auto px-6 py-3 w-40 rounded-md shadow-sm text-md text-white transition 
-                  ${!isChanged || isSaving ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"}
+                  ${!isChanged || isSaving || status != "draft" ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"}
                `}
             >
-               {isSaving ? "Saving..." : "Save"}
+               {isSaving ? "Saving..." : status !== "draft" ? "Submitted" : "Save"}
             </button>
          </div>
       </div>
