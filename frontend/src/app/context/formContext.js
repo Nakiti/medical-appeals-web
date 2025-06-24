@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { useState, useEffect, useContext } from "react";
 import useFormInput from "../hooks/useFormInput";
-import { getAppeal, getFilesByAppeal } from "../services/fetchServices";
+import { getAppeal, getAppealLetter, getFilesByAppeal } from "../services/fetchServices";
 import { AuthContext } from "./authContext";
 
 export const FormContext = createContext()
@@ -39,6 +39,8 @@ export const FormContextProvider = ({appealId, children}) => {
    const [isLoggedIn, setIsLoggedIn] = useState(false) 
    const [appealLetterUrl, setAppealLetterUrl] = useState(null)
    const [appealLetter, setAppealLetter] = useState(null)
+   const [status, setStatus] = useState(null)
+   const [progress, setProgress] = useState(null)
 
    useEffect(() => {
       console.log("appealId", appealId)
@@ -52,7 +54,7 @@ export const FormContextProvider = ({appealId, children}) => {
                firstName: response.first_name || "",
                lastName: response.last_name || "",
                claimNumber: response.claim_number || "",
-               appealDeadline: response.appeal_deadline || "",
+               appealDeadline: new Date(response.appeal_deadline).toLocaleDateString() || "",
                ssn: response.ssn || "",
                dob: response.dob || "",
                insuranceProvider: response.insurance_provider || "",
@@ -75,10 +77,17 @@ export const FormContextProvider = ({appealId, children}) => {
                appealerPhoneNumber: response.appealer_phone_number || "",
                appealerRelation: response.appealer_relation || ""
             })
+            setStatus(response.submitted == 0 ? "draft" : "submitted")
+            setProgress(response.status)
 
             const documentsResponse = await getFilesByAppeal(appealId)
             console.log("docus ", documentsResponse)
             setDocuments(documentsResponse || [])
+
+            const appealLetterResponse = await getAppealLetter(appealId)
+            console.log("appeal letter response: ", appealLetterResponse)
+            setAppealLetterUrl(appealLetterResponse.blob_url)
+            setAppealLetter(appealLetterResponse)
          }
       }
 
@@ -86,7 +95,7 @@ export const FormContextProvider = ({appealId, children}) => {
    }, [])
 
    return (
-      <FormContext.Provider value={{inputs, handleInputsChange, setInputs, documents, setDocuments, appealId, images, setImages, isLoggedIn, setIsLoggedIn, appealLetter, setAppealLetter, appealLetterUrl, setAppealLetterUrl}}>
+      <FormContext.Provider value={{inputs, handleInputsChange, setInputs, documents, setDocuments, appealId, images, setImages, isLoggedIn, setIsLoggedIn, appealLetter, setAppealLetter, appealLetterUrl, setAppealLetterUrl, status, progress}}>
          {children}
       </FormContext.Provider>
    )

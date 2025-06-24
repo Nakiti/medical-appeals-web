@@ -14,6 +14,7 @@ export const createAppealLetter = (req, res) => {
    ]
  
    db.query(query, [values], (err, data) => {
+      console.log(data)
       if (err) return console.log(err)
       return res.status(200).json(data)
    })

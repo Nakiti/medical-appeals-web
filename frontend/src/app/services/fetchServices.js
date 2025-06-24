@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.net/api";
+const API_BASE_URL = "http://localhost:4000/api";
 
 export const getUser = async(userId) => {
    try {
@@ -141,6 +141,7 @@ export const checkClaimNumber = async(claimNumber) => {
 export const getAppealLetter = async(appealId) => {
    try {
       const response = await axios.get(`${API_BASE_URL}/appealLetter/get/${appealId}`)
+      console.log(response)
       return response.data[0]
    } catch (err) {
       console.log(err)

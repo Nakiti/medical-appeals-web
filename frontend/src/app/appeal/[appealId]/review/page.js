@@ -21,7 +21,8 @@ const ReviewPage = () => {
          status: "Ready to Submit",
       };
 
-      await processAppeal(appealData)
+      const appealId = await processAppeal(appealData)
+      router.push(`/user/dashboard/appeals/${appealId}`)
    }
 
    const handleSubmit = async() => {
@@ -45,15 +46,14 @@ const ReviewPage = () => {
 
             const appealLetterId = await createFile({appealId: appealId, fileName: "appeal-letter", fileType: "application/pdf"}, appealLetter)
             await createAppealLetter(appealLetterId, appealId)
+            return appealId
          } else {
             const newAppealId = await createAppeal(appealData, documents);
             await createBatchFiles(newAppealId, documents.map(item => item.file));
-
-            console.log("appeal Letter ", appealLetter)
+ 
             const appealLetterId = await createFile({appealId: newAppealId, fileName: "appeal-letter", fileType: "application/pdf"}, appealLetter)
-            console.log("appeal letter id: ", appealLetterId)
             const response = await createAppealLetter(appealLetterId, newAppealId)
-            console.log(response)
+            return newAppealId
          }
       } catch (err) {
          console.log(err)
@@ -82,18 +82,18 @@ const ReviewPage = () => {
          )}
 
          <div className="flex flex-col gap-4 w-3/4 mx-auto mt-8">
-            <button 
+            {/* <button 
                className="w-full rounded-full py-3 sm:py-4 bg-indigo-600 text-white font-semibold text-base sm:text-lg hover:bg-indigo-700 transition duration-200"
                onClick={() => setShowSubmitDialog(true)}
             >
                Submit
-            </button>
+            </button> */}
 
             <button 
                className="w-full rounded-full py-3 sm:py-4 bg-gray-200 text-gray-800 font-semibold text-base sm:text-lg hover:bg-gray-300 transition duration-200"
                onClick={handleSave}
             >
-               Save & Exit
+               View in Portal
             </button>
 
             <button 

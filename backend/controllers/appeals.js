@@ -45,9 +45,7 @@ export const createAppeal = (req, res) => {
 } 
 
 export const updateAppeal = (req, res) => {
-   const query = "UPDATE appeals SET `first_name` = ?, `last_name` = ?, `ssn` = ?, `dob` = ?, `insurance_provider` = ?, `insurance_address` = ?, `physician_name` = ?, `physician_address` = ?, `physician_phone` = ?, `physician_email` = ?, `policy_number` = ?, `procedure_name` = ?, `denial_reason` = ?, `additional_details` = ?, `supporting_documents` = ?, `date_filed` = ?, `submitted` = ?, `status` = ?, `updated_at` = ?, `appealer_first_name` = ?, `appealer_last_name` = ?, `appealer_address` = ? `appealer_email_address` = ?, `appealer_phone_number` = ?, `appealer_relation` = ? WHERE `id` = ?"
-
-   console.log((req.body.supportingDocuments))
+   const query = "UPDATE appeals SET `first_name` = ?, `last_name` = ?, `ssn` = ?, `dob` = ?, `insurance_provider` = ?, `insurance_address` = ?, `physician_name` = ?, `physician_address` = ?, `physician_phone` = ?, `physician_email` = ?, `policy_number` = ?, `procedure_name` = ?, `denial_reason` = ?, `additional_details` = ?, `supporting_documents` = ?, `date_filed` = ?, `submitted` = ?, `status` = ?, `updated_at` = ?, `appealer_first_name` = ?, `appealer_last_name` = ?, `appealer_address` = ?, `appealer_email_address` = ?, `appealer_phone_number` = ?, `appealer_relation` = ? WHERE `id` = ?"
  
    const values = [
       req.body.firstName,
@@ -78,7 +76,7 @@ export const updateAppeal = (req, res) => {
       req.params.id
    ]
 
-   console.log(values)
+   console.log("values ", values)
 
    db.query(query, values, (err, data) => {
       if (err) return console.log(err)

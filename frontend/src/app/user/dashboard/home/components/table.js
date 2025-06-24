@@ -1,10 +1,14 @@
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { SidebarContext } from "@/app/context/sidebarContext";
 
 const Table = ({ columns, data, type }) => {
    const router = useRouter()
+   const {setIsSidebarOpen} = useContext(SidebarContext)
 
    const handleClick = (id) => {
-      router.push(`/user/dashboard/appeals/${id}`)
+      router.push(`/user/dashboard/appeals/${id}/details/patient`)
+      setIsSidebarOpen(false)
    }
 
    const formatDate = (dateString) => {

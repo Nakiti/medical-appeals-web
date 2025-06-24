@@ -13,7 +13,7 @@ const Deadlines = ({data}) => {
                .slice(0, 5)
                .map(item => (
                <Link 
-                  href={`/user/dashboard/appeals/${item.id}/`}
+                  href={`/user/dashboard/appeals/${item.id}/details/patient`}
                   key={item.id}
                >
                   <div className="border-b border-gray-300 mb-4 pb-2 hover:bg-gray-100 cursor-pointer">

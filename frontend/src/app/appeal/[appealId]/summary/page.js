@@ -75,8 +75,8 @@ const Summary = () => {
             <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-6">Summary</h2>
             {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
 
-            {sections.map(({ title, fields }) => (
-               <SummaryItem title={title} fields={fields} inputs={inputs}/>
+            {sections.map(({ title, fields }, index) => (
+               <SummaryItem title={title} fields={fields} inputs={inputs} key={index}/>
             ))}
 
             <h1 className="text-lg sm:text-xl font-semibold border-b pb-2 mb-4">Files:</h1>

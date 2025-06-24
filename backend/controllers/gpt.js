@@ -123,77 +123,116 @@ export const extractData = (req, res) => {
    req.pipe(bb);
 };
 
-export const writeAppealLetter = async(req, res) => {
+export const writeAppealLetter = (req, res) => {
+   const bb = busboy({ headers: req.headers });
+   let fileBuffer = Buffer.alloc(0);
+   const files = [];
+   let inputs = null;
 
-   console.log("writing")
+   bb.on('field', (fieldname, val) => {
+      if (fieldname === 'inputs') {
+         inputs = JSON.parse(val); // stringified JSON
+      }
+   });
 
-   try {
-      const completion = await openai.chat.completions.create({
-         model: "gpt-4o",
-         messages: [
-            {
-               role: "user",
-               content: 
-               `
-                  You are a professional medical appeals assistant tasked with drafting a formal and persuasive appeal letter in response to a denied insurance claim. Using the information provided below, generate a complete and well-structured appeal letter that is suitable for printing and mailing.
+   bb.on('file', (fieldname, file, info) => {
+      const { filename, mimeType } = info;
+      let chunks = [];
 
-                  ### Patient & Claim Information
-                  - Patient Name: ${req.body.firstName} ${req.body.lastName}
-                  - Date of Birth: ${req.body.dob}
-                  - Claim Number: ${req.body.claimNumber}
-                  - Policy Number: ${req.body.policyNumber}
-                  - Insurance Provider: ${req.body.insuranceProvider}
-                  - Insurance Address: ${req.body.insuranceAddress}
-                  - Physician Name: ${req.body.physicianName}
-                  - Physician Address: ${req.body.physicianAddress}
-                  - Procedure: ${req.body.procedureName}
-                  - Denial Reason: ${req.body.denialReason}
-                  - Additional Medical or Contextual Details: ${req.body.additionalDetails}
+      file.on('data', (data) => chunks.push(data));
 
-                  ### Appealer Information
-                  - Name: ${req.body.appealerFirstName} ${req.body.appealerLastName}
-                  - Relation to Patient: ${req.body.appealerRelation}
-                  - Address: ${req.body.appealerAddress}
-                  - Email: ${req.body.appealerEmailAddress}
-                  - Phone: ${req.body.appealerPhoneNumber}
-
-                  ### Formatting Instructions:
-                  - Start the letter with today’s date and a formal salutation addressed to the insurance provider.
-                  - Clearly state that this is an appeal of the denied procedure.
-                  - Include a short summary of the patient’s medical background and medical necessity of the procedure (1–2 paragraphs).
-                  - Respectfully refute the denial reason using the information provided, referencing any supporting medical rationale or new details.
-                  - End with a polite but firm request for reconsideration, offering to provide further documentation if needed.
-                  - Use a formal, professional tone throughout, as if written by the patient or their authorized representative.
-                  - The letter should be clear, concise, and printable.
-
-                  ### Output Requirement:
-                  Return **only the final letter content**, with no additional commentary or explanation.
-               `
-            }
-         ]
-      })
-
-      const letterText = completion.choices[0].message.content
-
-      const doc = new PDFDocument()
-      let buffers = []
-
-      doc.on("data", buffers.push.bind(buffers))
-      doc.on("end", () => {
-         const pdfData = Buffer.concat(buffers)
-
-         res.setHeader("Content-Type", "application/pdf")
-         res.setHeader("Content-Disposition", "attatchment; filename=appeal-letter.pdf")
-         res.send(pdfData)
-      })
-
-      doc.font("Times-Roman").fontSize(12).text(letterText, {
-         align: "left",
-         lineGap: 6,
+      file.on('end', () => {
+         const buffer = Buffer.concat(chunks);
+         files.push({ buffer, mimeType, filename });
       });
+   });
 
-      doc.end();
-   } catch (err) {
-      console.log(err)
-   }
-}
+   bb.on('finish', async () => {
+      try {
+         let documentText = "";
+
+         for (const { buffer, mimeType } of files) {
+         if (mimeType === "application/pdf") {
+            const pdfUint8Array = new Uint8Array(buffer);
+            const loadingTask = pdfjsLib.getDocument(pdfUint8Array);
+            const pdfDocument = await loadingTask.promise;
+
+            for (let pageNum = 1; pageNum <= pdfDocument.numPages; pageNum++) {
+               const page = await pdfDocument.getPage(pageNum);
+               const textContent = await page.getTextContent();
+               documentText += textContent.items.map((i) => i.str).join(" ") + "\n";
+            }
+         }
+         // Optionally support image OCR here like you do in extractData
+         }
+
+         console.log(documentText)
+
+         const prompt = `
+            You are a professional medical appeals assistant tasked with drafting a formal appeal letter.
+
+            ### Patient Info
+            - Name: ${inputs.firstName} ${inputs.lastName}
+            - DOB: ${inputs.dob}
+            - Claim #: ${inputs.claimNumber}
+            - Policy #: ${inputs.policyNumber}
+            - Insurance: ${inputs.insuranceProvider}
+            - Address: ${inputs.insuranceAddress}
+            - Physician: ${inputs.physicianName}, ${inputs.physicianAddress}
+            - Procedure: ${inputs.procedureName}
+            - Denial Reason: ${inputs.denialReason}
+            - Details: ${inputs.additionalDetails}
+
+            ### Appealer Info
+            - Name: ${inputs.appealerFirstName} ${inputs.appealerLastName}
+            - Relation: ${inputs.appealerRelation}
+            - Address: ${inputs.appealerAddress}
+            - Email: ${inputs.appealerEmailAddress}
+            - Phone: ${inputs.appealerPhoneNumber}
+
+            ### Supporting Docs:
+            ${documentText}
+
+            ### Instructions:
+            - Format this as a professional appeal letter ready to be printed and mailed.
+            - Include medical justification, and a request for reconsideration.
+            - Output only the final letter content.
+            `
+         ;
+
+         const completion = await openai.chat.completions.create({
+            model: "gpt-4o",
+            messages: [{ role: "user", content: prompt }]
+         });
+
+         const letterText = completion.choices[0].message.content;
+         console.log(letterText)
+
+         // Generate PDF
+         const doc = new PDFDocument();
+         const buffers = [];
+
+         doc.on("data", buffers.push.bind(buffers));
+         doc.on("end", () => {
+         const pdfData = Buffer.concat(buffers);
+            res.setHeader("Content-Type", "application/pdf");
+            res.setHeader("Content-Disposition", "attachment; filename=appeal-letter.pdf");
+            res.send(pdfData);
+         });
+
+         doc.font("Times-Roman").fontSize(12).text(letterText, {
+            align: "left",
+            lineGap: 6,
+         });
+         console.log("pdf sent")
+         doc.end();
+      } catch (err) {
+         console.error("Error generating appeal letter:", err);
+         res.status(500).json({ error: "Error generating letter" });
+      }
+   });
+
+   req.pipe(bb);
+};
+
+

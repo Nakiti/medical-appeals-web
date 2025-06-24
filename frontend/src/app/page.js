@@ -26,7 +26,7 @@ export default function LandingPage() {
                      href={currentUser ? "/user/dashboard/home" : "/login"}
                      className="px-5 py-2 rounded-full text-white bg-gradient-to-r from-indigo-500 to-blue-500 hover:opacity-90 transition font-semibold text-sm"
                   >
-                     Login
+                     {!currentUser ? "Login" : "Dashboard"}
                   </Link>
                </div>
             </nav>

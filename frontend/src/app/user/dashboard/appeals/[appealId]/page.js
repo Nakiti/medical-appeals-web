@@ -7,6 +7,13 @@ import AppealDocuments from './components/appealDocuments';
 import { useRouter } from 'next/navigation';
 import { IoDocumentTextOutline } from "react-icons/io5";
 import LoadingSpinner from '@/app/components/loadingSpinner';
+import { FiEdit } from 'react-icons/fi';
+import { FaSave } from 'react-icons/fa';
+import { FiRefreshCcw } from "react-icons/fi";
+import Research from './components/research';
+import { updateAppeal, updateFile } from '@/app/services/updateServices';
+import { createAppealLetter, createFile } from '@/app/services/createServices';
+import { writeAppealLetter } from '@/app/services/gptServices';
 
 const AppealScreen = ({ params }) => {
    const [data, setData] = useState(null);
@@ -16,6 +23,7 @@ const AppealScreen = ({ params }) => {
    const appealId = unwrappedParams.appealId;
    const [isDraft, setIsDraft] = useState(false)
    const router = useRouter()
+   const [dropdown, setDropdown] = useState("details")
 
    const [inputs, setInputs] = useState({
       firstName: "",
@@ -31,6 +39,11 @@ const AppealScreen = ({ params }) => {
       procedureName: "",
       denialReason: "",
       additionalDetails: "",
+      appealerAddress: "",
+      appealerFirstName: "",
+      appealerLastName: "",
+      appealerRelation: "",
+      appealerPhoneNumber: "",
    })
 
    useEffect(() => {
@@ -39,7 +52,10 @@ const AppealScreen = ({ params }) => {
             const response = await getAppeal(appealId);
             setData(response);
             setIsDraft(response.submitted == 1 ? false : true)
+            const appealLetter = await getAppealLetter(appealId)
             console.log(isDraft)
+            console.log(response)
+            console.log("appeal", appealLetter)
 
             setInputs({
                firstName: response.first_name,
@@ -55,12 +71,18 @@ const AppealScreen = ({ params }) => {
                procedureName: response.procedure_name,
                denialReason: response.denial_reason,
                additionalDetails: response.additional_details,
+               appealerAddress: response.appealer_address,
+               appealerFirstName: response.appealer_first_name,
+               appealerLastName: response.appealer_last_name,
+               appealerRelation: response.appealer_relation,
+               appealerPhoneNumber: response.appealer_phone_number,
             })
 
             const filesResponse = await getFilesByAppeal(appealId);
             setFiles(filesResponse);
             
             const appealLetterResponse = await getAppealLetter(appealId)
+            console.log("appeal letter", appealLetterResponse)
             setAppealLetter(appealLetterResponse)
          } catch (err) {
             console.log(err);
@@ -78,51 +100,99 @@ const AppealScreen = ({ params }) => {
       router.push(`/appeal/${appealId}/form-upload`)
    }
 
+   const handleDropdownChange = (e) => {
+      setDropdown(e.target.value)
+   }
+
+   const handleSave = async() => {
+      await updateAppeal(appealId, inputs, [])
+   }
+
+   const handleGenarate = async() => {
+      const {file, url} = await writeAppealLetter(inputs)
+      console.log(url)
+      setAppealLetter(url)
+
+      const appealLetterId = await updateFile({appealId: appealId, fileName: "appeal-letter", fileType: "application/pdf"}, file)
+      await createAppealLetter(appealLetterId, appealId)
+   }
+
    if (!data) {
       return <LoadingSpinner />;
    }
 
    return (
-      <div className="p-4 sm:p-8 min-h-screen bg-gradient-to-b from-white via-indigo-50 to-slate-100">
-        {data && (
-          <div className="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto">
-            {/* Left Column */}
-            <div className="lg:w-3/4 bg-white rounded-xl shadow-sm overflow-hidden">
-              <div className="px-6 pt-6 pb-4 border-b border-gray-100">
-                <h2 className="text-2xl font-bold text-gray-800">Your Appeal</h2>
-                {!isDraft && (
-                  <div className="mt-4">
-                    <ProgressBar currentStatus="Submitted" />
+      <div className="p-4 min-h-screen bg-gradient-to-b from-white via-indigo-50 to-slate-100">
+         {data && 
+            <div className="flex flex-col lg:flex-row gap-4 max-w-7xl mx-auto">
+            {/* Left: Appeal Details */}
+            <div className="lg:w-1/2 bg-white rounded-xl shadow-sm overflow-hidden">
+               <div className="px-4 pt-4">
+               {/* Top Row: Title and Buttons */}
+               <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-bold text-gray-800">Manage Appeal</h2>
+
+                  <div className="flex gap-3">
+                     {/* Generate Button */}
+                     <button
+                        className="flex items-center gap-1 px-4 py-1.5 text-xs font-medium rounded-full border bg-gradient-to-r from-green-400 to-blue-500 text-white"
+                        onClick={handleGenarate}
+                     >
+                     <p>Generate</p>
+                     <FiRefreshCcw size={16} />
+                     </button>
+
+                     {/* Save Button */}
+                     <button
+                     className="flex items-center gap-1 px-4 py-1.5 text-xs font-medium rounded-full border bg-gradient-to-r from-slate-400 to-indigo-500 text-white"
+                     >
+                     <p>Save</p>
+                     <FaSave size={16} />
+                     </button>
                   </div>
-                )}
-              </div>
-    
-              {/* Appeal Letter */}
-              {appealLetter && (
-                <div className="px-6 py-5 border-b border-gray-100">
-                  <p className="text-lg font-semibold text-gray-700 mb-3">Appeal Letter:</p>
-                  <button
-                    className="flex items-center gap-3 px-4 py-2 rounded-lg border border-indigo-300 bg-white hover:bg-indigo-50 text-indigo-700 transition font-medium text-sm"
-                    onClick={() => window.open(appealLetter.blob_url, "_blank")}
+               </div>
+
+               {/* Dropdown Below Everything */}
+               <div className="">
+                  <select
+                     className="w-48 px-2 py-2 text-sm border border-gray-300 rounded-md mt-2 bg-transparent focus:outline-none focus:border-indigo-500 text-gray-700"
+                     value={dropdown}
+                     onChange={handleDropdownChange}
                   >
-                    <IoDocumentTextOutline size={22} className="text-indigo-600" />
-                    View Appeal Letter
-                  </button>
-                </div>
-              )}
-    
-              {/* Details */}
-              <AppealDetails inputs={inputs} isDraft={isDraft} handleDetailsEdit={handleDetailsEdit} />
+                     <option value="details">Appeal Details</option>
+                     <option value="research">Research</option>
+                  </select>
+               </div>
+               </div>
+
+               {dropdown == "details" ?                
+                  <AppealDetails
+                     rawData={inputs}
+                     isDraft={isDraft}
+                     isEditing={true}
+                     onChange={(key, value) =>
+                     setInputs((prev) => ({ ...prev, [key]: value }))
+                     }
+                  />
+                  : <Research />
+               }
             </div>
-    
-            {/* Right Column */}
-            <AppealDocuments
-              files={files}
-              isDraft={isDraft}
-              handleDocumentsAdd={handleDocumentsAdd}
-            />
-          </div>
-        )}
+
+            {/* Right: Appeal Letter Viewer */}
+            <div className="lg:w-1/2 bg-white rounded-xl shadow-sm min-h-[300px] flex items-center justify-center">
+               {appealLetter?.blob_url ? (
+                  <iframe
+                  src={appealLetter.blob_url}
+                  title="Appeal Letter"
+                  className="w-full h-full border rounded-md"
+                  />
+               ) : (
+                  <p className="text-gray-500 text-center text-sm">
+                  No appeal letter yet. Click <span className="font-semibold">Generate</span> to create one.
+                  </p>
+               )}
+            </div>
+            </div>}
       </div>
     );
     

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.net/api";
+const API_BASE_URL = "http://localhost:4000/api";
 
 export const extractAppealDetails = async (files) => {
    try {
@@ -21,15 +21,16 @@ export const extractAppealDetails = async (files) => {
    }
 }
 
-export const writeAppealLetter = async(inputs) => {
+export const writeAppealLetter = async(inputs, documents = []) => {
    try {
-      const response = await axios.post(
-         `${API_BASE_URL}/gpt/writeLetter`,
-         inputs,
-         {
-            responseType: "blob",
-         }
-      )
+      const formData = new FormData();
+      formData.append("inputs", JSON.stringify(inputs));
+      documents.forEach((doc) => formData.append("documents", doc)); // actual File objects
+
+      const response = await axios.post(`${API_BASE_URL}/gpt/writeLetter`, formData, {
+         responseType: "blob",
+         headers: { "Content-Type": "multipart/form-data" }
+      });
 
 
       const blob = new Blob([response.data], { type: "application/pdf" });

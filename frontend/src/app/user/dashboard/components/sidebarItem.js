@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useContext } from "react";
+import { SidebarContext } from "@/app/context/sidebarContext";
 
-const SidebarItem = ({ icon, text, isCollapsed, link }) => {
+const SidebarItem = ({ icon, text, link }) => {
   const pathname = usePathname();
   const isActive = pathname === link;
+  const {isSidebarOpen} = useContext(SidebarContext)
 
   return (
     <Link href={link}>
@@ -15,7 +18,7 @@ const SidebarItem = ({ icon, text, isCollapsed, link }) => {
           }`}
       >
         <div className="text-lg">{icon}</div>
-        {isCollapsed && <span className="text-sm">{text}</span>}
+        {isSidebarOpen && <span className="text-sm">{text}</span>}
       </div>
     </Link>
   );
