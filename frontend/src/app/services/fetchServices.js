@@ -1,10 +1,11 @@
 import axios from "axios";
+import { api } from "./api";
 
-const API_BASE_URL = "https://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.net/api";
+const API_BASE_URL = "http://localhost:8080/api";
 
 export const getUser = async(userId) => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/user/get/${userId}`)
+      const response = await api.get(`/user/get/${userId}`)
       return response.data[0]
    } catch (err) {
       console.log(err)
@@ -13,9 +14,7 @@ export const getUser = async(userId) => {
 
 export const getCurrentUser = async() => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/auth/getCurrentUser`, {
-         withCredentials: true,
-      });
+      const response = await api.get(`/auth/getCurrentUser`);
       return response.data
    } catch (err) {
       console.log(err)
@@ -25,7 +24,7 @@ export const getCurrentUser = async() => {
 
 export const getAppeal = async (id) => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/appeal/get/${id}`)
+      const response = await api.get(`/appeal/get/${id}`)
       return response.data[0]
    } catch (err) {
       console.log(err)
@@ -34,7 +33,7 @@ export const getAppeal = async (id) => {
 
 export const getAppealSearch = async (query, submitted, userId) => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/appeal/getAppealSearch/${submitted}/${userId}?q=${query}`)
+      const response = await api.get(`/appeal/getAppealSearch/${submitted}/${userId}?q=${query}`)
       return response.data
    } catch (err) {
       console.log(err)
@@ -43,7 +42,7 @@ export const getAppealSearch = async (query, submitted, userId) => {
 
 export const getAppealsByUser = async(userId) => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/appeal/getByUser/${userId}`)
+      const response = await api.get(`/appeal/getByUser/${userId}`)
       return response.data
    } catch (err) {
       console.log(err)
@@ -52,7 +51,7 @@ export const getAppealsByUser = async(userId) => {
 
 export const getSubmittedAppeals = async(userId) => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/appeal/getSubmitted/${userId}`)
+      const response = await api.get(`/appeal/getSubmitted/${userId}`)
       return response.data
    } catch (err) {
       console.log(err)
@@ -62,7 +61,7 @@ export const getSubmittedAppeals = async(userId) => {
 export const getDrafts = async(userId) => {
    try {
       console.log("from da drafts", userId)
-      const response = await axios.get(`${API_BASE_URL}/appeal/getDrafts/${userId}`)
+      const response = await api.get(`/appeal/getDrafts/${userId}`)
       // console.log("drafts", response.data)
       return response.data
    } catch (err) {
@@ -72,7 +71,7 @@ export const getDrafts = async(userId) => {
 
 export const getAllAppeals = async() => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/appeal/getAllAppeals`)
+      const response = await api.get(`/appeal/getAllAppeals`)
       return response.data
    } catch (err) {
       console.log(err)
@@ -81,7 +80,7 @@ export const getAllAppeals = async() => {
 
 export const getAppealsSearchAdmin = async(query) => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/appeal/admin/search?q=${query}`)
+      const response = await api.get(`/appeal/admin/search?q=${query}`)
       return response.data
    } catch (err) {
       console.log(err)
@@ -90,7 +89,7 @@ export const getAppealsSearchAdmin = async(query) => {
 
 export const getNotificationByUserId = async(userId) => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/notifications/getByUser/${userId}`)
+      const response = await api.get(`/notifications/getByUser/${userId}`)
       return response.data
    } catch (err) {
       console.log(err)
@@ -99,7 +98,7 @@ export const getNotificationByUserId = async(userId) => {
 
 export const getNotificationsByAppealId = async(appealId) => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/notifications/getByAppeal/${appealId}`)
+      const response = await api.get(`/notifications/getByAppeal/${appealId}`)
       return response.data
    } catch (err) {
       console.log(err)
@@ -108,7 +107,7 @@ export const getNotificationsByAppealId = async(appealId) => {
 
 export const getFilesByAppeal = async(appealId) => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/files/get/${appealId}`)
+      const response = await api.get(`/files/get/${appealId}`)
       return response.data
    } catch (err) {
       console.log(err)
@@ -117,7 +116,7 @@ export const getFilesByAppeal = async(appealId) => {
 
 export const getAllSubmittedAppeals = async() => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/appeal/getAllSubmitted`)
+      const response = await api.get(`/appeal/getAllSubmitted`)
       console.log(response)
       return response.data
    } catch (err) {
@@ -127,7 +126,7 @@ export const getAllSubmittedAppeals = async() => {
 
 export const checkClaimNumber = async(claimNumber) => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/appeal/checkClaimNumber`, { params: { claimNumber } })
+      const response = await api.get(`/appeal/checkClaimNumber`, { params: { claimNumber } })
       if (response.data.length > 0) {
          return true
       } else {
@@ -140,7 +139,7 @@ export const checkClaimNumber = async(claimNumber) => {
 
 export const getAppealLetter = async(appealId) => {
    try {
-      const response = await axios.get(`${API_BASE_URL}/appealLetter/get/${appealId}`)
+      const response = await api.get(`/appealLetter/get/${appealId}`)
       console.log(response)
       return response.data[0]
    } catch (err) {

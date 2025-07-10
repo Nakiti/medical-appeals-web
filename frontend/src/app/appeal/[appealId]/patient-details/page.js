@@ -34,13 +34,13 @@ const PatientDetailsPage = () => {
                   name="lastName"
                   handleInputsChange={handleInputsChange}
                />
-               <DefaultInput
+               {/* <DefaultInput
                   label="SSN"
                   value={inputs.ssn}
                   placeholder="Enter SSN"
                   name="ssn"
                   handleInputsChange={handleInputsChange}
-               />
+               /> */}
                <DefaultInput
                   label="Policy Number"
                   value={inputs.policyNumber}

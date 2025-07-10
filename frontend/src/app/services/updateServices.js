@@ -1,12 +1,12 @@
 import axios from "axios";
-
-const API_BASE_URL = "https://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.net/api";
+import { api } from "./api";
+const API_BASE_URL = "http://localhost:8080/api";
 
 export const updateAppeal = async(id, data, documents) => {
    try {
       console.log("doc", JSON.stringify(documents))
       if (documents.length > 0) {
-         await axios.put(`${API_BASE_URL}/appeal/update/${id}`, {
+         await api.put(`/appeal/update/${id}`, {
             supportingDocuments: JSON.stringify(documents),
             ...data
             
@@ -29,7 +29,7 @@ export const updateFile = async(fileId, data, file) => {
       console.log(data)
       console.log("form from createFile", form)
 
-      const response = await axios.put(`${API_BASE_URL}/files/update/${fileId}`, form, {
+      const response = await api.put(`/files/update/${fileId}`, form, {
          headers: {
             'Content-Type': 'multipart/form-data',
          },

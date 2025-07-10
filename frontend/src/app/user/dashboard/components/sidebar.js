@@ -24,9 +24,9 @@ const Sidebar = () => {
          </div>
 
          {/* Divider */}
-         <div className="mt-10 pt-6 border-t border-gray-100 space-y-2">
+         {/* <div className="mt-10 pt-6 border-t border-gray-100 space-y-2">
             <SidebarItem icon={<IoIosSettings />} text="Settings" link="/user/dashboard/settings" />
-         </div>
+         </div> */}
       </aside>
    );
 };

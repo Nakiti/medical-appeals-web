@@ -22,7 +22,7 @@ const ReviewPage = () => {
       };
 
       const appealId = await processAppeal(appealData)
-      router.push(`/user/dashboard/appeals/${appealId}`)
+      router.push(`/user/dashboard/appeals/${appealId}/details/patient`)
    }
 
    const handleSubmit = async() => {
@@ -63,6 +63,7 @@ const ReviewPage = () => {
    }
 
    const handleEdit = () => {
+      console.log("click")
       router.push(`/appeal/${appealId}/appealer-details`)
    }
 
@@ -90,14 +91,14 @@ const ReviewPage = () => {
             </button> */}
 
             <button 
-               className="w-full rounded-full py-3 sm:py-4 bg-gray-200 text-gray-800 font-semibold text-base sm:text-lg hover:bg-gray-300 transition duration-200"
+               className="w-full rounded-full py-3 sm:py-4 bg-indigo-600 text-white font-semibold text-base sm:text-lg hover:bg-indigo-500 transition duration-200"
                onClick={handleSave}
             >
-               View in Portal
+               Save & Exit
             </button>
 
             <button 
-               className="w-full rounded-full py-3 sm:py-4 bg-white border border-gray-300 text-gray-700 font-semibold text-base sm:text-lg hover:bg-gray-100 transition duration-200"
+               className="w-full rounded-full py-3 sm:py-4 bg-gray-200 border border-gray-300 text-gray-700 font-semibold text-base sm:text-lg hover:bg-gray-100 transition duration-200"
                onClick={handleEdit}
             >
                Edit

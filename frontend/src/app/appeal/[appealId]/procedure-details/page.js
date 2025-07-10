@@ -31,7 +31,7 @@ const ProcedureDetailsPage = () => {
                      Reason For Denial
                   </label>
                   <textarea
-                     className="w-full bg-white rounded-md py-2 px-4 text-base text-gray-800 h-56 border border-gray-600 shadow-sm"
+                     className="w-full bg-white rounded-md py-2 px-4 text-base text-gray-800 h-52 border border-gray-600 shadow-sm"
                      placeholder="Enter Reason For Denial"
                      name="denialReason"
                      onChange={handleInputsChange}

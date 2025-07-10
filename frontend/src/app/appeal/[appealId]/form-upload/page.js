@@ -29,21 +29,25 @@ const FormUploadPage = () => {
    }
 
    const handleNext = async() => {
-      try {
-         setLoading(true)
-         if (documents.length > 0) {
+      if (documents.length > 0) {
+         try {
+            setLoading(true)
             const response = await extractAppealDetails(documents)
             setInputs({
                ...inputs, 
                ...response
             })
+            
+         } catch (err) {
+            console.log(err)
+         } finally {
+            router.push(`/appeal/${appealId}/appealer-details`)
+            // setLoading(false)
          }
-      } catch (err) {
-         console.log(err)
-      } finally {
+      } else {
          router.push(`/appeal/${appealId}/appealer-details`)
-         // setLoading(false)
       }
+
    }
 
    const handleRemove = (id) => {
@@ -62,7 +66,7 @@ const FormUploadPage = () => {
    return (
       <div className="w-full flex items-center justify-center px-4 py-4">
          <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3">
-            <div className="mb-4">
+            <div className="mb-16">
                <p className="text-lg sm:text-xl text-left">Onto the Next Step!</p>
                <p className="text-2xl sm:text-3xl font-semibold text-left">
                   Upload any forms/letters relevant to the appeal
@@ -71,22 +75,13 @@ const FormUploadPage = () => {
 
             <div className="space-y-2">
                {/* Upload Button */}
-               <Link
+               {/* <Link
                   className="bg-white border border-blue-500 w-full rounded-lg h-32 sm:h-36 p-4 sm:p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-300"
                   href={`/user/appeal/edit/capture/camera`}
                >
                   <FaCamera className="text-3xl sm:text-4xl text-gray-500" />
                   <p className="text-gray-500 font-semibold mt-3 sm:mt-4 text-sm sm:text-base">Take a Picture</p>
-               </Link>
-
-               {/* Divider */}
-               <div className="flex items-center justify-center w-full">
-                  <div className="flex-grow h-px bg-gray-300"></div>
-                  <span className="px-3 text-gray-500 font-semibold text-sm">or</span>
-                  <div className="flex-grow h-px bg-gray-300"></div>
-               </div>
-
-               {/* File Upload */}
+               </Link> */}
                <input
                   type="file"
                   ref={fileInputRef}
@@ -101,6 +96,15 @@ const FormUploadPage = () => {
                   <FaUpload className="text-md" />
                   <span className="ml-3">Upload Files</span>
                </button>
+               {/* Divider */}
+               <div className="flex items-center justify-center w-full">
+                  <div className="flex-grow h-px bg-gray-300"></div>
+                  <span className="px-3 text-gray-500 font-semibold text-sm">or</span>
+                  <div className="flex-grow h-px bg-gray-300"></div>
+               </div>
+
+               {/* File Upload */}
+
                <button
                   className="flex items-center justify-center w-full rounded-full p-3 bg-gray-500 hover:bg-gray-600 text-white font-semibold text-sm sm:text-base"
                   onClick={handleManualEntry}
@@ -118,7 +122,7 @@ const FormUploadPage = () => {
             {/* Next Button */}
             <button
                onClick={handleNext}
-               className="w-full mt-2 flex-1 text-center rounded-full py-3 px-6 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold text-base hover:opacity-90 transition duration-200 shadow-md"
+               className="w-full mt-16 flex-1 text-center rounded-full py-3 px-6 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold text-base hover:opacity-90 transition duration-200 shadow-md"
             >
                Next
             </button>

@@ -12,12 +12,14 @@ const upload = multer({
 
 const accountName  = "appeals"
 const containerName = "appeals"
-const token = "sp=racwdli&st=2025-06-19T13:01:12Z&se=2025-07-01T21:01:12Z&spr=https&sv=2024-11-04&sr=c&sig=0UxId%2BrO38rQ67UREoVqHs1iYXtmd4ip4f60ql1UKhU%3D"
 const accountKey = "+fHXAcxCf6awMQQnLdlDzPWTFusSCqet/DpjeTgfd24XtCVbSwxghUCMc0G2TRWvp4CrbJSzSG55+ASteAZbjw=="
+
+const sharedKeyCredential = new StorageSharedKeyCredential(accountName, accountKey);
  
 const blobServiceClient = new BlobServiceClient(
-   `https://${accountName}.blob.core.windows.net?${token}`
-)
+   `https://${accountName}.blob.core.windows.net`,
+   sharedKeyCredential
+);
 
 export const createFile = (req, res) => {
    upload.single("file")(req, res, async(err) => {

@@ -1,11 +1,12 @@
 import axios from "axios";
+import { api } from "./api";
 
-const API_BASE_URL = "https://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.net/api";
+const API_BASE_URL = "http://localhost:8080/api";
 
 export const login = async(data) => {
    try {
       console.log(data)
-      const response = await axios.post(`${API_BASE_URL}/auth/login`, data, {withCredentials: true})
+      const response = await api.post(`/auth/login`, data)
       console.log(response)
       return response.data
 
@@ -17,7 +18,7 @@ export const login = async(data) => {
 
 export const register = async(data) => {
    try {
-      const response = await axios.post(`${API_BASE_URL}/auth/register`, data)
+      const response = await api.post(`/auth/register`, data)
       return response.data
    } catch (err) {
       console.log(err)
@@ -27,7 +28,7 @@ export const register = async(data) => {
 
 export const logout = async() => {
    try {
-      await axios.post(`${API_BASE_URL}/auth/logout`)
+      await api.post(`/auth/logout`)
    } catch (err) {
       console.log(err)
    }

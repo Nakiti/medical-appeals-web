@@ -1,10 +1,11 @@
 import axios from "axios";
+import { api } from "./api";
 
-const API_BASE_URL = "https://appeals-ekh0d0g4csgcbdfg.westus-01.azurewebsites.net/api";
+const API_BASE_URL = "http://localhost:8080/api";
 
 export const createAppeal = async(data, documents) => {
    try {
-      const appealId = await axios.post(`${API_BASE_URL}/appeal/create`, {
+      const appealId = await api.post(`/appeal/create`, {
          supportingDocuments: JSON.stringify(documents),
          ...data
       })
@@ -16,7 +17,7 @@ export const createAppeal = async(data, documents) => {
 
 export const createNotification = async (data) => {
    try {
-      await axios.post(`${API_BASE_URL}/notifications/create`, data)
+      await api.post(`/notifications/create`, data)
    } catch (err) {
       console.log(err)
    }
@@ -34,7 +35,7 @@ export const createFile = async(data, file) => {
       console.log(data)
       console.log("form from createFile", form)
 
-      const response = await axios.post(`${API_BASE_URL}/files/create`, form, {
+      const response = await api.post(`/files/create`, form, {
          headers: {
             'Content-Type': 'multipart/form-data',
          },
@@ -60,7 +61,7 @@ export const createBatchFiles = async(appealId, files) => {
          console.log(":asdadasd")
          console.log(files)
 
-         const response = await axios.post(`${API_BASE_URL}/files/createBatch`, formData, {
+         const response = await api.post(`/files/createBatch`, formData, {
             headers: {
                'Content-Type': 'multipart/form-data',
             },
@@ -75,7 +76,7 @@ export const createBatchFiles = async(appealId, files) => {
 
 export const createAppealLetter = async(fileId, appealId) => {
    try {
-      await axios.post(`${API_BASE_URL}/appealLetter/create`, {fileId, appealId})
+      await api.post(`/appealLetter/create`, {fileId, appealId})
    } catch (err) {
       console.log(err)
    }
