@@ -4,9 +4,11 @@ import busboy from 'busboy';
 // import * as tesseract from 'tesseract.js';
 import Tesseract from "tesseract.js";
 import PDFDocument from "pdfkit"
+import { usageCache, LIMITS } from "../ratelimiter.js";
+import 'dotenv/config'
 
 const openai = new OpenAI({
-    apiKey: "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"
+   apiKey: process.env.OPENAI_API_KEY
 });
 
 export const extractData = (req, res) => {
@@ -106,13 +108,16 @@ export const extractData = (req, res) => {
                      """
 
                      **Output:**
-                     Return only the valid JSON object and nothing else.
+                     Return only the valid JSON object and nothing else. Do not have any trailing characters or any other mutations. 
                   `
                }
             ],
          });
 
-         res.json(completion.choices[0].message.content);
+         res.json({
+            content: completion.choices[0].message.content,
+            usage: res.locals.usage
+         });
          console.log(completion.choices[0].message.content);
       } catch (error) {
          console.error("Error processing file:", error);
@@ -169,34 +174,63 @@ export const writeAppealLetter = (req, res) => {
          console.log(documentText)
 
          const prompt = `
-            You are a professional medical appeals assistant tasked with drafting a formal appeal letter.
+            You are a professional medical appeals assistant. Your task is to draft a formal and comprehensive appeal letter based on the information provided. The letter should be well-structured, persuasive, and ready to be printed and mailed.
 
-            ### Patient Info
+            ### Patient Information
             - Name: ${inputs.firstName} ${inputs.lastName}
-            - DOB: ${inputs.dob}
-            - Claim #: ${inputs.claimNumber}
-            - Policy #: ${inputs.policyNumber}
-            - Insurance: ${inputs.insuranceProvider}
-            - Address: ${inputs.insuranceAddress}
-            - Physician: ${inputs.physicianName}, ${inputs.physicianAddress}
-            - Procedure: ${inputs.procedureName}
-            - Denial Reason: ${inputs.denialReason}
-            - Details: ${inputs.additionalDetails}
+            - Date of Birth: ${inputs.dob}
+            - Policy Number: ${inputs.policyNumber}
+            - Claim Number: ${inputs.claimNumber}
+            - Insurance Provider: ${inputs.insuranceProvider}
+            - Insurance Provider's Address: ${inputs.insuranceAddress}
 
-            ### Appealer Info
+            ### Medical Details
+            - Treating Physician: ${inputs.physicianName}
+            - Physician's Address: ${inputs.physicianAddress}
+            - Procedure/Service in Question: ${inputs.procedureName}
+            - Date of Service: [If available, insert Date of Service, otherwise omit]
+            - Reason for Denial: ${inputs.denialReason}
+            - Additional Details regarding the medical necessity: ${inputs.additionalDetails}
+
+            ### Appealer Information
             - Name: ${inputs.appealerFirstName} ${inputs.appealerLastName}
-            - Relation: ${inputs.appealerRelation}
+            - Relationship to Patient: ${inputs.appealerRelation}
             - Address: ${inputs.appealerAddress}
             - Email: ${inputs.appealerEmailAddress}
-            - Phone: ${inputs.appealerPhoneNumber}
+            - Phone Number: ${inputs.appealerPhoneNumber}
 
-            ### Supporting Docs:
+            ### Supporting Documentation Text
             ${documentText}
 
+            ### Additional Notes to Consider and Integrate
+            ${inputs.notes}
+
             ### Instructions:
-            - Format this as a professional appeal letter ready to be printed and mailed.
-            - Include medical justification, and a request for reconsideration.
-            - Output only the final letter content.
+
+            1.  **Format as a Formal Letter:** The output must be a complete letter.
+               * Start with the appealer's full address, followed by the date.
+               * Include the insurance provider's name and address.
+               * Use a clear and specific subject line that includes the patient's name, policy number, and claim number.
+               * Use a formal salutation, such as "To Whom It May Concern," or "Dear [Insurance Provider Name] Appeals Department,".
+               * End with a professional closing like "Sincerely," followed by the appealer's typed name, relationship to the patient, and contact information.
+
+            2.  **Adopt a Professional and Persuasive Tone:** The language should be formal, respectful, and confident. Avoid emotional or aggressive language.
+
+            3.  **Structure the Letter's Content:**
+               * **Introduction:** In the first paragraph, clearly state that you are appealing a denied claim. Identify the patient's name, policy number, claim number, and the service that was denied.
+               * **Background and Medical Justification:**
+                  * Provide a brief history of the patient's condition leading up to the procedure.
+                  * Explain why the procedure was medically necessary. Use the "Additional Details" and information from the "Supporting Documentation Text" to build a strong case.
+                  * Directly address the "Reason for Denial" and counter it with evidence-based arguments. For instance, if the denial was for "not medically necessary," present the physician's rationale and reference the attached medical records.
+                  * Clearly mention the treating physician's name and their medical opinion.
+               * **Call to Action:** In the penultimate paragraph, formally request a reconsideration of the denial. State that you have enclosed supporting documents and request a thorough review of the new information.
+               * **Conclusion:** In the final paragraph, thank them for their time and consideration. Reiterate the appealer's contact information for any follow-up questions.
+
+            4.  **Incorporate Supporting Documents:** Mention that supporting documents are attached (e.g., "Enclosed with this letter, you will find..."). Refer to them in the body of the letter to support your arguments.
+
+            5.  **Produce a Complete and Clean Output:** Generate only the final letter content, with no extra text, explanations, or placeholders unless a piece of information (like the date of denial) was not provided. If a critical piece of information is missing, use a clear placeholder like "[Insert Date of Denial]". Ensure all provided variables are seamlessly integrated into the letter.
+
+            By following these detailed instructions, you will produce a complete, polished, and effective appeal letter. Don't inclue any backticks or additional characters at the beginning/end of the letter
             `
          ;
 
@@ -215,15 +249,18 @@ export const writeAppealLetter = (req, res) => {
          doc.on("data", buffers.push.bind(buffers));
          doc.on("end", () => {
          const pdfData = Buffer.concat(buffers);
-            res.setHeader("Content-Type", "application/pdf");
-            res.setHeader("Content-Disposition", "attachment; filename=appeal-letter.pdf");
-            res.send(pdfData);
+            res.json({
+               pdf: pdfData.toString("base64"),
+               usage: res.locals.usage
+            });
          });
 
          doc.font("Times-Roman").fontSize(12).text(letterText, {
             align: "left",
             lineGap: 6,
          });
+
+         console.log(res.locals.usage)
          console.log("pdf sent")
          doc.end();
       } catch (err) {
@@ -235,4 +272,71 @@ export const writeAppealLetter = (req, res) => {
    req.pipe(bb);
 };
 
+export const chat = async (req, res) => {
+   try {
+      const { messages, appealDetails } = req.body;
 
+      if (!messages || !appealDetails) {
+         return res.status(400).json({ error: "Missing chatHistory or appealDetails in request body" });
+      }
+
+      console.log(messages, appealDetails.procedureName)
+ 
+      const completion = await openai.chat.completions.create({
+         model: "gpt-4o",
+         messages: [
+            {
+               role: 'system',
+               content: `You are a helpful AI assistant specializing in medical insurance appeals. The current appeal is for: ${appealDetails.procedureName || ""}. The denial reason is: ${appealDetails.denialReason || ""}. You are to only provide information regarding medical appeals and related issues. Do not respond to other requests`
+            },
+            ...messages
+         ]
+      });
+
+      const aiMessage = completion.choices[0].message.content;
+      res.json({ 
+         response: aiMessage,
+         usage: res.locals.usage  
+      });
+   } catch (err) { 
+      console.error("Error in chat:", err);
+      res.status(500).json({ error: "Error generating chat response" });
+   }
+};
+
+
+export const getUsageStats = (req, res) => {
+   // Use a static user ID for now. In a real app, get this from req.user.id
+   const userId = "static-user-id";
+
+   const chatKey = `chat-${userId}`;
+   const letterKey = `letter-${userId}`;
+   const parseKey = `parse-${userId}`
+
+   const chatUsed = usageCache.get(chatKey) || 0;
+   const letterUsed = usageCache.get(letterKey) || 0;
+   const parseUsed = usageCache.get(parseKey) || 0
+
+   const usageData = {
+      chat: {
+         limit: LIMITS.chat,
+         used: chatUsed,
+         remaining: LIMITS.chat - chatUsed,
+         resetsAt: usageCache.get(chatKey) || null
+      },
+      letter: {
+         limit: LIMITS.letter,
+         used: letterUsed,
+         remaining: LIMITS.letter - letterUsed,
+         resetsAt: usageCache.get(letterKey) || null
+      },
+      parse: {
+         limit: LIMITS.parse,
+         used: letterUsed,
+         remaining: LIMITS.parse - parseUsed,
+         resetsAt: usageCache.get(parseKey) || null
+      },
+   };
+
+  res.json(usageData);
+};

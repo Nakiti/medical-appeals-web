@@ -12,13 +12,18 @@ export const extractAppealDetails = async (files) => {
          formData.append(`file${index}`, item.file)
       })
 
-
       console.log(formData)
 
       const response = await api.post(`/gpt/extractData`, formData)
-      return JSON.parse(response.data)
-   } catch (err) {
-      console.log(err)
+      console.log()
+      return {content: response.data.content, usage: response.data.usage}
+   } catch (error) {
+      if (error.response && error.response.data) {
+      // Throw the actual error payload from the server (e.g., { error: "Limit reached" })
+         throw error.response.data;
+      }
+      // If there's no specific server response, throw a generic error.
+      throw new Error("An unexpected network error occurred.");   
    }
 }
 
@@ -29,22 +34,59 @@ export const writeAppealLetter = async(inputs, documents = []) => {
       documents.forEach((doc) => formData.append("documents", doc)); // actual File objects
 
       const response = await api.post(`/gpt/writeLetter`, formData, {
-         responseType: "blob",
          headers: { "Content-Type": "multipart/form-data" }
       });
 
+      console.log("response", response)
 
-      const blob = new Blob([response.data], { type: "application/pdf" });
+      const usage = response.data.usage
+      const base64 = response.data.pdf;
+
+      const binary = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+      const blob = new Blob([binary], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
 
       const file = new File([blob], "appeal-letter.pdf", {
          type: "application/pdf",
          lastModified: Date.now(),
-       });
+      });
 
-      console.log(file, url)
-      return {file: file, url: url}
+      console.log(file, url, usage)
+      return {file: file, url: url, usage: usage}
 
+   } catch (error) {
+      if (error.response && error.response.data) {
+      // Throw the actual error payload from the server (e.g., { error: "Limit reached" })
+         throw error.response.data;
+      }
+      // If there's no specific server response, throw a generic error.
+      throw new Error("An unexpected network error occurred.");
+   }
+}
+
+export const chat = async(messages, appealDetails) => {
+   try {
+      console.log(messages, appealDetails)
+      const response = await api.post("/gpt/chat", {messages, appealDetails})
+
+      console.log(response.data)
+      return {response: response.data.response, usage: response.data.usage}
+   } catch (error) {
+      if (error.response && error.response.data) {
+      // Throw the actual error payload from the server (e.g., { error: "Limit reached" })
+         throw error.response.data;
+      }
+      // If there's no specific server response, throw a generic error.
+      throw new Error("An unexpected network error occurred.");
+
+   }
+}
+
+export const getUsageStats = async() => {
+   try {
+      const response = await api.get(`/gpt/usage`)
+      console.log(response)
+      return response.data
    } catch (err) {
       console.log(err)
    }

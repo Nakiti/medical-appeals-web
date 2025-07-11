@@ -16,11 +16,11 @@ const Sidebar = () => {
          style={{ display: isSidebarOpen ? 'block' : 'none' }}
       >
          {/* Main navigation */}
-         <div className="space-y-2">
+         <div className="space-y-4 flex flex-col">
             <SidebarItem icon={<FaHome />} text="Home" link="/user/dashboard/home" />
             <SidebarItem icon={<IoDocumentText />} text="Appeals"  link="/user/dashboard/appeals" />
-            <SidebarItem icon={<RiDraftFill />} text="Drafts" link="/user/dashboard/drafts" />
-            <SidebarItem icon={<FaBell />} text="Updates" link="/user/dashboard/updates" />
+            {/* <SidebarItem icon={<RiDraftFill />} text="Drafts" link="/user/dashboard/drafts" />
+            <SidebarItem icon={<FaBell />} text="Updates" link="/user/dashboard/updates" /> */}
          </div>
 
          {/* Divider */}

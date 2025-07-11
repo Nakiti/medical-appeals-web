@@ -7,6 +7,7 @@ import { ArrowLeft, CalendarDays, FilePenLine, Send, CheckCircle2, CircleDot, Ci
 import { getAppeal } from "@/app/services/fetchServices";
 import { FormContext } from "@/app/context/formContext";
 import { SidebarContext } from "@/app/context/sidebarContext";
+import { updateAppeal, updateAppealComplete } from "@/app/services/updateServices";
 
 const steps = ["Create Appeal", "Submitted", "In Review", "Decision Made"];
 
@@ -88,6 +89,11 @@ const HeaderBar = ({ appealId = "123", links = [], back = "/" }) => {
       fetchData();
    }, [appealId]);
 
+   const handleComplete = async() => {
+      await updateAppealComplete(appealId)
+      location.reload()
+   }
+
    if (!appeal) {
       // Optional: Show a loading skeleton
       return <div className="bg-slate-900 h-[220px] animate-pulse"></div>;
@@ -95,7 +101,7 @@ const HeaderBar = ({ appealId = "123", links = [], back = "/" }) => {
 
    return (
       <div className="bg-slate-900 text-white border-b border-slate-700 shadow-lg">
-         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+         {appeal && <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
             {/* Top Row: Info and Actions */}
             <div className="flex flex-col md:flex-row justify-between items-start gap-6">
                <div className="flex items-start gap-4">
@@ -126,10 +132,14 @@ const HeaderBar = ({ appealId = "123", links = [], back = "/" }) => {
                         <FilePenLine size={16} />
                         Guided Form
                      </button>
-                     {/* <button className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-500 rounded-md transition-colors shadow-md">
-                        <Send size={16} />
-                        Submit Appeal
-                     </button> */}
+                     <button 
+                        className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-500 rounded-md transition-colors shadow-md"
+                        onClick={handleComplete}
+                        type="submit"
+                     >
+                        <CheckCircle2 size={16} />
+                        Mark Completed
+                     </button>
                   </div>
                )}
             </div>
@@ -140,7 +150,7 @@ const HeaderBar = ({ appealId = "123", links = [], back = "/" }) => {
                   <ProgressBar currentStep={progress} />
                </div>
             )} */}
-         </div>
+         </div>}
 
          {/* Tab Navigation */}
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800">

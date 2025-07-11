@@ -14,7 +14,7 @@ const AppealLayout = ({params, children}) => {
       {pathName: `/user/dashboard/appeals/${appealId}/documents`, title: "Documents"},
       {pathName: `/user/dashboard/appeals/${appealId}/research`, title: "Research"},
       // {pathName: `/user/dashboard/appeals/${appealId}/updates`, title: "Updates"},
-      {pathName: `/user/dashboard/appeals/${appealId}/letter`, title: "Appeal Letter"},
+      {pathName: `/user/dashboard/appeals/${appealId}/letter`, title: "Generate Letter"},
    ]
 
    const back = "/user/dashboard/appeals"

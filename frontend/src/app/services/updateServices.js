@@ -5,13 +5,12 @@ const API_BASE_URL = "http://localhost:8080/api";
 export const updateAppeal = async(id, data, documents) => {
    try {
       console.log("doc", JSON.stringify(documents))
-      if (documents.length > 0) {
-         await api.put(`/appeal/update/${id}`, {
-            supportingDocuments: JSON.stringify(documents),
-            ...data
-            
-         })
-      }
+      await api.put(`/appeal/update/${id}`, {
+         supportingDocuments: JSON.stringify(documents),
+         ...data
+         
+      })
+      
    } catch (err) {
       console.log(err)
    }
@@ -36,6 +35,14 @@ export const updateFile = async(fileId, data, file) => {
       }) 
 
       return response.data
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+export const updateAppealComplete = async(appealId) => {
+   try {
+      await api.put(`/appeal/updateComplete/${appealId}`)
    } catch (err) {
       console.log(err)
    }

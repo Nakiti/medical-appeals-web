@@ -32,7 +32,8 @@ export const FormContextProvider = ({appealId, children}) => {
       appealerAddress: "",
       appealerEmailAddress: "",
       appealerPhoneNumber: "",
-      appealerRelation: ""
+      appealerRelation: "",
+      notes: ""
    })
    const [documents, setDocuments] = useState([])
    const [images, setImages] = useState([])
@@ -75,7 +76,8 @@ export const FormContextProvider = ({appealId, children}) => {
                appealerAddress: response.appealer_address || "",
                appealerEmailAddress: response.appealer_email_address || "",
                appealerPhoneNumber: response.appealer_phone_number || "",
-               appealerRelation: response.appealer_relation || ""
+               appealerRelation: response.appealer_relation || "",
+               notes: response.notes || ""
             })
             setStatus(response.submitted == 0 ? "draft" : "submitted")
             setProgress(response.status)

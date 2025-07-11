@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useContext } from "react";
-import { getSubmittedAppeals } from "@/app/services/fetchServices";
+import { getAppealsByUser, getSubmittedAppeals } from "@/app/services/fetchServices";
 import { AuthContext } from "@/app/context/authContext";
 import Table from "../components/table";
 import Searchbar from "../components/searchbar";
@@ -40,7 +40,7 @@ const Appeals = () => {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await getSubmittedAppeals(currentUser);
+            const response = await getAppealsByUser(currentUser);
             setAppeals(response);
          } catch (err) {
             console.error(err);

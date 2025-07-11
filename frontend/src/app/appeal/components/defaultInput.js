@@ -1,6 +1,6 @@
 
 
-const DefaultInput = ({label, value, handleInputsChange, name, placeholder}) => {
+const DefaultInput = ({label, value, handleInputsChange, name, placeholder, type="text"}) => {
 
    return (
       <div className="w-full">
@@ -14,6 +14,7 @@ const DefaultInput = ({label, value, handleInputsChange, name, placeholder}) => 
             value={value}
             placeholder={placeholder}
             onChange={handleInputsChange}
+            type={type}
          />
       </div>
    )

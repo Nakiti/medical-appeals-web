@@ -32,7 +32,7 @@ const Table = ({ columns, data, type }) => {
          case "denied":
             return "bg-red-100 text-red-800";
          case "submitted":
-            return "bg-yellow-100 text-yellow-800";
+            return "bg-green-100 text-green-800";
          default:
             return "bg-gray-100 text-gray-700";
       }
@@ -55,7 +55,7 @@ const Table = ({ columns, data, type }) => {
             </thead>
             <tbody>
                {data && data.length > 0 ? (
-                  data.slice(0, 5).map((item, rowIndex) => (
+                  data.slice(0, 10).map((item, rowIndex) => (
                      <tr
                         key={rowIndex}
                         className={`hover:bg-gray-50 cursor-pointer`}
@@ -81,7 +81,7 @@ const Table = ({ columns, data, type }) => {
                         colSpan={columns.length}
                         className="px-6 py-4 text-center text-sm text-gray-500"
                      >
-                        No data available.
+                        No Appeals
                      </td>
                   </tr>
                )}

@@ -3,9 +3,10 @@ import Header from '../components/header';
 import useFormInput from '../hooks/useFormInput';
 import { useRouter } from 'next/navigation';
 import { login } from '../services/authServices';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../context/authContext';
+import { getCurrentUser } from '../services/fetchServices';
 
 const Login = () => {
    const router = useRouter();
@@ -15,7 +16,7 @@ const Login = () => {
    });
    const [error, setError] = useState(false); // Updated to `false` initially
    const [errorMessage, setErrorMessage] = useState("");
-   const {loginUser} = useContext(AuthContext)
+   const {loginUser, currentUser} = useContext(AuthContext)
 
    const handleLogin = async (e) => {
       e.preventDefault();
@@ -43,6 +44,20 @@ const Login = () => {
          setErrorMessage("An unexpected error occurred. Please try again.");
       }
    };
+
+
+   useEffect(() => {
+      const stupid = async() => {
+         const response = await getCurrentUser()
+         console.log(response.id)
+
+         if (response.id) {
+            router.push("/user/dashboard/home")
+         }
+      }
+
+      stupid()
+   }, [])
 
    return (
       <div className="min-h-screen flex justify-center bg-gray-50 p-6">

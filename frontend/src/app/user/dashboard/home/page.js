@@ -36,7 +36,7 @@ const Home = () => {
    const appealColumns = [
       { title: "Id", value: "id" },
       { title: "Claim Number", value: "claim_number" },
-      { title: "Date Filed", value: "date_filed" },
+      { title: "Date Created", value: "created_at" },
       { title: "Status", value: "status" },
    ];
 
@@ -53,12 +53,11 @@ const Home = () => {
             try {
                const [draftsData, appealsData, userData, updatesData] = await Promise.all([
                   getDrafts(currentUser),
-                  getSubmittedAppeals(currentUser),
+                  getAppealsByUser(currentUser),
                   getUser(currentUser),
                   getNotificationByUserId(currentUser)
                ]);
                
-   
                setDrafts(draftsData);
                console.log(draftsData, appealsData)
                setAppeals(appealsData);
@@ -66,12 +65,13 @@ const Home = () => {
                setUpdates(updatesData);
 
                setSummaryData({
-                  submittedCount: Array.isArray(appealsData) ? appealsData.length : 0,
+                  submittedCount: Array.isArray(appealsData)
+                     ? appealsData.filter(a => a.submitted === 1).length : 0,                  
                   draftCount: Array.isArray(draftsData) ? draftsData.length : 0,
                   dueSoonCount: Array.isArray(draftsData)
                     ? draftsData.filter(item => {
                         const d = new Date(item.appeal_deadline), n = new Date();
-                        return d > n && d <= new Date(n.getTime() + 7 * 24 * 60 * 60 * 1000);
+                        return d > n && d <= new Date(n.getTime() + 14 * 24 * 60 * 60 * 1000);
                       }).length
                     : 0,
                   approvedCount: Array.isArray(appealsData)
@@ -91,83 +91,83 @@ const Home = () => {
       return <LoadingSpinner />;
    }
 
-return (
-  <div className="min-h-screen bg-gradient-to-b from-white via-indigo-50 to-slate-100 p-4 md:p-8 space-y-8">
-    {visible && <Modal visible={visible} setVisible={setVisible} userId={currentUser} />}
+   return (
+      <div className="min-h-screen bg-gradient-to-b from-white via-indigo-50 to-slate-100 p-4 md:p-8 space-y-8">
+         {visible && <Modal visible={visible} setVisible={setVisible} userId={currentUser} />}
 
-    {/* Header */}
-    {user && (
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-        <div>
-          <p className="text-sm text-gray-500">Welcome back,</p>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-            {user.first_name} {user.last_name}
-          </h1>
-        </div>
-        <button
-          onClick={() => router.push("/appeal/new/claim-number")}
-          className="mt-4 md:mt-0 bg-gradient-to-r from-indigo-500 to-blue-500 hover:opacity-90 text-white font-semibold px-6 py-3 rounded-full shadow-md flex items-center gap-2 transition"
-        >
-          <FaPlus className="text-sm" />
-          Create New Appeal
-        </button>
-      </div>
-    )}
-
-    {/* Summary Bar */}
-    {summaryData && <SummaryBar data={summaryData} />}
-
-    {/* Main Content */}
-    <div className="flex flex-col lg:flex-row gap-8">
-      {/* Tables */}
-      <div className="flex flex-col space-y-8 w-full lg:w-3/4">
-        {/* Drafts */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <div className="flex justify-between items-center mb-4">
-            <Link
-              href="/user/dashboard/drafts"
-              className="text-lg font-semibold text-gray-800 hover:text-indigo-600 flex items-center gap-2"
-            >
-              Drafts <FaArrowRight className="text-sm" />
-            </Link>
+         {/* Header */}
+         {user && (
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div>
+               <p className="text-sm text-gray-500">Welcome back,</p>
+               <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+                  {user.first_name} {user.last_name}
+               </h1>
+            </div>
             <button
-              onClick={() => setShowDrafts(!showDrafts)}
-              className="text-sm text-indigo-500 hover:underline"
+               onClick={() => router.push("/appeal/new/claim-number")}
+               className="mt-4 md:mt-0 bg-gradient-to-r from-indigo-500 to-blue-500 hover:opacity-90 text-white font-semibold px-6 py-3 rounded-full shadow-md flex items-center gap-2 transition"
             >
-              {showDrafts ? "Hide" : "Show"}
+               <FaPlus className="text-sm" />
+               Create New Appeal
             </button>
-          </div>
-          {showDrafts && <Table columns={draftColumns} data={drafts} type="draft" />}
-        </div>
+            </div>
+         )}
 
-        {/* Submitted Appeals */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <div className="flex justify-between items-center mb-4">
-            <Link
-              href="/user/dashboard/appeals"
-              className="text-lg font-semibold text-gray-800 hover:text-indigo-600 flex items-center gap-2"
-            >
-              Submitted Appeals <FaArrowRight className="text-sm" />
-            </Link>
-            <button
-              onClick={() => setShowAppeals(!showAppeals)}
-              className="text-sm text-indigo-500 hover:underline"
-            >
-              {showAppeals ? "Hide" : "Show"}
-            </button>
-          </div>
-          {showAppeals && <Table columns={appealColumns} data={appeals} type="appeal" />}
-        </div>
-      </div>
+         {/* Summary Bar */}
+         {summaryData && <SummaryBar data={summaryData} />}
 
-      {/* Sidebar */}
-      <div className="w-full lg:w-1/4 flex flex-col space-y-8">
-        <Updates data={updates} />
-        <Deadlines data={drafts} />
+         {/* Main Content */}
+         <div className="flex flex-col lg:flex-row gap-8">
+            {/* Tables */}
+            <div className="flex flex-col space-y-8 w-full lg:w-3/4">
+            {/* Drafts */}
+            {/* <div className="bg-white rounded-xl shadow-sm p-6">
+               <div className="flex justify-between items-center mb-4">
+                  <Link
+                  href="/user/dashboard/drafts"
+                  className="text-lg font-semibold text-gray-800 hover:text-indigo-600 flex items-center gap-2"
+                  >
+                  Drafts <FaArrowRight className="text-sm" />
+                  </Link>
+                  <button
+                  onClick={() => setShowDrafts(!showDrafts)}
+                  className="text-sm text-indigo-500 hover:underline"
+                  >
+                  {showDrafts ? "Hide" : "Show"}
+                  </button>
+               </div>
+               {showDrafts && <Table columns={draftColumns} data={drafts} type="draft" />}
+            </div> */}
+
+            {/* Submitted Appeals */}
+            <div className="bg-white rounded-xl shadow-sm p-6">
+               <div className="flex justify-between items-center mb-4">
+                  <Link
+                  href="/user/dashboard/appeals"
+                  className="text-lg font-semibold text-gray-800 hover:text-indigo-600 flex items-center gap-2"
+                  >
+                  Recent Appeals <FaArrowRight className="text-sm" />
+                  </Link>
+                  {/* <button
+                  onClick={() => setShowAppeals(!showAppeals)}
+                  className="text-sm text-indigo-500 hover:underline"
+                  >
+                  {showAppeals ? "Hide" : "Show"}
+                  </button> */}
+               </div>
+               {showAppeals && <Table columns={appealColumns} data={appeals} type="appeal" />}
+            </div>
+            </div>
+
+            {/* Sidebar */}
+            <div className="w-full lg:w-1/4 flex flex-col space-y-8">
+            {/* <Updates data={updates} /> */}
+            <Deadlines data={drafts} />
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
-);
+   );
 
     
 };

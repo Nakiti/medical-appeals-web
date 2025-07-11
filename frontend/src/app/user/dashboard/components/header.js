@@ -3,6 +3,8 @@ import { FiMenu, FiUser } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import { logout } from '@/app/services/authServices';
 import { SidebarContext } from '@/app/context/sidebarContext';
+import { HeartPulse, HeartPulseIcon } from 'lucide-react';
+import Link from 'next/link';
 
 const Header = () => {
    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -49,7 +51,10 @@ const Header = () => {
             >
                <FiMenu size={16} />
             </button>
-            <h1 className="text-md font-semibold text-gray-800">Dashboard</h1>
+            <Link href="/user/dashboard/home" className="flex items-center gap-2 text-xl font-bold text-gray-900">
+              <HeartPulse className="w-7 h-7 text-indigo-600" />
+              <span>AppealMed</span>
+            </Link>
          </div>
 
          {/* Right Side */}

@@ -6,17 +6,17 @@ const Deadlines = ({data}) => {
    return (
       <div className="flex flex-col space-y-4 w-full">
          <div className="bg-white rounded-md p-4 shadow-sm">
-            <h2 className="text-md font-semibold text-gray-800 mr-4 mb-2">Upcoming Deadlines</h2>
+            <h2 className="text-lg font-semibold text-gray-800 mr-4 mb-2">Upcoming Deadlines</h2>
          
             {data && [...data] // create a shallow copy to avoid mutating the original
                .sort((a, b) => new Date(a.appeal_deadline) - new Date(b.appeal_deadline))
-               .slice(0, 5)
+               .slice(0, 8)
                .map(item => (
                <Link 
                   href={`/user/dashboard/appeals/${item.id}/details/patient`}
                   key={item.id}
                >
-                  <div className="border-b border-gray-300 mb-4 pb-2 hover:bg-gray-100 cursor-pointer">
+                  <div className="border-b border-gray-300 py-2 px-2 hover:bg-gray-100 cursor-pointer">
                      <div className="flex items-center justify-between">
                         <p className="text-sm text-gray-700 mb-1">Claim #:{item.claim_number}</p>
                      </div>
@@ -24,6 +24,8 @@ const Deadlines = ({data}) => {
                   </div>
                </Link>
             ))}
+
+            {!data || data.length == 0 && <p className="text-sm text-center mt-6 mb-6">No Upcoming Deadlines</p>}
          </div>
       </div>
    )

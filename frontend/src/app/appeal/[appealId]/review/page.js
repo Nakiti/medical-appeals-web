@@ -18,7 +18,7 @@ const ReviewPage = () => {
          ...inputs,
          // dateFiled: new Date().toISOString().slice(0, 19).replace("T", " "),
          submitted: 0,
-         status: "Ready to Submit",
+         status: "Draft",
       };
 
       const appealId = await processAppeal(appealData)

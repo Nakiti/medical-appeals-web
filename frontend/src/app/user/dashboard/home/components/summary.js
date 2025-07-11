@@ -11,7 +11,7 @@ import {
        label: "Appeals Submitted",
        value: data.submittedCount,
        change: "-5%",
-       icon: <FaTimesCircle className="text-red-500" />,
+       icon: <FaCheckCircle className="text-green-500" />,
        color: "bg-red-50",
        changeColor: "text-red-500",
      },
@@ -31,18 +31,18 @@ import {
        color: "bg-yellow-50",
        changeColor: "text-green-500",
      },
-     {
-       label: "Appeals Approved",
-       value: data.approvedCount,
-       change: "+10",
-       icon: <FaCheckCircle className="text-green-500" />,
-       color: "bg-green-50",
-       changeColor: "text-green-500",
-     },
+   //   {
+   //     label: "Appeals Approved",
+   //     value: data.approvedCount,
+   //     change: "+10",
+   //     icon: <FaCheckCircle className="text-green-500" />,
+   //     color: "bg-green-50",
+   //     changeColor: "text-green-500",
+   //   },
    ];
  
    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 bg-white rounded-xl py-4 shadow-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 bg-white rounded-xl py-4 shadow-sm">
          {stats.map((stat, idx) => (
             <div
             key={idx}

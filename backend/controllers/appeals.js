@@ -45,7 +45,7 @@ export const createAppeal = (req, res) => {
 } 
 
 export const updateAppeal = (req, res) => {
-   const query = "UPDATE appeals SET `first_name` = ?, `last_name` = ?, `ssn` = ?, `dob` = ?, `insurance_provider` = ?, `insurance_address` = ?, `physician_name` = ?, `physician_address` = ?, `physician_phone` = ?, `physician_email` = ?, `policy_number` = ?, `procedure_name` = ?, `denial_reason` = ?, `additional_details` = ?, `supporting_documents` = ?, `date_filed` = ?, `submitted` = ?, `status` = ?, `updated_at` = ?, `appealer_first_name` = ?, `appealer_last_name` = ?, `appealer_address` = ?, `appealer_email_address` = ?, `appealer_phone_number` = ?, `appealer_relation` = ? WHERE `id` = ?"
+   const query = "UPDATE appeals SET `first_name` = ?, `last_name` = ?, `ssn` = ?, `dob` = ?, `insurance_provider` = ?, `insurance_address` = ?, `physician_name` = ?, `physician_address` = ?, `physician_phone` = ?, `physician_email` = ?, `policy_number` = ?, `procedure_name` = ?, `denial_reason` = ?, `additional_details` = ?, `supporting_documents` = ?, `date_filed` = ?, `submitted` = ?, `status` = ?, `updated_at` = ?, `appealer_first_name` = ?, `appealer_last_name` = ?, `appealer_address` = ?, `appealer_email_address` = ?, `appealer_phone_number` = ?, `appealer_relation` = ?, `notes` = ? WHERE `id` = ?"
  
    const values = [
       req.body.firstName,
@@ -73,6 +73,7 @@ export const updateAppeal = (req, res) => {
       req.body.appealerEmailAddress,
       req.body.appealerPhoneNumber,
       req.body.appealerRelation,
+      req.body.notes,
       req.params.id
    ]
 
@@ -223,6 +224,23 @@ export const getAllSubmittedAppeals = (req, res) => {
 
    db.query(query, (err, data) => {
       if (err) return res.json(err)
+      return res.status(200).json(data)
+   })
+}
+
+export const updateAppealComplete = (req, res) => {
+   const query = "UPDATE appeals SET `status` = ?, `submitted` = ?, `date_filed` = CURRENT_TIMESTAMP WHERE `id` = ?"
+
+   const values = [
+      "Submitted",
+      1,
+      req.params.id
+   ]
+
+   console.log(values)
+
+   db.query(query, values, (err, data) => {
+      if (err) return console.log(err)
       return res.status(200).json(data)
    })
 }

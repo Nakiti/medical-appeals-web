@@ -2,6 +2,7 @@ import { db } from "../db.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { serialize } from "cookie";
+import 'dotenv/config'
 
 export const login = (req, res) => {
    const query = "SELECT * FROM users WHERE email = ?";
@@ -22,7 +23,7 @@ export const login = (req, res) => {
          return res.status(400).json("Password is incorrect");
       }
 
-      const token = jwt.sign({id: data[0].id, userType: data[0].role}, "jwtkey")
+      const token = jwt.sign({id: data[0].id, userType: data[0].role}, process.env.JWT_SECRET)
 
       const cookie = serialize("session", token, {
          httpOnly: true,

@@ -54,6 +54,7 @@ const PatientDetailsPage = () => {
                   placeholder="Enter Date of Birth"
                   name="dob"
                   handleInputsChange={handleInputsChange}
+                  type="date"
                />
             </div>
 

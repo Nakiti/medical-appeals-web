@@ -2,31 +2,21 @@ import React from 'react';
 import Link from 'next/link';
 import { useContext } from 'react';
 import { AuthContext } from '../context/authContext';
+import { HeartPulse } from 'lucide-react';
 
 const Header = () => {
    // const {currentUser} = useContext(AuthContext)
 
    return (
-      <header className="text-gray-800 hover:shadow-sm hover:border-b border-gray-200">
-         <nav className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-         <div className="text-lg font-bold flex items-center gap-2">
-            <div className="w-4 h-4 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-sm" />
-            Medical Appeals
-         </div>
-         {/* {!currentUser ? <Link
-            href="/login"
-            className="px-5 py-2 rounded-full text-white bg-gradient-to-r from-indigo-500 to-blue-500 hover:opacity-90 transition font-semibold text-sm"
-         >
-            Login
-         </Link> 
-         :
-         <Link
-            href="/user/dashboard/home"
-            className="px-5 py-2 rounded-full text-white bg-gradient-to-r from-indigo-500 to-blue-500 hover:opacity-90 transition font-semibold text-sm"
-         >
-            Dashboard
-         </Link>
-         } */}
+      <header className="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-12">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 text-xl font-bold text-gray-900">
+              <HeartPulse className="w-7 h-7 text-indigo-600" />
+              <span>AppealMed</span>
+            </Link>
+            </div>
          </nav>
       </header>
    );
