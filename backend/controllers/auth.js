@@ -79,7 +79,7 @@ export const getCurrentUser = (req, res) => {
 
    if (!token) return res.status(401).json("Not authenticated");
 
-   jwt.verify(token, "jwtkey", (err, data) => {
+   jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
       if (err) return res.status(403).json("Token is not Valid")
       
       res.status(200).json({id: data.id})
