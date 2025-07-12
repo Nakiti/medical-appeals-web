@@ -69,7 +69,7 @@ const Table = ({ data, columns, onRowClick, isEditing = false, handleSelect = nu
             </tbody>
          </table>
          
-         {!data || data.length == 0 && <p className="text-md text-center text-gray-700 my-24">No Appeals Found</p>}
+         {!data || data.length == 0 && <p className="text-md text-center text-gray-700 my-48">No Appeals Found</p>}
 
          {/* Pagination Controls */}
          <div className="flex justify-center items-center gap-2 py-4">

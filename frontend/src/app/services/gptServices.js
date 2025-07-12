@@ -16,7 +16,7 @@ export const extractAppealDetails = async (files) => {
 
       const response = await api.post(`/gpt/extractData`, formData)
       console.log()
-      return {content: response.data.content, usage: response.data.usage}
+      return {content: JSON.parse(response.data.content), usage: response.data.usage}
    } catch (error) {
       if (error.response && error.response.data) {
       // Throw the actual error payload from the server (e.g., { error: "Limit reached" })

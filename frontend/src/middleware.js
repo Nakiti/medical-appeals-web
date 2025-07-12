@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken"
 
 export const middleware = (req) => {
-   const token = req.cookies.get("session").value;
+   const token = req.cookies.get("session");
    // console.log("Token found: ", token);
 
    const isAuthPage = req.nextUrl.pathname == "/login";

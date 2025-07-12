@@ -25,7 +25,7 @@ const Deadlines = ({data}) => {
                </Link>
             ))}
 
-            {!data || data.length == 0 && <p className="text-sm text-center mt-6 mb-6">No Upcoming Deadlines</p>}
+            {!data || data.length == 0 && <p className="text-sm text-center my-24">No Upcoming Deadlines</p>}
          </div>
       </div>
    )

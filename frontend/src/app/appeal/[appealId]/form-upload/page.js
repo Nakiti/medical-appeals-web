@@ -33,9 +33,11 @@ const FormUploadPage = () => {
          try {
             setLoading(true)
             const response = await extractAppealDetails(documents)
+            console.log("input from backend ", response.content)
+            console.log(typeof response.content)
             setInputs({
                ...inputs, 
-               ...response
+               ...response.content
             })
             
          } catch (err) {

@@ -79,7 +79,7 @@ export const extractData = (req, res) => {
             messages: [
                { role: "user", 
                   content: 
-                  `
+                     `
                      You are a JSON extraction assistant.
 
                      Your task is to extract the following information from the text of an insurance denial letter.
@@ -88,19 +88,22 @@ export const extractData = (req, res) => {
                      - Output a **single valid JSON object**.
                      - Use the exact keys shown below.
                      - Do **not include any explanation, markdown, or text outside the JSON**.
+                     - All keys and string values must be wrapped in double quotes as required by JSON format.
                      - If a field is not present in the letter, return an empty string ("") as its value.
+                     - The "denialReason" should include the full sentence or paragraph that explains why the claim was denied. Look for phrases like:
+                        "coverage is denied", "not medically necessary", "unable to approve", or "according to our guidelines".
 
                      **JSON keys:**
-                     - firstName
-                     - lastName
-                     - dob
-                     - insuranceProvider
-                     - insuranceAddress
-                     - physicianName
-                     - physicianAddress
-                     - policyNumber
-                     - procedureName
-                     - denialReason
+                     - "firstName"
+                     - "lastName"
+                     - "dob"
+                     - "insuranceProvider"
+                     - "insuranceAddress"
+                     - "physicianName"
+                     - "physicianAddress"
+                     - "policyNumber"
+                     - "procedureName"
+                     - "denialReason"
 
                      **Input Letter:**
                      """ 
@@ -108,8 +111,9 @@ export const extractData = (req, res) => {
                      """
 
                      **Output:**
-                     Return only the valid JSON object and nothing else. Do not have any trailing characters or any other mutations. 
-                  `
+                     Return only the valid JSON object — no code block, no markdown, no explanation. Just pure JSON.
+                     `
+
                }
             ],
          });

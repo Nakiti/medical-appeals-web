@@ -40,7 +40,7 @@ const Header = () => {
    }, []);
 
    return (
-      <header className="w-full px-6 py-1 bg-white/60 backdrop-blur-md border-b border-gray-200 shadow-sm z-50">
+      <header className="w-full px-6 py-2 bg-white/60 backdrop-blur-md border-b border-gray-200 shadow-sm z-50">
          <div className="max-w-7xl mx-auto flex items-center justify-between">
          {/* Left Side */}
          <div className="flex items-center gap-4">

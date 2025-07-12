@@ -79,7 +79,7 @@ const Table = ({ columns, data, type }) => {
                   <tr>
                      <td
                         colSpan={columns.length}
-                        className="px-6 py-4 text-center text-sm text-gray-500"
+                        className="px-6 py-24 text-center text-sm text-gray-500"
                      >
                         No Appeals
                      </td>
