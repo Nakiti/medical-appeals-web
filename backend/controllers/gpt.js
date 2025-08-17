@@ -310,7 +310,6 @@ export const chat = async (req, res) => {
 
 
 export const getUsageStats = (req, res) => {
-   // Use a static user ID for now. In a real app, get this from req.user.id
    const userId = "static-user-id";
 
    const chatKey = `chat-${userId}`;
