@@ -2,7 +2,6 @@ import NodeCache from "node-cache";
 
 export const usageCache = new NodeCache({ stdTTL: 86400 });
 
-// Define your limits
 export const LIMITS = {
   chat: 5, // Max 15 chat messages per day
   letter: 3, // Max 3 appeal letters per day
